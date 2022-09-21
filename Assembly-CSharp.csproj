@@ -41,6 +41,8 @@
      <Compile Include="Assets\Scripts\Cell.cs" />
      <Compile Include="Assets\Scripts\Map.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\PlayerMoveArrow.cs" />
      <None Include="Assets\Data\mapInfo.txt" />
     <Reference Include="UnityEngine">
         <HintPath>D:\unityEditor\2021.3.9f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

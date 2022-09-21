@@ -19,9 +19,9 @@ public class Cell : MonoBehaviour
     }
 
     // Getter cellMap中的下标
-    public Vector2 GetIndex()
+    public Vector2Int GetIndex()
     {
-        return new Vector2(x, y);
+        return new Vector2Int(x, y);
     }
 
     // Setter 点位类型

@@ -26,5 +26,5 @@ NormalCell,16
 NormalCell,19,17
 NullCell,
 Character,
-1,
+7,
 11,10,14,

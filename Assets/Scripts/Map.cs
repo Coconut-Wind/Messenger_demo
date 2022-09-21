@@ -28,6 +28,9 @@ public class Map : MonoBehaviour
     private float offsetX; // 将地图挪到世界中心的X偏移量
     private float offsetY; // 将地图挪到世界中心的Y偏移量
 
+    [Header("---- 点边的父节点 ----")]
+    [SerializeField] private Transform cellHolder;
+    [SerializeField] private Transform edgeHolder;
 
     private CellNode[] cellAdjList; // 邻接表
     private string[] cellType = new string[4] { "NullCell", "NormalCell", "PosiCell", "NegaCell" }; // 点位的四种类型
@@ -144,7 +147,7 @@ public class Map : MonoBehaviour
     }
 
     // 调整点位生成的位置，坐标原点在左上角
-    private Vector2 AdjustPosition(int x, int y)
+    public Vector2 AdjustPosition(int x, int y)
     {
         float i = y;
         float j = x;
@@ -205,7 +208,7 @@ public class Map : MonoBehaviour
                 cellMap[i, j] = spawnedCell; // 将生成的点位存放在cellMap内
 
                 // 以下对spawnedCell的属性进行初始化
-                spawnedCell.transform.SetParent(transform); // 将生成的点位作为Map的子物体
+                spawnedCell.transform.SetParent(cellHolder); // 将生成的点位作为Map的子物体
                 spawnedCell.name = $"cell {i} {j}";
                 if (spawnedCell.GetComponent<Cell>()) // 如果生成的点位有Cell这个组件，即生成的点位是有效点位
                 {
@@ -230,6 +233,10 @@ public class Map : MonoBehaviour
         spawnPlayer.GetComponent<SpriteRenderer>().sortingOrder = 1;
         spawnPlayer.transform.SetParent(transform);
         spawnPlayer.name = "player";
+        
+        Player p = spawnPlayer.GetComponent<Player>();
+        p.setMap(this);
+        p.SetIndex(y, x);
     }
 
     //生成敌人
@@ -246,6 +253,29 @@ public class Map : MonoBehaviour
             spawnEnemy.name = $"enemy {i + 1}";
         }
         
+    }
+
+    //根据坐标获取对应的Cell
+    public Cell GetCellByIndex(Vector2Int index)
+    {
+        Cell res = null;
+        
+        for (int i = 0; i < cellHolder.childCount; i++)
+        {
+            
+            res = cellHolder.GetChild(i).GetComponent<Cell>();
+            if (!res)
+            {
+                continue;
+            }
+            Debug.Log("count: "+ i + ", "+ res.GetIndex()+", "+index);
+            if (res.GetIndex() == index)
+            {
+                break;
+            }
+        }
+        //Debug.Log(res);
+        return res;
     }
 
     // 生成整个地图点位的边
@@ -269,7 +299,7 @@ public class Map : MonoBehaviour
 
                         var edge = Instantiate(edgePrefab, (startCell.transform.position + endCell.transform.position) / 2.0f, Quaternion.identity);
                         edge.name = $"edge {i * cellMapColumn + j} {adjCellIndex}";
-                        edge.transform.SetParent(transform);
+                        edge.transform.SetParent(edgeHolder);
 
                         edge.GetComponent<Edge>().DrawLine(startCell.transform, endCell.transform); // 调用边的DrawLine函数使用LineRenderer画出一条线
                         adjCellList.Add(endCell.GetComponent<Cell>()); // 将邻接点位加入邻接点数组
@@ -303,6 +333,12 @@ public class Map : MonoBehaviour
                 }
             }
         }
+    }
+
+    //获取网格形状, (列，行)
+    public Vector2Int GetMapShape()
+    {
+        return new Vector2Int(cellMapColumn, cellMapRow);
     }
 
 }
