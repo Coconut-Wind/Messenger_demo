@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Map : MonoBehaviour
 {
     [Header("---- Prefabs ----")]
     [SerializeField] private GameObject nullCellPrefab; // 空点位的预制体
     [SerializeField] private GameObject normalCellPrefab; // 普通点位的预制体
+    [SerializeField] private GameObject posiCellPrefab; // 增益点位的预制体
+    [SerializeField] private GameObject negaCellPrefab; // 减益点位的预制体
     // TODO:还有增益点位和减益点位的预制体没创建
     [SerializeField] private GameObject edgePrefab; // 边的预制体
     [SerializeField] private GameObject player; //玩家的预制体
@@ -31,48 +33,61 @@ public class Map : MonoBehaviour
     [Header("---- 点边的父节点 ----")]
     [SerializeField] private Transform cellHolder;
     [SerializeField] private Transform edgeHolder;
+    [SerializeField] private Transform enemiesManager;
 
     private CellNode[] cellAdjList; // 邻接表
     private string[] cellType = new string[4] { "NullCell", "NormalCell", "PosiCell", "NegaCell" }; // 点位的四种类型
-    public TextAsset mapInfo; // 用于读取地图信息，即Data文件夹中的mapInfo，目前为手动挂载
+    private Hashtable cellTypeTable; //string -> int 映射表
+    public StreamReader mapInfoTxt; // 用于读取地图信息，即Data文件夹中的mapInfo，目前为手动挂载
+    public string mapInfoPath = "Assets/Data/mapInfo.txt"; // 地图信息文件路径
+    
     private int[] enemiesPosition;
     private int playerPosition;
 
+    public int[,,] cellTypeMap;
+
+
     private void Awake()
     {
+        InitCellTypeTable();
         ReadMapInfo();
-
-        cellWidth = normalCellPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
-        cellHeight = normalCellPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
-        offsetX = (cellMapColumn - 1) * (cellWidth + cellPadding);
-        offsetY = (cellMapRow - 1) * (cellHeight + cellPadding);
-        cellMap = new GameObject[cellMapRow, cellMapColumn];
+        InitCellMap(); // 通过邻接表cellAdjList初始化CellMap
     }
 
     private void Start()
     {
+        
         GenerateMap();
         GenerateEdge();
-
         GeneratePlayer();
         GenerateEnemies();
 
+        cellTypeMap = GetCellTypeMap();
+
         //test();
+    }
+
+    private void InitCellTypeTable()
+    {
+        cellTypeTable = new Hashtable();
+        for (int i = 0; i < 4; i++)
+        {
+           cellTypeTable.Add(cellType[i], i); 
+        }
     }
 
     // 读取地图信息
     private void ReadMapInfo()
     {
+        //mapInfoList = new List<List<string>>(); // 初始化地图信息列表
+        mapInfoTxt = new StreamReader(mapInfoPath); // 读取文件
+
         string inputType = ""; //正在录入的数据类型：Map、Character
         int lineCounter = 0;
 
-        string[] infos = mapInfo.text.Split('\n'); // 将多行数据用换行符分隔
-
-        for (int i = 0; i < infos.Length; i++)
+        while (!mapInfoTxt.EndOfStream) // 如果没有到文件尾
         {
-            Debug.Log(infos[i]);
-            string[] lineInfo = infos[i].Split(','); // 一行中的数据用逗号分隔
-            
+            List<string> lineInfo = new List<string>(mapInfoTxt.ReadLine().Split(',')); // 将一行数据分隔
             
             if (lineInfo[0] == "Map")
             {
@@ -93,7 +108,7 @@ public class Map : MonoBehaviour
             {
                 if (lineCounter == 0)
                 {
-                    // string to int
+                    //初始化cellMap
                     cellMapRow = int.Parse(lineInfo[0]);
                     cellMapColumn = int.Parse(lineInfo[1]);
 
@@ -101,16 +116,38 @@ public class Map : MonoBehaviour
                 }
                 else // 第二行后的数据记录点位的类型和邻接的点位；第一个为点位类型，剩下的为与该点位邻接的点位在邻接表的下标
                 {
-                    cellAdjList[lineCounter - 1] = new CellNode();
-                    cellAdjList[lineCounter - 1].cellType = lineInfo[0];
-                    if (cellAdjList[lineCounter - 1].cellType == "NullCell") // 如果点位类型是空点位
+                    for (int j = 0; j < lineInfo.Count; j++) // 如果点位类型是空点位
                     {
-                        cellAdjList[lineCounter - 1].firstEdge = null;
-                    }
-                    else // 如果点位类型是有效的点位
-                    {
-                        // 初始化边表
-                        for (int j = 1; j < lineInfo.Length; j++)
+                        if (j == 0)
+                        {
+                            GameObject spawnedCell = null;
+                            // 根据点位类型生成点位
+                            if (lineInfo[j] == "NullCell")
+                            {
+                                spawnedCell = Instantiate(nullCellPrefab, transform.position, Quaternion.identity);
+                                spawnedCell.GetComponent<Cell>().SetCellType("NullCell");
+                            }
+                            else if (lineInfo[j] == "NormalCell")
+                            {
+                                spawnedCell = Instantiate(normalCellPrefab, transform.position, Quaternion.identity);
+                                spawnedCell.GetComponent<Cell>().SetCellType("NormalCell");
+                            }
+                            else if (lineInfo[j] == "PosiCell")
+                            {
+                                spawnedCell = Instantiate(posiCellPrefab, transform.position, Quaternion.identity);
+                                spawnedCell.GetComponent<Cell>().SetCellType("PosiCell");
+                            }
+                            else if (lineInfo[j] == "NegaCell")
+                            {
+                                spawnedCell = Instantiate(negaCellPrefab, transform.position, Quaternion.identity);
+                                spawnedCell.GetComponent<Cell>().SetCellType("NegaCell");
+                            }
+
+                            cellAdjList[lineCounter - 1] = new CellNode();
+                            cellAdjList[lineCounter - 1].cell = spawnedCell;
+                            cellAdjList[lineCounter - 1].firstEdge = null;
+                        }
+                        else
                         {
                             EdgeNode newEdge = new EdgeNode();
                             newEdge.adjCell = int.Parse(lineInfo[j]);
@@ -125,16 +162,14 @@ public class Map : MonoBehaviour
             else if (inputType == "Character")
             {
                 //接下来第一行是主角所在的点位，第二行都是敌人的点位
-                
-
                 if (lineCounter == 0)
                 {
                     playerPosition = int.Parse(lineInfo[0]);
                 }
                 else
                 {
-                    enemiesPosition = new int[lineInfo.Length - 1];
-                    for (int k = 0; k < lineInfo.Length-1; k++)
+                    enemiesPosition = new int[lineInfo.Count];
+                    for (int k = 0; k < lineInfo.Count; k++)
                     {
                         enemiesPosition[k] = int.Parse(lineInfo[k]);
                     }
@@ -145,6 +180,25 @@ public class Map : MonoBehaviour
         }
 
     }
+
+
+    // 通过邻接表cellAdjList初始化CellMap
+    private void InitCellMap()
+    {
+        cellMap = new GameObject[cellMapRow, cellMapColumn];
+
+        for (int i = 0; i < cellMapRow; i++)
+        {
+            for (int j = 0; j < cellMapColumn; j++)
+            {
+                cellMap[i, j] = cellAdjList[i * cellMapColumn + j].cell;
+                // Debug.Log(cellMap[i, j]);
+            }
+        }
+
+        
+    }
+
 
     // 调整点位生成的位置，坐标原点在左上角
     public Vector2 AdjustPosition(int x, int y)
@@ -179,44 +233,26 @@ public class Map : MonoBehaviour
     // 生成地图
     private void GenerateMap()
     {
+        // 地图渲染参数初始化
+        cellWidth = normalCellPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+        cellHeight = normalCellPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+        offsetX = (cellMapColumn - 1) * (cellWidth + cellPadding);
+        offsetY = (cellMapRow - 1) * (cellHeight + cellPadding);
         for (int i = 0; i < cellMapRow; i++)
         {
             for (int j = 0; j < cellMapColumn; j++)
             {
-                GameObject spawnedCell = null;
-
                 Vector2 position = AdjustPosition(j, i);
 
-                // 根据点位类型生成点位
-                if (cellAdjList[i * cellMapColumn + j].cellType == "NullCell")
+                // 以下对地图上的每一个点位的属性进行初始化
+                cellMap[i, j].transform.position = position;
+                cellMap[i, j].transform.SetParent(cellHolder); // 将生成的点位作为Map的子物体
+                cellMap[i, j].name = $"cell {i} {j}";
+                if (cellMap[i, j].GetComponent<Cell>()) // 如果生成的点位有Cell这个组件，即生成的点位是有效点位
                 {
-                    spawnedCell = Instantiate(nullCellPrefab, position, Quaternion.identity);
-                }
-                else if (cellAdjList[i * cellMapColumn + j].cellType == "NormalCell")
-                {
-                    spawnedCell = Instantiate(normalCellPrefab, position, Quaternion.identity);
-                }
-                else if (cellAdjList[i * cellMapColumn + j].cellType == "PosiCell")
-                {
-                    spawnedCell = Instantiate(normalCellPrefab, position, Quaternion.identity);
-                }
-                else if (cellAdjList[i * cellMapColumn + j].cellType == "NegaCell")
-                {
-                    spawnedCell = Instantiate(normalCellPrefab, position, Quaternion.identity);
-                }
-
-                cellMap[i, j] = spawnedCell; // 将生成的点位存放在cellMap内
-
-                // 以下对spawnedCell的属性进行初始化
-                spawnedCell.transform.SetParent(cellHolder); // 将生成的点位作为Map的子物体
-                spawnedCell.name = $"cell {i} {j}";
-                if (spawnedCell.GetComponent<Cell>()) // 如果生成的点位有Cell这个组件，即生成的点位是有效点位
-                {
-                    Cell cell = spawnedCell.GetComponent<Cell>(); // 获取到新生成有效点位的Cell脚本组件
+                    Cell cell = cellMap[i, j].GetComponent<Cell>(); // 获取到新生成有效点位的Cell脚本组件
                     cell.SetIndex(i, j);
-                    cell.SetCellType(cellAdjList[i * cellMapColumn + j].cellType);
                 }
-
             }
         }
     }
@@ -233,7 +269,6 @@ public class Map : MonoBehaviour
         spawnPlayer.GetComponent<SpriteRenderer>().sortingOrder = 1;
         spawnPlayer.transform.SetParent(transform);
         spawnPlayer.name = "player";
-        
         Player p = spawnPlayer.GetComponent<Player>();
         p.setMap(this);
         p.SetIndex(y, x);
@@ -249,7 +284,7 @@ public class Map : MonoBehaviour
             Vector2 pos = AdjustPosition(x, y);
             GameObject spawnEnemy = Instantiate(enemy, pos, Quaternion.identity);
             spawnEnemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            spawnEnemy.transform.SetParent(transform);
+            spawnEnemy.transform.SetParent(enemiesManager);
             spawnEnemy.name = $"enemy {i + 1}";
         }
         
@@ -258,24 +293,7 @@ public class Map : MonoBehaviour
     //根据坐标获取对应的Cell
     public Cell GetCellByIndex(Vector2Int index)
     {
-        Cell res = null;
-        
-        for (int i = 0; i < cellHolder.childCount; i++)
-        {
-            
-            res = cellHolder.GetChild(i).GetComponent<Cell>();
-            if (!res)
-            {
-                continue;
-            }
-            Debug.Log("count: "+ i + ", "+ res.GetIndex()+", "+index);
-            if (res.GetIndex() == index)
-            {
-                break;
-            }
-        }
-        //Debug.Log(res);
-        return res;
+        return cellMap[index.x, index.y].GetComponent<Cell>();
     }
 
     // 生成整个地图点位的边
@@ -313,6 +331,23 @@ public class Map : MonoBehaviour
         }
     }
 
+    //返回一个简易三维数组作为地图, 两层二维，一层存点位，一层存角色
+    public int[,,] GetCellTypeMap()
+    {
+        int[,,] result = new int[2, cellMapRow, cellMapColumn];
+        for (int i = 0; i < cellMapRow; i++)
+        {
+            for (int j = 0 ; j < cellMapColumn; j++)
+            {
+                if (cellMap[i, j])
+                {
+                    result[0, i, j] = (int)cellTypeTable[cellMap[i, j].GetComponent<Cell>().GetCellType()];
+                }
+            }
+        }
+        return result;
+    }
+
     // test
     private void test()
     {
@@ -347,7 +382,7 @@ public class Map : MonoBehaviour
 public class CellNode
 {
     // TODO：有想过使用Cell，后续看看需不需要改，改的话整个逻辑可能要大改
-    public string cellType;
+    public GameObject cell;
     public EdgeNode firstEdge;
 }
 
