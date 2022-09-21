@@ -155,6 +155,8 @@ MonoBehaviour:
   nullCellPrefab: {fileID: 6781181244809510975, guid: ae8fc3fad0c34d044827275f5ffee22d, type: 3}
   normalCellPrefab: {fileID: 5819446674817178006, guid: 306cd1fa9a9bb324897dd1be6d42a85e, type: 3}
   edgePrefab: {fileID: 1522026786971148190, guid: bf3b3e881c6657242bdc65735d0d459a, type: 3}
+  player: {fileID: 1054916057643287194, guid: 3cb2df58ed2003444b396e39aa2e9138, type: 3}
+  enemy: {fileID: 741362135155862670, guid: 0d28c0d0ebf7e4a4ba6d970d2f45ffbb, type: 3}
   cellMapRow: 1
   cellMapColumn: 1
   cellPadding: 1
