@@ -286,6 +286,9 @@ public class Map : MonoBehaviour
             spawnEnemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
             spawnEnemy.transform.SetParent(enemiesManager);
             spawnEnemy.name = $"enemy {i + 1}";
+            Enemy p = spawnEnemy.GetComponent<Enemy>();
+            p.setMap(this);
+            p.SetIndex(y, x);
         }
         
     }
@@ -381,7 +384,6 @@ public class Map : MonoBehaviour
 // 顶点表
 public class CellNode
 {
-    // TODO：有想过使用Cell，后续看看需不需要改，改的话整个逻辑可能要大改
     public GameObject cell;
     public EdgeNode firstEdge;
 }

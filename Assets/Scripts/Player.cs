@@ -12,6 +12,11 @@ public class Player : Movement
     
     private bool isUnderMouse = false;
 
+    public override void SetIndex(int _x, int _y)
+    {
+        base.SetIndex(_x, _y);
+        GameManager.GM.PostPlayerPosition(new Vector2Int(_x, _y));
+    }
 
     private void Update()
     {
@@ -79,6 +84,14 @@ public class Player : Movement
         }
     }
 
+    public override void WalkTo(Vector2Int to)
+    {
+        Debug.Log("Walk to " + to);
+        targetPos = mapObject.AdjustPosition(to.y, to.x);
+        SetIndex(to.x, to.y);
+        StartCoroutine(Walk());
+    }
+    
     IEnumerator Walk()
     {
         Vector2 substract = targetPos - (Vector2)transform.position;

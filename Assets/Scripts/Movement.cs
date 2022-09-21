@@ -12,18 +12,18 @@ public class Movement : MonoBehaviour
     public Cell onCell;
     public Vector2 targetPos;
 
-    public void setMap(Map map)
+    public virtual void setMap(Map map)
     {
         mapObject = map;
         mapShape = mapObject.GetMapShape();
     }
 
-    public Vector2Int GetIndex()
+    public virtual Vector2Int GetIndex()
     {
         return new Vector2Int(x, y);
     }
 
-    public void SetIndex(int _x, int _y)
+    public virtual void SetIndex(int _x, int _y)
     {
         x = _x;
         y = _y;
@@ -32,12 +32,10 @@ public class Movement : MonoBehaviour
     }
 
 
-    public void WalkTo(Vector2Int to)
+    public virtual void WalkTo(Vector2Int to)
     {
         Debug.Log("Walk to " + to);
-        
         targetPos = mapObject.AdjustPosition(to.y, to.x);
-
         SetIndex(to.x, to.y);
         StartCoroutine(Walk());
     }
@@ -57,8 +55,7 @@ public class Movement : MonoBehaviour
         }
         transform.position = targetPos;
 
-        //轮到敌方回合
-        GameManager.GM.NextTurn();
+        
         yield return new WaitForSeconds(0.05f);
     }
 

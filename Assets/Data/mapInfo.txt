@@ -27,4 +27,4 @@ NormalCell,19,17
 NullCell
 Character
 7
-11,10,14
+10,14

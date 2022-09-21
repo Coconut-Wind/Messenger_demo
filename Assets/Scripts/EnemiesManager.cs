@@ -12,7 +12,7 @@ public class EnemiesManager : MonoBehaviour
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).GetComponent<Enemy>().ChacePlayer();
+                transform.GetChild(i).GetComponent<Enemy>().CheasePlayer();
             }
             
             GameManager.GM.NextTurn();
