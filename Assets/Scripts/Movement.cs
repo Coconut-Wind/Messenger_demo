@@ -6,11 +6,17 @@ public class Movement : MonoBehaviour
 {
     public float speed= 0.5f;
 
-    public Map mapObject = null;
-    public Vector2Int mapShape = Vector2Int.zero;
-    public int x, y, index;
-    public Cell onCell;
-    public Vector2 targetPos;
+    protected Map mapObject = null;
+    protected Vector2Int mapShape = Vector2Int.zero;
+    protected int x, y, index;
+    protected Cell onCell;
+    protected Vector2 targetPos;
+
+    public virtual void init(Map map, Vector2Int index)
+    {
+        setMap(map);
+        SetIndex(index.x, index.y);
+    }
 
     public virtual void setMap(Map map)
     {

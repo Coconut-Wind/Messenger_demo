@@ -5,40 +5,48 @@ using UnityEngine;
 public class Player : Movement
 {
     public int health = 3;
-    public float chooseMaxDistance = 1.5f;
-    [SerializeField]private GameObject arrow;
+    public int letterNum = 2;
+    public float maxSelectDistance = 1.5f; //鼠标与主角的最大选择距离
+    [SerializeField]private GameObject arrow; //指示箭头
     [SerializeField]private Transform arrowHolder;
     [SerializeField]private GameObject circle;
     
-    private bool isUnderMouse = false;
+    private bool isShowingArrows = false; //是否正在显示箭头
 
     public override void SetIndex(int _x, int _y)
     {
         base.SetIndex(_x, _y);
+        //向GM提交当前坐标
         GameManager.GM.PostPlayerPosition(new Vector2Int(_x, _y));
     }
 
     private void Update()
     {
+        if (GameManager.GM.IsGameOver())
+        {
+            return;
+        }
         if (Input.GetMouseButtonUp(0))
         {
             //将屏幕坐标转换为世界坐标
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            float dis = Vector2.Distance(mouse, this.transform.position);
+            //将人物坐标转换为
+            Vector2 self = transform.position; //Camera.main.ViewportToWorldPoint(transform.position);
+            float dis = Vector2.Distance(mouse, self);
             //根据距离判断是否点到Player
-            if (dis <= chooseMaxDistance && !isUnderMouse)
+            if (dis <= maxSelectDistance && !isShowingArrows)
             {
                 if (GameManager.GM.IsPlayersTurn())
                 {
-                    isUnderMouse = true;
+                    isShowingArrows = true;
                     ShowArrow();
                 }
             }
             else
             {
-                if (isUnderMouse)
+                if (isShowingArrows)
                 {
-                    isUnderMouse = false;
+                    isShowingArrows = false;
                     HideArrow();
                 }
             }
@@ -84,32 +92,68 @@ public class Player : Movement
         }
     }
 
+    //移动
     public override void WalkTo(Vector2Int to)
     {
         Debug.Log("Walk to " + to);
         targetPos = mapObject.AdjustPosition(to.y, to.x);
         SetIndex(to.x, to.y);
-        StartCoroutine(Walk());
+        Vector2 substract = targetPos - (Vector2)transform.position;
+        Vector2 targetPosDir = (substract).normalized;
+        //开启协程
+        StartCoroutine(Walk(
+            //lambda, 当任务完成时执行
+            delegate(){
+                //判断是否到达终点
+                //Debug.Log("检测: ");
+                if (GameManager.GM.isOnTarget(GetIndex()))
+                {
+                    Debug.Log("到达目标");
+                    
+                    TargetCell tc = (TargetCell)mapObject.GetCellByIndex(GetIndex());
+                    if (!tc.isReached && letterNum > 0)
+                    {
+                        letterNum--;
+                        tc.isReached = true;
+                        if (letterNum == 0)
+                        {
+                            //任务完成
+                            GameManager.GM.SetIsFinishedGoal(true);
+                        }
+                        
+                        //轮到敌方回合
+                        GameManager.GM.NextTurn();
+                    }
+                }    
+                return 0;
+            }
+        ));
+        
     }
     
-    IEnumerator Walk()
+    //人物运动的协程
+    IEnumerator Walk(System.Func<int> finish)
     {
         Vector2 substract = targetPos - (Vector2)transform.position;
         Vector2 targetPosDir = (substract).normalized;
         float dis = Vector2.Distance(transform.position, targetPos);
         float num = dis / speed;
         Vector2 per = substract / num;
-        Debug.Log(dis + ", " + num);
+        
+        Debug.Log(targetPosDir);
+
         for (int i = 0; i < num-1; i++)
         {
             transform.position = transform.position + (Vector3)per;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(Time.deltaTime * 15);
         }
         transform.position = targetPos;
 
-        //轮到敌方回合
-        GameManager.GM.NextTurn();
-        yield return new WaitForSeconds(0.05f);
+        
+        
+        //执行回调函数
+        finish();
+        yield return null;
     }
 
 

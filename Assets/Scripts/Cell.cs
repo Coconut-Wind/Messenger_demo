@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    private string cellType; // NullCell、NormalCell、PosiCell、NegaCell
+    protected string cellType; // NullCell、NormalCell、PosiCell、NegaCell
     
     // cellMap[x, y]
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
 
-    private List<Cell> adjCellList; // 邻接点位数组，存储的是点位的实例
+    protected List<Cell> adjCellList; // 邻接点位数组，存储的是点位的实例
 
     // Setter cellMap中的下标
     public void SetIndex(int _x, int _y) {

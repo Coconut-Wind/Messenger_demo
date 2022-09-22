@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e77001cac1b5ce46af0160aed88e26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
   speed: 0.5
+  health: 3
   chooseMaxDistance: 1.5
   arrow: {fileID: 935349154525670472, guid: ac08dc7d5b9d57c4b827c4e23e929db4, type: 3}
   arrowHolder: {fileID: 3122741044463698526}
@@ -92,11 +92,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.20185119, g: 0.6603774, b: 0.42006204, a: 1}
+  m_SortingLayerID: 2041677125
+  m_SortingLayer: 2
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 445d813a32d92564283515d07e85e637, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

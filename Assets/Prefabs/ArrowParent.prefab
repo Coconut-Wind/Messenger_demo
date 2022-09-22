@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d76079b883cc14b893bcc8fd4177ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMouseClick: 0
 --- !u!58 &4688680412712162930
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,8 +132,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2041677125
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
   m_Color: {r: 0, g: 0.754717, b: 0.3077023, a: 1}

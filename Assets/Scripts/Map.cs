@@ -10,6 +10,7 @@ public class Map : MonoBehaviour
     [SerializeField] private GameObject normalCellPrefab; // 普通点位的预制体
     [SerializeField] private GameObject posiCellPrefab; // 增益点位的预制体
     [SerializeField] private GameObject negaCellPrefab; // 减益点位的预制体
+    [SerializeField] private GameObject targetCellPrefab; // 目标点位的预制体
     // TODO:还有增益点位和减益点位的预制体没创建
     [SerializeField] private GameObject edgePrefab; // 边的预制体
     [SerializeField] private GameObject player; //玩家的预制体
@@ -34,9 +35,10 @@ public class Map : MonoBehaviour
     [SerializeField] private Transform cellHolder;
     [SerializeField] private Transform edgeHolder;
     [SerializeField] private Transform enemiesManager;
+    [SerializeField] private Transform playerManager;
 
     private CellNode[] cellAdjList; // 邻接表
-    private string[] cellType = new string[4] { "NullCell", "NormalCell", "PosiCell", "NegaCell" }; // 点位的四种类型
+    private string[] cellType = new string[5] { "NullCell", "NormalCell", "PosiCell", "NegaCell", "TargetCell" }; // 点位的五种类型
     private Hashtable cellTypeTable; //string -> int 映射表
     public StreamReader mapInfoTxt; // 用于读取地图信息，即Data文件夹中的mapInfo，目前为手动挂载
     public string mapInfoPath = "Assets/Data/mapInfo.txt"; // 地图信息文件路径
@@ -61,7 +63,8 @@ public class Map : MonoBehaviour
         GenerateEdge();
         GeneratePlayer();
         GenerateEnemies();
-
+        //enemiesManager.GetComponent<FacingCamera>().setFacing();
+        //playerManager.GetComponent<FacingCamera>().setFacing();
         cellTypeMap = GetCellTypeMap();
 
         //test();
@@ -70,7 +73,7 @@ public class Map : MonoBehaviour
     private void InitCellTypeTable()
     {
         cellTypeTable = new Hashtable();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < cellType.Length; i++)
         {
            cellTypeTable.Add(cellType[i], i); 
         }
@@ -141,6 +144,11 @@ public class Map : MonoBehaviour
                             {
                                 spawnedCell = Instantiate(negaCellPrefab, transform.position, Quaternion.identity);
                                 spawnedCell.GetComponent<Cell>().SetCellType("NegaCell");
+                            }
+                            else if (lineInfo[j] == "TargetCell")
+                            {
+                                spawnedCell = Instantiate(targetCellPrefab, transform.position, Quaternion.identity);
+                                spawnedCell.GetComponent<Cell>().SetCellType("TargetCell");
                             }
 
                             cellAdjList[lineCounter - 1] = new CellNode();
@@ -238,6 +246,9 @@ public class Map : MonoBehaviour
         cellHeight = normalCellPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
         offsetX = (cellMapColumn - 1) * (cellWidth + cellPadding);
         offsetY = (cellMapRow - 1) * (cellHeight + cellPadding);
+
+        List<Vector2Int> targets = new List<Vector2Int>();
+
         for (int i = 0; i < cellMapRow; i++)
         {
             for (int j = 0; j < cellMapColumn; j++)
@@ -252,10 +263,19 @@ public class Map : MonoBehaviour
                 {
                     Cell cell = cellMap[i, j].GetComponent<Cell>(); // 获取到新生成有效点位的Cell脚本组件
                     cell.SetIndex(i, j);
+
+                    //如果为目标，则向GM提交
+                    if (cell.GetCellType() == "TargetCell")
+                    {
+                        targets.Add(new Vector2Int(i, j));
+                    }
+                    
                 }
             }
         }
+        GameManager.GM.postTargetPositions(targets);
     }
+
 
     //生成玩家
     private void GeneratePlayer()
@@ -267,11 +287,10 @@ public class Map : MonoBehaviour
         Vector2 pos = AdjustPosition(x, y);
         GameObject spawnPlayer = Instantiate(player, pos, Quaternion.identity);
         spawnPlayer.GetComponent<SpriteRenderer>().sortingOrder = 1;
-        spawnPlayer.transform.SetParent(transform);
+        spawnPlayer.transform.SetParent(playerManager);
         spawnPlayer.name = "player";
         Player p = spawnPlayer.GetComponent<Player>();
-        p.setMap(this);
-        p.SetIndex(y, x);
+        p.init(this, new Vector2Int(y, x));
     }
 
     //生成敌人
@@ -280,17 +299,15 @@ public class Map : MonoBehaviour
         for (int i = 0; i < enemiesPosition.Length; i++){
             int y = (enemiesPosition[i] / cellMapColumn);
             int x = (enemiesPosition[i] % cellMapColumn);
-            Debug.Log(x + ", " + y + ", " + enemiesPosition[i]);
+            //Debug.Log(x + ", " + y + ", " + enemiesPosition[i]);
             Vector2 pos = AdjustPosition(x, y);
             GameObject spawnEnemy = Instantiate(enemy, pos, Quaternion.identity);
             spawnEnemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
             spawnEnemy.transform.SetParent(enemiesManager);
             spawnEnemy.name = $"enemy {i + 1}";
             Enemy p = spawnEnemy.GetComponent<Enemy>();
-            p.setMap(this);
-            p.SetIndex(y, x);
+            p.init(this, new Vector2Int(y, x));
         }
-        
     }
 
     //根据坐标获取对应的Cell
