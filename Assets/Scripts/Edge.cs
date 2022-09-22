@@ -18,14 +18,13 @@ public class Edge : MonoBehaviour
     // 通过LineRenderer画线
     public void DrawLine(Transform startPoint, Transform endPoint) 
     {
-        // 设置颜色
+        //先画边缘颜色
+        //再画中间颜色
         lineRenderer.startColor = color;
         lineRenderer.endColor = color;
-
         // 设置宽度
         lineRenderer.startWidth = width;
         lineRenderer.endWidth = width;
-
         // 设置线的起始点
         lineRenderer.SetPosition(0, startPoint.position);
         lineRenderer.SetPosition(1, endPoint.position);
