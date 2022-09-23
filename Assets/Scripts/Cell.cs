@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    public GameObject Ring;
     protected string cellType; // NullCell、NormalCell、PosiCell、NegaCell
     
     // cellMap[x, y]
@@ -11,6 +12,7 @@ public class Cell : MonoBehaviour
     protected int y;
 
     protected List<Cell> adjCellList; // 邻接点位数组，存储的是点位的实例
+    protected bool isHightLighting = false;
 
     // Setter cellMap中的下标
     public void SetIndex(int _x, int _y) {
@@ -46,6 +48,24 @@ public class Cell : MonoBehaviour
     public List<Cell> GetAdjCellList()
     {
         return adjCellList;
+    }
+
+    public void SetHightLight(bool hightLight)
+    {
+        isHightLighting = hightLight;
+        if (isHightLighting)
+        {
+            Ring.SetActive(true);
+        }
+        else
+        {
+            Ring.SetActive(false);
+        }
+    }
+
+    public bool IsHightLighting()
+    {
+        return isHightLighting;
     }
 
 }

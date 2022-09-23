@@ -73,7 +73,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1059346601
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab9fd269de167042a20fa8150095cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.754717, g: 0.61801356, b: 0.51548594, a: 1}
+  color: {r: 0.85098046, g: 0.6313726, b: 0.39607847, a: 1}
   width: 0.4
 --- !u!114 &1846088182253283933
 MonoBehaviour:

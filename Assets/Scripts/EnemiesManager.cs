@@ -8,7 +8,7 @@ public class EnemiesManager : MonoBehaviour
     private void Update()
     {
         //如果不是玩家回合，则开始行动
-        if (!GameManager.GM.IsPlayersTurn())
+        if (!GameManager.GM.IsPlayersTurn() && !GameManager.GM.IsGameOver())
         {
             for (int i = 0; i < transform.childCount; i++)
             {

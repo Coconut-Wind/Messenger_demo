@@ -48,6 +48,8 @@ public class Map : MonoBehaviour
 
     public int[,,] cellTypeMap;
 
+    private bool isHightLighting = false;
+
 
     private void Awake()
     {
@@ -209,6 +211,11 @@ public class Map : MonoBehaviour
 
 
     // 调整点位生成的位置，坐标原点在左上角
+    public Vector2 AdjustPosition(Vector2Int pos)
+    {
+        return AdjustPosition(pos.y, pos.x);
+    }
+    
     public Vector2 AdjustPosition(int x, int y)
     {
         float i = y;
@@ -312,6 +319,11 @@ public class Map : MonoBehaviour
     //根据坐标获取对应的Cell
     public Cell GetCellByIndex(Vector2Int index)
     {
+        if (index.x < 0 || index.y < 0 || index.x >= cellMapRow || index.y >= cellMapColumn)
+        {
+            Debug.Log("点位坐标超出范围");
+            return null;
+        }
         return cellMap[index.x, index.y].GetComponent<Cell>();
     }
 
@@ -393,6 +405,22 @@ public class Map : MonoBehaviour
     public Vector2Int GetMapShape()
     {
         return new Vector2Int(cellMapColumn, cellMapRow);
+    }
+
+    
+
+    public void SetHightLightAvailablePoint(bool hightLight)
+    {
+        if (isHightLighting == hightLight)
+            return;
+        isHightLighting = hightLight;
+
+        List<Cell> avaPos = GetCellByIndex(GameManager.GM.player.GetIndex()).GetAdjCellList();
+        avaPos.Add(GetCellByIndex(GameManager.GM.player.GetIndex()));
+        foreach (Cell cell in avaPos)
+        {
+            cell.SetHightLight(hightLight);
+        }
     }
 
 }

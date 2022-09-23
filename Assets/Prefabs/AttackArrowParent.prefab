@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7347667067721262475}
   - component: {fileID: 5530364134934570437}
-  - component: {fileID: 4688680412712162930}
+  - component: {fileID: 6731794875570741375}
   m_Layer: 0
   m_Name: AttackArrowParent
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 935349154525670472}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9607844, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6270359252938208144}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05e0fe58a32338a41848138ddb15d938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &4688680412712162930
+--- !u!58 &6731794875570741375
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,9 +59,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5499, y: 0}
+  m_Offset: {x: 1.28, y: 0}
   serializedVersion: 2
-  m_Radius: 0.27588403
+  m_Radius: 0.40038866
 --- !u!1 &7283759575688074852
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,8 +87,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7283759575688074852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.568, y: 0, z: 0}
-  m_LocalScale: {x: 0.6499, y: 0.6499, z: 0.6499}
+  m_LocalPosition: {x: 1.268, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7347667067721262475}
@@ -135,8 +135,8 @@ SpriteRenderer:
   m_SortingLayerID: 1059346601
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
-  m_Color: {r: 1, g: 0.37152755, b: 0.23018867, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ef068a776cef0374caf5119759f7d0ab, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
