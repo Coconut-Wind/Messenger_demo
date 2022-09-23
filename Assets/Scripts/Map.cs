@@ -70,6 +70,7 @@ public class Map : MonoBehaviour
         //test();
     }
 
+    // 初始化点位类型映射表
     private void InitCellTypeTable()
     {
         cellTypeTable = new Hashtable();
@@ -92,14 +93,14 @@ public class Map : MonoBehaviour
         {
             List<string> lineInfo = new List<string>(mapInfoTxt.ReadLine().Split(',')); // 将一行数据分隔
             
-            if (lineInfo[0] == "Map")
+            if (lineInfo[0] == "Map") // 准备读取Map信息
             {
                 inputType = "Map";
                 lineCounter = 0;
                 Debug.Log("Map");
                 continue;
             }
-            else if (lineInfo[0] == "Character")
+            else if (lineInfo[0] == "Character") // 准备读取角色信息
             {
                 inputType = "Character";
                 lineCounter = 0;
@@ -119,9 +120,9 @@ public class Map : MonoBehaviour
                 }
                 else // 第二行后的数据记录点位的类型和邻接的点位；第一个为点位类型，剩下的为与该点位邻接的点位在邻接表的下标
                 {
-                    for (int j = 0; j < lineInfo.Count; j++) // 如果点位类型是空点位
+                    for (int j = 0; j < lineInfo.Count; j++)
                     {
-                        if (j == 0)
+                        if (j == 0) // 读取点位类型cellType
                         {
                             GameObject spawnedCell = null;
                             // 根据点位类型生成点位
@@ -202,9 +203,7 @@ public class Map : MonoBehaviour
                 cellMap[i, j] = cellAdjList[i * cellMapColumn + j].cell;
                 // Debug.Log(cellMap[i, j]);
             }
-        }
-
-        
+        }        
     }
 
 
@@ -264,7 +263,7 @@ public class Map : MonoBehaviour
                     Cell cell = cellMap[i, j].GetComponent<Cell>(); // 获取到新生成有效点位的Cell脚本组件
                     cell.SetIndex(i, j);
 
-                    //如果为目标，则向GM提交
+                    //如果为目标点位，则向GM提交
                     if (cell.GetCellType() == "TargetCell")
                     {
                         targets.Add(new Vector2Int(i, j));
@@ -273,14 +272,13 @@ public class Map : MonoBehaviour
                 }
             }
         }
-        GameManager.GM.postTargetPositions(targets);
+        GameManager.GM.PostTargetPositions(targets);
     }
 
 
     //生成玩家
     private void GeneratePlayer()
     {
-        
         int y = (playerPosition / cellMapColumn);
         int x = (playerPosition % cellMapColumn);
         //Debug.Log(x + ", " + y);

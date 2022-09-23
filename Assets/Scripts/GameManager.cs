@@ -48,12 +48,12 @@ public class GameManager : MonoBehaviour
         playerPosition = pos;
     }
 
-    public void postTargetPositions(List<Vector2Int> targetList)
+    public void PostTargetPositions(List<Vector2Int> targetList)
     {
         targetPositions = targetList;
     }
 
-    public bool isOnTarget(Vector2Int pos)
+    public bool IsOnTarget(Vector2Int pos)
     {
         return targetPositions.Contains(pos);
     }

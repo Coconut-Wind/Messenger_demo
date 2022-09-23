@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class Enemy : Movement
 {
-    public int health = 2; //生命值
+    public int maxHealth = 2; //生命值
+    public int currentHealth; // 当前生命值
     public int maxChaseDistance = 2; //距离营地的最大值
     public int maxZoomDistance = 2; //距离营地的最大值
     public int maxWatchingDistance = 2; //官网距离到达离营最大值后，使其不返回营地的与玩家距离最大值
     private Vector2Int homePosition;
     private int state = 0; // 0不动 1追赶 2返回;
 
+    private void Awake()
+    {
+        currentHealth = maxHealth;
+    }
 
     public override void init(Map map, Vector2Int index)
     {
         base.init(map, index);
         homePosition = index;
     }
-    
+
     private struct Node
     {
         public Vector2Int pos;
@@ -34,9 +39,9 @@ public class Enemy : Movement
     //追赶玩家
     public void ChasePlayer()
     {
-        
+
         Node nA = GetNextPosition(GetIndex(), homePosition); //从自身到营地
-        Node nB = GetNextPosition(GetIndex(),  GameManager.GM.GetPlayerPosition()); //从自身到玩家
+        Node nB = GetNextPosition(GetIndex(), GameManager.GM.GetPlayerPosition()); //从自身到玩家
         Node nC = GetNextPosition(GameManager.GM.GetPlayerPosition(), homePosition); //从营地到玩家
         //Debug.Log("从自身到营地, dis:"+ (nA.step) + ", pos:" + nA.pos);
         //Debug.Log("从自身到玩家, dis:"+ (nB.step) + ", pos:" + nB.pos);
@@ -46,14 +51,14 @@ public class Enemy : Movement
         if (nC.step <= maxZoomDistance)
         {
             state = 1;
-            
-            
+
+
         }
         else if (nA.step > maxZoomDistance)
         {
             state = 2;
         }
-        else if (nA.step == maxZoomDistance )
+        else if (nA.step == maxZoomDistance)
         {
             if (nB.step <= maxWatchingDistance)
             {
@@ -99,7 +104,7 @@ public class Enemy : Movement
 
         bool[,] map = new bool[mapShape.y, mapShape.x];
         map[startPos.x, startPos.y] = true;
-        
+
         list.Add(first);
 
         //bool isFound = false;
@@ -119,7 +124,7 @@ public class Enemy : Movement
                 //当前位置是否检索过？
                 Vector2Int npos = adjs[i].GetIndex();
                 int id = npos.x + npos.y * mapObject.GetMapShape().y;
-                if (map[ npos.x, npos.y])
+                if (map[npos.x, npos.y])
                 {
                     continue;
                 }
@@ -127,7 +132,7 @@ public class Enemy : Movement
                 {
                     list.Add(new Node(npos, curr.step + 1, head));
                     tail++;
-                
+
                     //比对玩家位置
                     if (targetPos == npos)
                     {
@@ -139,9 +144,9 @@ public class Enemy : Movement
 
                     //添加搜索记录
                     //searchPointIds.Add(id);
-                    map[ npos.x, npos.y] = true;
+                    map[npos.x, npos.y] = true;
                 }
-                
+
             }
             head++;
         }
@@ -164,7 +169,7 @@ public class Enemy : Movement
         targetPos = mapObject.AdjustPosition(to.y, to.x);
         SetIndex(to.x, to.y);
         StartCoroutine(Walk());
-        
+
     }
 
     IEnumerator Walk()
@@ -175,7 +180,7 @@ public class Enemy : Movement
         float num = dis / speed;
         Vector2 per = substract / num;
         Debug.Log(dis + ", " + num);
-        for (int i = 0; i < num-1; i++)
+        for (int i = 0; i < num - 1; i++)
         {
             transform.position = transform.position + (Vector3)per;
             yield return new WaitForSeconds(0.05f);
@@ -184,7 +189,7 @@ public class Enemy : Movement
 
         //轮到敌方回合
         //GameManager.GM.nextTurn();
-        
+
         yield return new WaitForSeconds(0.05f);
     }
 }

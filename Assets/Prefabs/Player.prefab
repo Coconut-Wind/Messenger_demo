@@ -49,8 +49,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  health: 3
-  chooseMaxDistance: 1.5
+  maxHealth: 3
+  currentHealth: 3
+  letterNum: 2
+  maxSelectDistance: 1.5
   arrow: {fileID: 935349154525670472, guid: ac08dc7d5b9d57c4b827c4e23e929db4, type: 3}
   arrowHolder: {fileID: 3122741044463698526}
   circle: {fileID: 5558626535738660037}
@@ -92,15 +94,15 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2041677125
-  m_SortingLayer: 2
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 445d813a32d92564283515d07e85e637, type: 3}
+  m_SortingLayerID: 1016555213
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: d6168d400e4acd941ba9342ed418b72f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.18, y: 0.18}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
