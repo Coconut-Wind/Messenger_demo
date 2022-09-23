@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\TargetCell.cs" />
      <Compile Include="Assets\Scripts\FacingCamera.cs" />
+     <Compile Include="Assets\Scripts\Pixelate.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\Edge.cs" />
@@ -48,7 +49,6 @@
      <Compile Include="Assets\Scripts\Map.cs" />
      <Compile Include="Assets\Scripts\EnemiesManager.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
-     <Compile Include="Assets\Scripts\Pixelate.cs" />
      <None Include="Assets\Data\mapInfo.txt" />
      <None Include="Assets\Sprites\PixelShader.shader" />
     <Reference Include="UnityEngine">

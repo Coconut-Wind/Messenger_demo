@@ -24,7 +24,7 @@ public class Player : Movement
     {
         if (GameManager.GM.IsGameOver())
         {
-            return;
+            //return;
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -121,10 +121,15 @@ public class Player : Movement
                             GameManager.GM.SetIsFinishedGoal(true);
                         }
                         
-                        //轮到敌方回合
-                        GameManager.GM.NextTurn();
+                        
+                        
                     }
-                }    
+                }
+                //轮到敌方回合
+                if (!GameManager.GM.IsGameOver())
+                {
+                    GameManager.GM.NextTurn();
+                }
                 return 0;
             }
         ));
