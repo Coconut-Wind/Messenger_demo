@@ -15,6 +15,7 @@ public class PlayerAttackArrow : MonoBehaviour
 
     private void OnMouseUp() 
     {
-        this.player.AttackEnemy(GameManager.GM.enemiesManager.GetEnemyByPos(to));
+        if (Input.GetMouseButtonUp(0))
+            this.player.AttackEnemy(GameManager.GM.enemiesManager.GetEnemyByPos(to));
     }
 }

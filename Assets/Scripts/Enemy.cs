@@ -42,8 +42,9 @@ public class Enemy : Movement
         if (currentHealth == 0)
         {
             isDead = true;
-            this.healthBar.SetActive(false);
+            //this.healthBar.SetActive(false);
             //this.gameObject.SetActive(false);
+            Destroy(this.healthBar);
             Destroy(this.gameObject);
         }
     }
