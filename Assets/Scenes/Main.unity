@@ -245,7 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31095490dc5a907409d6942f9013efe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1815340546678619917, guid: 3cb2df58ed2003444b396e39aa2e9138, type: 3}
 --- !u!1 &199072427
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2467322ac1abc174192bad37979fc955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealthBarHolder: {fileID: 1581685281}
+  playerStateHolder: {fileID: 24508491}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,6 +878,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5263e31541f86e14ca20f58b2b2b965e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemiesManager: {fileID: 199072429}
+  player: {fileID: 0}
 --- !u!4 &1558350634
 Transform:
   m_ObjectHideFlags: 0
@@ -905,7 +908,7 @@ GameObject:
   - component: {fileID: 1581685284}
   - component: {fileID: 1581685283}
   m_Layer: 0
-  m_Name: EnemyHealthBar Canvas
+  m_Name: EnemyHealthBarHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -63,9 +63,10 @@ public class Map : MonoBehaviour
         GenerateEdge();
         GeneratePlayer();
         GenerateEnemies();
-        //enemiesManager.GetComponent<FacingCamera>().setFacing();
-        //playerManager.GetComponent<FacingCamera>().setFacing();
+
         cellTypeMap = GetCellTypeMap();
+
+        GameManager.GM.SetCurrentMap(this);
 
         //test();
     }

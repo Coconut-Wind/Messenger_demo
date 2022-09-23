@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStatesUI : MonoBehaviour
 {
-    public Player player; // 拿到Player组件
+    private Player player = null; // 拿到Player组件
 
     [Header("---- HealthBar ----")]
     private Image healthBarSlider;
@@ -20,14 +20,21 @@ public class PlayerStatesUI : MonoBehaviour
         healthBarSlider = playerHealthBar.transform.GetChild(0).GetComponent<Image>(); // 拿到Image后通过fillAmount修改血量百分比
     }
 
-    private void Update()
+    public void SetPlayer(Player p)
     {
-        SetHealthBar();
+        player = p;
     }
 
-    public void SetHealthBar()
+    private void Update()
+    {
+        ChangeHealthBar();
+    }
+
+    public void ChangeHealthBar()
     {
         // 实时血条变化
+        if (!player)
+            return;
         float slideRate = (float)player.currentHealth / player.maxHealth;
         healthBarSlider.fillAmount = slideRate;
     }

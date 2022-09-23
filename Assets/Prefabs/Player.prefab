@@ -54,6 +54,7 @@ MonoBehaviour:
   letterNum: 2
   maxSelectDistance: 1.5
   arrow: {fileID: 935349154525670472, guid: ac08dc7d5b9d57c4b827c4e23e929db4, type: 3}
+  attackArrow: {fileID: 935349154525670472, guid: 47cc51488d5d68c4084a4597a3f7eb31, type: 3}
   arrowHolder: {fileID: 3122741044463698526}
   circle: {fileID: 5558626535738660037}
 --- !u!212 &7604295666805212902
@@ -95,7 +96,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1016555213
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d6168d400e4acd941ba9342ed418b72f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

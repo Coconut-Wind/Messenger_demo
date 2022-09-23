@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : Movement
 {
     public int maxHealth = 2; //生命值
-    public int currentHealth; // 当前生命值
+    public int currentHealth = 2; // 当前生命值
     public int maxChaseDistance = 2; //距离营地的最大值
     public int maxZoomDistance = 2; //距离营地的最大值
     public int maxWatchingDistance = 2; //官网距离到达离营最大值后，使其不返回营地的与玩家距离最大值
-    private Vector2Int homePosition;
+    public int maxAttackDistance = 1; //攻击距离范围
+    private Vector2Int homePosition = Vector2Int.zero;
     private int state = 0; // 0不动 1追赶 2返回;
+
+    private GameObject healthBar = null; //血条
+
+    private bool isDead = false;
 
     private void Awake()
     {
@@ -21,6 +27,30 @@ public class Enemy : Movement
     {
         base.init(map, index);
         homePosition = index;
+    }
+
+    public void SetHealthBar(GameObject healthBar)
+    {
+        this.healthBar = healthBar;
+    }
+
+    public void SetCurrentHealth(int health)
+    {
+        Debug.Log("设置敌人生命："+ health);
+        currentHealth = (int)Mathf.Clamp(health, 0, maxHealth);
+
+        if (currentHealth == 0)
+        {
+            isDead = true;
+            this.healthBar.SetActive(false);
+            this.gameObject.SetActive(false);
+            
+        }
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
     }
 
     private struct Node
@@ -39,6 +69,8 @@ public class Enemy : Movement
     //追赶玩家
     public void ChasePlayer()
     {
+        if (isDead)
+            return;
 
         Node nA = GetNextPosition(GetIndex(), homePosition); //从自身到营地
         Node nB = GetNextPosition(GetIndex(), GameManager.GM.GetPlayerPosition()); //从自身到玩家
@@ -50,8 +82,16 @@ public class Enemy : Movement
 
         if (nC.step <= maxZoomDistance)
         {
-            state = 1;
-
+            if (nB.step <= maxAttackDistance)
+            {
+                //攻击
+                state = 3;
+            }
+            else
+            {
+                //追赶
+                state = 1;
+            }
 
         }
         else if (nA.step > maxZoomDistance)
@@ -62,12 +102,26 @@ public class Enemy : Movement
         {
             if (nB.step <= maxWatchingDistance)
             {
-                state = 0;
+                if (nB.step <= maxAttackDistance)
+                {
+                    //攻击
+                    state = 3;
+                }
+                else
+                {
+                    //不动
+                    state = 0;
+                }
             }
             else
             {
                 state = 2;
             }
+        }
+        
+        if (nB.step <= maxAttackDistance)
+        {
+            state = 3;
         }
         //else 保持上一次的状态
 
@@ -83,6 +137,11 @@ public class Enemy : Movement
         else if (state == 0)
         {
             nextPos = GetIndex();
+        }
+        else if (state == 3)
+        {
+            nextPos = GetIndex();
+            AttackPlayer(1);
         }
 
         Debug.Log("next position:" + nextPos);
@@ -102,8 +161,8 @@ public class Enemy : Movement
         List<Node> list = new List<Node>();
         Node first = new Node(startPos, 0, 0);
 
-        bool[,] map = new bool[mapShape.y, mapShape.x];
-        map[startPos.x, startPos.y] = true;
+        bool[,] map = GameManager.GM.GetCurrentStateMap(true);//new bool[mapShape.y, mapShape.x];
+        //map[startPos.x, startPos.y] = true;
 
         list.Add(first);
 
@@ -143,7 +202,6 @@ public class Enemy : Movement
                     }
 
                     //添加搜索记录
-                    //searchPointIds.Add(id);
                     map[npos.x, npos.y] = true;
                 }
 
@@ -152,14 +210,12 @@ public class Enemy : Movement
         }
 
         Node node = list[tail - 1];
-        //int step = node.step;
 
         //回溯，找到第二个点
         while (node.last != 0)
         {
             node = list[node.last];
         }
-        //node.step = step + 1;
         return new Node(node.pos, dis, 0);
     }
 
@@ -191,5 +247,10 @@ public class Enemy : Movement
         //GameManager.GM.nextTurn();
 
         yield return new WaitForSeconds(0.05f);
+    }
+
+    public void AttackPlayer(int damage)
+    {
+        GameManager.GM.player.SetCurrentHealth(GameManager.GM.player.GetCurrentHealth() - damage);
     }
 }

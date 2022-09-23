@@ -7,6 +7,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
+    public GameObject enemyHealthBarHolder;
+    public GameObject playerStateHolder;
+
     private void Awake()
     {
         if(instance == null)
@@ -20,9 +23,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // 注意UIManager下孩子的顺序
     public GameObject GetEnemyHealthBar()
     {
-        return transform.GetChild(0).gameObject;
+        return enemyHealthBarHolder;
+    }
+
+    public PlayerStatesUI GetPlayerStateHolder()
+    {
+        return playerStateHolder.GetComponent<PlayerStatesUI>();
     }
 }

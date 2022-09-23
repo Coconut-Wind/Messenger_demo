@@ -24,14 +24,16 @@ public class HealthBarUI : MonoBehaviour
         spawnedHealthBar.transform.SetParent(canvas.transform);
         spawnedHealthBar.name = $"{transform.name} HealthBar";
         healthBarSlider = spawnedHealthBar.transform.GetChild(0).GetComponent<Image>();
+        
+        enemy.SetHealthBar(spawnedHealthBar);
     }
 
     private void Update()
     {
-        SetHealthBar();
+        ChangeHealthBar();
     }
 
-    public void SetHealthBar()
+    public void ChangeHealthBar()
     {
         // Position
         spawnedHealthBar.transform.position = healthBarPoint.transform.position;
@@ -39,6 +41,7 @@ public class HealthBarUI : MonoBehaviour
         // 实时血条变化
         float slideRate = (float)enemy.currentHealth / enemy.maxHealth;
         healthBarSlider.fillAmount = slideRate;
+
     }
 
 }

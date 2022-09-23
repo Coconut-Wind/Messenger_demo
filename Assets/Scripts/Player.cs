@@ -9,6 +9,7 @@ public class Player : Movement
     public int letterNum = 2;
     public float maxSelectDistance = 1.5f; //鼠标与主角的最大选择距离
     [SerializeField] private GameObject arrow; //指示箭头
+    [SerializeField] private GameObject attackArrow; //攻击指示箭头
     [SerializeField] private Transform arrowHolder;
     [SerializeField] private GameObject circle;
 
@@ -19,16 +20,27 @@ public class Player : Movement
         currentHealth = maxHealth;
     }
 
-    public override void SetIndex(int _x, int _y)
+    public override void init(Map map, Vector2Int index)
     {
-        base.SetIndex(_x, _y);
-        //向GM提交当前坐标
-        GameManager.GM.PostPlayerPosition(new Vector2Int(_x, _y));
+        base.init(map, index);
+        UIManager.instance.GetPlayerStateHolder().SetPlayer(this);
+        GameManager.GM.PostPlayer(this);
+    }
+
+    public void SetCurrentHealth(int health)
+    {
+        currentHealth = (int)Mathf.Clamp(health, 0, maxHealth);
+        Debug.Log("玩家受到攻击");
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
     }
 
     private void Update()
     {
-        if (GameManager.GM.IsGameOver())
+        if (GameManager.GM.IsGameOver()) //如果游戏结束则不执行下面
         {
             //return;
         }
@@ -60,6 +72,8 @@ public class Player : Movement
 
     }
 
+    
+
     //显示圆圈和所有可达箭头
     private void ShowArrow()
     {
@@ -68,23 +82,39 @@ public class Player : Movement
         circle.SetActive(true);
         for (int i = 0; i < cellAdjustList.Count; i++)
         {
-            //根据相对位置显示相应箭头
-            GameObject a = Instantiate(arrow, this.transform.position, Quaternion.identity);
-            a.transform.SetParent(arrowHolder);
-            a.GetComponent<PlayerMoveArrow>().init(this, cellAdjustList[i].GetIndex());
+            Vector2Int target = cellAdjustList[i].GetIndex();
+            GameObject a = null;
 
             //根据目标点位旋转箭头
-            Vector2 e = (Vector2)(cellAdjustList[i].GetIndex() - GetIndex());
+            Vector2 e = (Vector2)(target - GetIndex());
             e = new Vector2(e.y, e.x);
 
             e = e.normalized;
             float angle = Vector2.Angle(Vector2.right, e);
             if (e.y > 0)
-            {
                 angle = -angle;
+    
+            //如果那个点位是有敌人
+            if (GameManager.GM.isEnemy(target))
+            {
+                //TODO:攻击箭头
+                Debug.Log(target + ", " + GetIndex() + ", " + e + ", " + angle);
+                //根据相对位置显示相应箭头
+                a = Instantiate(attackArrow, this.transform.position, Quaternion.identity);
+                a.GetComponent<PlayerAttackArrow>().init(this, target);
             }
-            Debug.Log(cellAdjustList[i].GetIndex() + ", " + GetIndex() + ", " + e + ", " + angle);
+            else
+            {
+                Debug.Log(target + ", " + GetIndex() + ", " + e + ", " + angle);
+                //根据相对位置显示相应箭头
+                a = Instantiate(arrow, this.transform.position, Quaternion.identity);
+                a.GetComponent<PlayerMoveArrow>().init(this, target);
+            }
+            
+            //旋转到对应方向
+            a.transform.SetParent(arrowHolder);
             a.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            
         }
     }
 
@@ -127,16 +157,11 @@ public class Player : Movement
                             //任务完成
                             GameManager.GM.SetIsFinishedGoal(true);
                         }
-
-
-
                     }
                 }
                 //轮到敌方回合
                 if (!GameManager.GM.IsGameOver())
-                {
                     GameManager.GM.NextTurn();
-                }
                 return 0;
             }
         ));
@@ -168,5 +193,11 @@ public class Player : Movement
         yield return null;
     }
 
-
+    public void AttackEnemy(Enemy enemy)
+    {
+        enemy.SetCurrentHealth(enemy.GetCurrentHealth()-1);
+        //轮到敌方回合
+        if (!GameManager.GM.IsGameOver())
+            GameManager.GM.NextTurn();
+    }
 }
