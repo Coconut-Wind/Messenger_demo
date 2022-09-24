@@ -50,6 +50,7 @@ public class Cell : MonoBehaviour
         return adjCellList;
     }
 
+    //通过设置光圈是否可见来实现高亮
     public void SetHightLight(bool hightLight)
     {
         isHightLighting = hightLight;

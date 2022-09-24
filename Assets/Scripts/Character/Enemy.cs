@@ -11,7 +11,7 @@ public class Enemy : Movement
     public int maxZoomDistance = 2; //距离营地的最大值
     public int maxWatchingDistance = 2; //官网距离到达离营最大值后，使其不返回营地的与玩家距离最大值
     public int maxAttackDistance = 1; //攻击距离范围
-    private Vector2Int homePosition = Vector2Int.zero;
+    public Vector2Int homePosition = Vector2Int.zero;
     private int state = 0; // 0不动 1追赶 2返回;
 
     private GameObject healthBar = null; //血条
@@ -23,12 +23,15 @@ public class Enemy : Movement
         currentHealth = maxHealth;
     }
 
-    public override void init(Map map, Vector2Int index)
+    //重载init, 添加homePosition作为营地坐标
+    public override void Init(Map map, Vector2Int index)
     {
-        base.init(map, index);
+        base.Init(map, index);
         homePosition = index;
     }
 
+
+    //设置对应的血条，方便敌人死亡后将其消除
     public void SetHealthBar(GameObject healthBar)
     {
         this.healthBar = healthBar;
@@ -54,11 +57,12 @@ public class Enemy : Movement
         return currentHealth;
     }
 
+    //BFS搜索节点
     private struct Node
     {
-        public Vector2Int pos;
-        public int step;
-        public int last;
+        public Vector2Int pos; //当前位置
+        public int step; //已走步数
+        public int last; //前一步在List中的位置
         public Node(Vector2Int pos, int step, int last)
         {
             this.pos = pos;
@@ -73,60 +77,56 @@ public class Enemy : Movement
         if (isDead)
             return;
 
-        Node nA = GetNextPosition(GetIndex(), homePosition); //从自身到营地
-        Node nB = GetNextPosition(GetIndex(), GameManager.GM.GetPlayerPosition()); //从自身到玩家
-        Node nC = GetNextPosition(GameManager.GM.GetPlayerPosition(), homePosition); //从营地到玩家
-        //Debug.Log("从自身到营地, dis:"+ (nA.step) + ", pos:" + nA.pos);
-        //Debug.Log("从自身到玩家, dis:"+ (nB.step) + ", pos:" + nB.pos);
-        //Debug.Log("从营地到玩家, dis:"+ (nC.step) + ", pos:" + nC.pos);
+        //两次搜索，获取三种距离
+        Node nA = GetNextPosition(GetPosition(), homePosition); //从自身到营地
+        Node nB = GetNextPosition(GetPosition(), GameManager.instance.GetPlayerPosition()); //从自身到玩家
+        Debug.Log("从自身到营地, dis:"+ (nA.step) + ", pos:" + nA.pos);
+        Debug.Log("从自身到玩家, dis:"+ (nB.step) + ", pos:" + nB.pos);
+        Debug.Log("从营地到玩家, dis:"+ (nB.step + nA.step));
+        
+        //下一个点位的变量声明
         Vector2Int nextPos = Vector2Int.zero;
 
-        if (nC.step <= maxZoomDistance)
-        {
-            if (nB.step <= maxAttackDistance)
-            {
-                //攻击
-                state = 3;
-            }
-            else
-            {
-                //追赶
-                state = 1;
-            }
 
+        //行为逻辑树
+        
+        //玩家进入领地范围
+        if (nB.step + nA.step <= maxZoomDistance)
+        {
+            //是否进入攻击范围
+            if (nB.step <= maxAttackDistance) 
+                state = 3; //攻击
+            else
+                state = 1; //追赶
         }
+        //如果离开了营地范围
         else if (nA.step > maxZoomDistance)
         {
-            state = 2;
+            state = 2; //返回
         }
+        //如果自己处于领地边缘
         else if (nA.step == maxZoomDistance)
         {
+            //玩家进入观望范围
             if (nB.step <= maxWatchingDistance)
             {
-                if (nB.step <= maxAttackDistance)
-                {
-                    //攻击
-                    state = 3;
-                }
-                else
-                {
-                    //不动
-                    state = 0;
-                }
+                //玩家进入攻击范围
+                if (nB.step <= maxAttackDistance)   
+                    state = 3; //攻击
+                else 
+                    state = 0; //不动
             }
             else
             {
-                state = 2;
+                state = 2; //返回
             }
         }
         
+        //玩家进入攻击范围
         if (nB.step <= maxAttackDistance)
-        {
             state = 3;
-        }
-        //else 保持上一次的状态
-
-
+        Debug.Log("state: "+ state);
+        //行为处理
         if (state == 1)
         {
             nextPos = nB.pos;
@@ -137,12 +137,12 @@ public class Enemy : Movement
         }
         else if (state == 0)
         {
-            nextPos = GetIndex();
+            nextPos = GetPosition(); //不动
         }
         else if (state == 3)
         {
-            nextPos = GetIndex();
-            AttackPlayer(1);
+            nextPos = GetPosition(); //不动
+            AttackPlayer(1); //攻击
         }
 
         Debug.Log("next position:" + nextPos);
@@ -162,7 +162,7 @@ public class Enemy : Movement
         List<Node> list = new List<Node>();
         Node first = new Node(startPos, 0, 0);
 
-        bool[,] map = GameManager.GM.GetCurrentStateMap(true);//new bool[mapShape.y, mapShape.x];
+        bool[,] map = GameManager.instance.GetCurrentStateMap(true);//new bool[mapShape.y, mapShape.x];
         //map[startPos.x, startPos.y] = true;
 
         list.Add(first);
@@ -175,7 +175,7 @@ public class Enemy : Movement
         while (head < tail && !isFound)
         {
             Node curr = list[head];
-            Cell currCell = mapObject.GetCellByIndex(curr.pos);
+            Cell currCell = GameManager.instance.GetCurrentMap().GetCellByIndex(curr.pos);
             List<Cell> adjs = currCell.GetAdjCellList(); // 获取邻接表
 
             //枚举所有可行路径
@@ -183,12 +183,8 @@ public class Enemy : Movement
             {
                 //当前位置是否检索过？
                 Vector2Int npos = adjs[i].GetIndex();
-                int id = npos.x + npos.y * mapObject.GetMapShape().y;
-                if (map[npos.x, npos.y])
-                {
-                    continue;
-                }
-                else
+                int id = npos.x + npos.y * GameManager.instance.GetCurrentMap().GetMapShape().y;
+                if (!map[npos.x, npos.y])
                 {
                     list.Add(new Node(npos, curr.step + 1, head));
                     tail++;
@@ -205,53 +201,22 @@ public class Enemy : Movement
                     //添加搜索记录
                     map[npos.x, npos.y] = true;
                 }
-
             }
             head++;
         }
 
-        Node node = list[tail - 1];
+        Node node = list[tail - 1]; //找到最后的点
 
         //回溯，找到第二个点
         while (node.last != 0)
         {
             node = list[node.last];
         }
-        return new Node(node.pos, dis, 0);
-    }
-
-    public override void WalkTo(Vector2Int to)
-    {
-        Debug.Log("Walk to " + to);
-        targetPos = mapObject.AdjustPosition(to.y, to.x);
-        SetIndex(to.x, to.y);
-        StartCoroutine(Walk());
-
-    }
-
-    IEnumerator Walk()
-    {
-        Vector2 substract = targetPos - (Vector2)transform.position;
-        Vector2 targetPosDir = (substract).normalized;
-        float dis = Vector2.Distance(transform.position, targetPos);
-        float num = dis / speed;
-        Vector2 per = substract / num;
-        Debug.Log(dis + ", " + num);
-        for (int i = 0; i < num - 1; i++)
-        {
-            transform.position = transform.position + (Vector3)per;
-            yield return new WaitForSeconds(0.05f);
-        }
-        transform.position = targetPos;
-
-        //轮到敌方回合
-        //GameManager.GM.nextTurn();
-
-        yield return new WaitForSeconds(0.05f);
+        return new Node(node.pos, dis, 0); //此时借用Node返回结果，dis为起点与终点的最短距离，而非第二步的node.step
     }
 
     public void AttackPlayer(int damage)
     {
-        GameManager.GM.player.SetCurrentHealth(GameManager.GM.player.GetCurrentHealth() - damage);
+        GameManager.instance.player.SetCurrentHealth(GameManager.instance.player.GetCurrentHealth() - damage);
     }
 }

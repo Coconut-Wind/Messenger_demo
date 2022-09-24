@@ -31,7 +31,7 @@ public class Map : MonoBehaviour
     private float offsetX; // 将地图挪到世界中心的X偏移量
     private float offsetY; // 将地图挪到世界中心的Y偏移量
 
-    [Header("---- 点边的父节点 ----")]
+    [Header("---- 各类父节点 ----")]
     [SerializeField] private Transform cellHolder;
     [SerializeField] private Transform edgeHolder;
     [SerializeField] private Transform enemiesManager;
@@ -43,10 +43,11 @@ public class Map : MonoBehaviour
     public StreamReader mapInfoTxt; // 用于读取地图信息，即Data文件夹中的mapInfo，目前为手动挂载
     public string mapInfoPath = "Assets/Data/mapInfo.txt"; // 地图信息文件路径
     
-    private int[] enemiesPosition;
-    private int playerPosition;
+    //角色所在点位的编号
+    private int[] enemiesPosition; //敌人的位置 (所在点的编号，一个整数表示)
+    private int playerPosition; //玩家的位置 (所在点的编号，一个整数表示)
 
-    public int[,,] cellTypeMap;
+    //public int[,,] cellTypeMap;
 
     private bool isHightLighting = false;
 
@@ -60,16 +61,12 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-        
+        GameManager.instance.SetCurrentMap(this);
         GenerateMap();
         GenerateEdge();
         GeneratePlayer();
         GenerateEnemies();
-
-        cellTypeMap = GetCellTypeMap();
-
-        GameManager.GM.SetCurrentMap(this);
-
+        //cellTypeMap = GetCellTypeMap();
         //test();
     }
 
@@ -213,13 +210,11 @@ public class Map : MonoBehaviour
     // 调整点位生成的位置，坐标原点在左上角
     public Vector2 AdjustPosition(Vector2Int pos)
     {
-        return AdjustPosition(pos.y, pos.x);
+        return AdjustPosition(pos.x, pos.y);
     }
     
-    public Vector2 AdjustPosition(int x, int y)
+    public Vector2 AdjustPosition(int i, int j)
     {
-        float i = y;
-        float j = x;
         float positionX = 0; // 点位最终渲染的位置x分量
         float positionY = 0; // 点位最终渲染的位置y分量
         if (i != 0 && j != 0)
@@ -260,7 +255,7 @@ public class Map : MonoBehaviour
         {
             for (int j = 0; j < cellMapColumn; j++)
             {
-                Vector2 position = AdjustPosition(j, i);
+                Vector2 position = AdjustPosition(i, j);
 
                 // 以下对地图上的每一个点位的属性进行初始化
                 cellMap[i, j].transform.position = position;
@@ -280,7 +275,9 @@ public class Map : MonoBehaviour
                 }
             }
         }
-        GameManager.GM.PostTargetPositions(targets);
+
+        //向GM提交目标点位的List
+        GameManager.instance.PostTargetPositions(targets);
     }
 
 
@@ -289,14 +286,14 @@ public class Map : MonoBehaviour
     {
         int y = (playerPosition / cellMapColumn);
         int x = (playerPosition % cellMapColumn);
-        //Debug.Log(x + ", " + y);
-        Vector2 pos = AdjustPosition(x, y);
+
+        Vector2 pos = AdjustPosition(y, x);
         GameObject spawnPlayer = Instantiate(player, pos, Quaternion.identity);
         spawnPlayer.GetComponent<SpriteRenderer>().sortingOrder = 1;
         spawnPlayer.transform.SetParent(playerManager);
         spawnPlayer.name = "player";
         Player p = spawnPlayer.GetComponent<Player>();
-        p.init(this, new Vector2Int(y, x));
+        p.Init(this, new Vector2Int(y, x));
     }
 
     //生成敌人
@@ -305,14 +302,14 @@ public class Map : MonoBehaviour
         for (int i = 0; i < enemiesPosition.Length; i++){
             int y = (enemiesPosition[i] / cellMapColumn);
             int x = (enemiesPosition[i] % cellMapColumn);
-            //Debug.Log(x + ", " + y + ", " + enemiesPosition[i]);
-            Vector2 pos = AdjustPosition(x, y);
+
+            Vector2 pos = AdjustPosition(y, x);
             GameObject spawnEnemy = Instantiate(enemy, pos, Quaternion.identity);
             spawnEnemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
             spawnEnemy.transform.SetParent(enemiesManager);
             spawnEnemy.name = $"enemy {i + 1}";
             Enemy p = spawnEnemy.GetComponent<Enemy>();
-            p.init(this, new Vector2Int(y, x));
+            p.Init(this, new Vector2Int(y, x));
         }
     }
 
@@ -362,6 +359,34 @@ public class Map : MonoBehaviour
         }
     }
 
+    //获取网格形状, (x=列，y=行)
+    public Vector2Int GetMapShape()
+    {
+        return new Vector2Int(cellMapColumn, cellMapRow);
+    }
+
+    //设置可达点位高亮
+    public void SetHightLightAvailablePoint(bool hightLight)
+    {
+        if (isHightLighting == hightLight)
+            return;
+        isHightLighting = hightLight;
+
+        List<Cell> avaPos = GetCellByIndex(GameManager.instance.player.GetPosition()).GetAdjCellList(); //获取所有邻点
+        avaPos.Add(GetCellByIndex(GameManager.instance.player.GetPosition())); //加入玩家所在点
+        Debug.Log(avaPos.Count);
+
+        foreach (Cell cell in avaPos)
+        {
+            cell.SetHightLight(hightLight);
+        }
+    }
+
+    public bool IsHightLightAvailablePoint()
+    {
+        return isHightLighting;
+    }
+    /*
     //返回一个简易三维数组作为地图, 两层二维，一层存点位，一层存角色
     public int[,,] GetCellTypeMap()
     {
@@ -399,29 +424,7 @@ public class Map : MonoBehaviour
                 }
             }
         }
-    }
-
-    //获取网格形状, (列，行)
-    public Vector2Int GetMapShape()
-    {
-        return new Vector2Int(cellMapColumn, cellMapRow);
-    }
-
-    
-
-    public void SetHightLightAvailablePoint(bool hightLight)
-    {
-        if (isHightLighting == hightLight)
-            return;
-        isHightLighting = hightLight;
-
-        List<Cell> avaPos = GetCellByIndex(GameManager.GM.player.GetIndex()).GetAdjCellList();
-        avaPos.Add(GetCellByIndex(GameManager.GM.player.GetIndex()));
-        foreach (Cell cell in avaPos)
-        {
-            cell.SetHightLight(hightLight);
-        }
-    }
+    }*/
 
 }
 

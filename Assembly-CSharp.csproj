@@ -36,25 +36,22 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\PlayerAttackArrow.cs" />
-     <Compile Include="Assets\Scripts\TargetCell.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerAttackArrow.cs" />
+     <Compile Include="Assets\Scripts\Map\TargetCell.cs" />
      <Compile Include="Assets\Scripts\FacingCamera.cs" />
-     <Compile Include="Assets\Scripts\Pixelate.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\UIManager.cs" />
-     <Compile Include="Assets\Scripts\HealthBarUI.cs" />
-     <Compile Include="Assets\Scripts\Enemy.cs" />
-     <Compile Include="Assets\Scripts\PlayerStatesUI.cs" />
-     <Compile Include="Assets\Scripts\Edge.cs" />
-     <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\Movement.cs" />
-     <Compile Include="Assets\Scripts\PlayerMoveArrow.cs" />
-     <Compile Include="Assets\Scripts\Cell.cs" />
-     <Compile Include="Assets\Scripts\Map.cs" />
-     <Compile Include="Assets\Scripts\EnemiesManager.cs" />
-     <Compile Include="Assets\Scripts\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
+     <Compile Include="Assets\Scripts\Character\Enemy.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerStatesUI.cs" />
+     <Compile Include="Assets\Scripts\Map\Edge.cs" />
+     <Compile Include="Assets\Scripts\Character\Player.cs" />
+     <Compile Include="Assets\Scripts\Character\Movement.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerMoveArrow.cs" />
+     <Compile Include="Assets\Scripts\Map\Cell.cs" />
+     <Compile Include="Assets\Scripts\Map\Map.cs" />
+     <Compile Include="Assets\Scripts\Character\EnemiesManager.cs" />
      <None Include="Assets\Data\mapInfo.txt" />
-     <None Include="Assets\Sprites\PixelShader.shader" />
     <Reference Include="UnityEngine">
         <HintPath>D:\unityEditor\2021.3.9f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

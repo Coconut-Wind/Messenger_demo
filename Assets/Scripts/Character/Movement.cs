@@ -6,47 +6,41 @@ public class Movement : MonoBehaviour
 {
     public float speed= 0.5f;
 
-    protected Map mapObject = null;
     protected Vector2Int mapShape = Vector2Int.zero;
     protected int x, y, index;
     protected Cell onCell;
     protected Vector2 targetPos;
 
-    public virtual void init(Map map, Vector2Int index)
+    public virtual void Init(Map map, Vector2Int index)
     {
-        setMap(map);
-        SetIndex(index.x, index.y);
+        SetPosition(index.x, index.y);
+        mapShape = GameManager.instance.GetCurrentMap().GetMapShape();
     }
 
-    public virtual void setMap(Map map)
-    {
-        mapObject = map;
-        mapShape = mapObject.GetMapShape();
-    }
 
-    public virtual Vector2Int GetIndex()
+    public virtual Vector2Int GetPosition()
     {
         return new Vector2Int(x, y);
     }
 
-    public virtual void SetIndex(int _x, int _y)
+    public virtual void SetPosition(int _x, int _y)
     {
         x = _x;
         y = _y;
         index = x + y * mapShape.x;
-        onCell = mapObject.GetCellByIndex(new Vector2Int(x, y));
+        onCell = GameManager.instance.GetCurrentMap().GetCellByIndex(new Vector2Int(x, y));
     }
 
 
     public virtual void WalkTo(Vector2Int to)
     {
         Debug.Log("Walk to " + to);
-        targetPos = mapObject.AdjustPosition(to.y, to.x);
-        SetIndex(to.x, to.y);
+        targetPos = GameManager.instance.GetCurrentMap().AdjustPosition(to);
+        SetPosition(to.x, to.y);
         StartCoroutine(Walk());
     }
 
-    IEnumerator Walk()
+    protected IEnumerator Walk()
     {
         Vector2 substract = targetPos - (Vector2)transform.position;
         Vector2 targetPosDir = (substract).normalized;

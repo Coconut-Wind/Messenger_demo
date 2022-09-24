@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1815340546678619917}
   - component: {fileID: 7604295666805212902}
   - component: {fileID: 7235957241926577261}
+  - component: {fileID: 8958149660874573087}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -53,10 +54,9 @@ MonoBehaviour:
   currentHealth: 3
   letterNum: 2
   maxSelectDistance: 0.5
-  arrow: {fileID: 935349154525670472, guid: ac08dc7d5b9d57c4b827c4e23e929db4, type: 3}
+  maxArrowSelectDistance: 1.5
   attackArrow: {fileID: 935349154525670472, guid: 47cc51488d5d68c4084a4597a3f7eb31, type: 3}
   arrowHolder: {fileID: 3122741044463698526}
-  circle: {fileID: 5558626535738660037}
 --- !u!212 &7604295666805212902
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -125,6 +125,26 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 1}
   serializedVersion: 2
   m_Radius: 2.977347
+--- !u!95 &8958149660874573087
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054916057643287194}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3129070059412117781
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ public class Player : Movement
     public float maxSelectDistance = 0.5f; //鼠标与主角的最大选择距离
     public float maxArrowSelectDistance = 1.5f;
     [SerializeField] private GameObject attackArrow; //攻击指示箭头
-    [SerializeField] private Transform arrowHolder;
-    [SerializeField] private GameObject circle;
+    [SerializeField] private Transform arrowHolder; //存放攻击箭头的父节点
+    //[SerializeField] private GameObject circle;
 
     private bool isMouseDown = false; //是否正在主角处按下鼠标
     private bool isMouseOver = false; //是否鼠标悬停在上方
@@ -25,11 +25,11 @@ public class Player : Movement
         currentHealth = maxHealth;
     }
 
-    public override void init(Map map, Vector2Int index)
+    public override void Init(Map map, Vector2Int index)
     {
-        base.init(map, index);
+        base.Init(map, index);
         UIManager.instance.GetPlayerStateHolder().SetPlayer(this);
-        GameManager.GM.PostPlayer(this);
+        GameManager.instance.PostPlayer(this);
     }
 
     public void SetCurrentHealth(int health)
@@ -45,44 +45,48 @@ public class Player : Movement
 
     private void Update()
     {
-        if (GameManager.GM.IsGameOver()) //如果游戏结束则不执行下面
-        {
+        //如果游戏结束或者非玩家回合则不执行下面
+        if (GameManager.instance.IsGameOver() || !GameManager.instance.IsPlayersTurn()) 
             return;
-        }
 
-        //侦测鼠标悬停
+        //鼠标事件
         CheckMouseOver();
+        CheckMouseClick();
+        CheckMouseDrag();
+    }
 
-        //处理点击事件
-        if (Input.GetMouseButtonDown(0))
+    //处理点击事件
+    private void CheckMouseClick()
+    {
+        
+        if (Input.GetMouseButtonDown(0)) //左键按下
         {
             if (isMouseOver)
             {
                 isMouseDown = true;
-                lastPosition = GetIndex();
+                lastPosition = GetPosition();
             }
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0)) //左键弹起
         {
             if (isMouseDown)
             {
                 isMouseDown = false;
-                //HideArrow();
                 
-                transform.position = mapObject.AdjustPosition(nextPosition);
+                transform.position = GameManager.instance.GetCurrentMap().AdjustPosition(nextPosition);
                 Debug.Log("last: " + lastPosition + ", next: " + nextPosition);
                 if (nextPosition != lastPosition)
                 {
                     //发生移动,下一回合
                     //吸附点位
-                    SetIndex(nextPosition.x, nextPosition.y);
-                    GameManager.GM.NextTurn();
+                    SetPosition(nextPosition.x, nextPosition.y);
+                    
                     //目标检测
-                    if (GameManager.GM.IsOnTarget(GetIndex()))
+                    if (GameManager.instance.IsOnTarget(GetPosition()))
                     {
                         Debug.Log("到达目标");
 
-                        TargetCell tc = (TargetCell)mapObject.GetCellByIndex(GetIndex());
+                        TargetCell tc = (TargetCell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
                         if (!tc.isReached && letterNum > 0)
                         {
                             letterNum--;
@@ -90,20 +94,25 @@ public class Player : Movement
                             if (letterNum == 0)
                             {
                                 //任务完成
-                                GameManager.GM.SetIsFinishedGoal(true);
+                                GameManager.instance.SetIsFinishedGoal(true);
                             }
                         }
                     }
+                    GameManager.instance.NextTurn();
                 }
             }
         }
+    }
 
 
-        //处理拖动事件
+    //处理拖动事件
+    private void CheckMouseDrag()
+    {
+        
         if (isMouseDown)
         {
             //可达点位高亮
-            mapObject.SetHightLightAvailablePoint(true);
+            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true);
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePosition;
             
@@ -114,34 +123,40 @@ public class Player : Movement
         }
     }
 
+    //检测鼠标是否至于==置于主角上
     private void CheckMouseOver()
     {
         //将屏幕坐标转换为世界坐标
         Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 self = transform.position; //Camera.main.ViewportToWorldPoint(transform.position);
         float dis = Vector2.Distance(mouse, self);
-        //根据距离判断是否悬停在Player上
+        
         isMouseOver = false;
+
+        //根据距离判断是否悬停在Player上
+        //如果鼠标进入 主角选择 范围
         if (dis <= maxSelectDistance && !isMouseDown)
         {
-            if (GameManager.GM.IsPlayersTurn())
+            if (GameManager.instance.IsPlayersTurn())
             {
                 isMouseOver = true;
                 ShowArrow();
                 //设置可达点位高亮
-                mapObject.SetHightLightAvailablePoint(true);
+                if (!GameManager.instance.GetCurrentMap().IsHightLightAvailablePoint())
+                    GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true);
 
             }
         }
+
+        //如果鼠标不在 箭头选择 范围内
         if (dis > maxArrowSelectDistance)
-        {
             HideArrow();
-        }
+
+        //如果没有检测到悬停，则不显示点位光圈
         if (!isMouseOver)
-        {
-            mapObject.SetHightLightAvailablePoint(false);
-            
-        }
+            if (GameManager.instance.GetCurrentMap().IsHightLightAvailablePoint())
+                GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false);
+
     }
 
     //获取离鼠标坐标最近的点位
@@ -155,7 +170,7 @@ public class Player : Movement
         {
             //计算距离,保留距离最小的点位
             Vector2Int cPos = c.GetIndex();
-            Vector2 cPosReal = mapObject.AdjustPosition(c.GetIndex());
+            Vector2 cPosReal = GameManager.instance.GetCurrentMap().AdjustPosition(c.GetIndex());
 
             float disSq = (mousePosition.x - cPosReal.x) * (mousePosition.x - cPosReal.x) 
                         + (mousePosition.y - cPosReal.y) * (mousePosition.y - cPosReal.y);
@@ -186,7 +201,7 @@ public class Player : Movement
             GameObject a = null;
 
             //根据目标点位旋转箭头
-            Vector2 e = (Vector2)(target - GetIndex());
+            Vector2 e = (Vector2)(target - GetPosition());
             e = new Vector2(e.y, e.x);
 
             e = e.normalized;
@@ -195,12 +210,12 @@ public class Player : Movement
                 angle = -angle;
     
             //如果那个点位是有敌人
-            if (GameManager.GM.isEnemy(target))
+            if (GameManager.instance.isEnemy(target))
             {
-                Debug.Log(target + ", " + GetIndex() + ", " + e + ", " + angle);
+                Debug.Log(target + ", " + GetPosition() + ", " + e + ", " + angle);
                 //根据相对位置显示相应箭头
                 a = Instantiate(attackArrow, this.transform.position, Quaternion.identity);
-                a.GetComponent<PlayerAttackArrow>().init(this, target);
+                a.GetComponent<PlayerAttackArrow>().Init(this, target);
                 //旋转到对应方向
                 a.transform.SetParent(arrowHolder);
                 a.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -222,13 +237,14 @@ public class Player : Movement
         }
     }
 
+    //攻击敌人
     public void AttackEnemy(Enemy enemy)
     {
         enemy.SetCurrentHealth(enemy.GetCurrentHealth()-1);
-        HideArrow();
+        HideArrow(); //攻击后隐藏攻击箭头
         //轮到敌方回合
-        if (!GameManager.GM.IsGameOver())
-            GameManager.GM.NextTurn();
+        if (!GameManager.instance.IsGameOver())
+            GameManager.instance.NextTurn();
     }
 
 
