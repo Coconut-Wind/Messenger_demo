@@ -15,7 +15,9 @@ public class PlayerAttackArrow : MonoBehaviour
 
     private void OnMouseUp() 
     {
-        if (Input.GetMouseButtonUp(0)) //弹起的是否是左键
-            this.player.AttackEnemy(GameManager.instance.enemiesManager.GetEnemyByPos(to)); //发起攻击
+        //弹起的是否是左键
+        if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver()) 
+            return;
+        this.player.AttackEnemy(GameManager.instance.enemiesManager.GetEnemyByPos(to)); //发起攻击
     }
 }

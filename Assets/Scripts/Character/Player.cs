@@ -39,6 +39,8 @@ public class Player : Movement
     {
         currentHealth = (int)Mathf.Clamp(health, 0, maxHealth);
         Debug.Log("玩家受到攻击");
+
+        
     }
 
     public int GetCurrentHealth()
@@ -104,7 +106,7 @@ public class Player : Movement
                     SetPosition(nextPosition.x, nextPosition.y);
                     
                     //目标检测
-                    CheckReachTarget();
+                    CheckCellType();
                     GameManager.instance.NextTurn();
                 }
             }
@@ -254,9 +256,16 @@ public class Player : Movement
         //给敌人扣血
         enemy.SetCurrentHealth(enemy.GetCurrentHealth() - damage);
 
-        //轮到敌方回合
-        if (!GameManager.instance.IsGameOver())
-            GameManager.instance.NextTurn();
+        //没有动画，先延时顶替一下
+        //先隐藏攻击箭头
+        HideArrow();
+        GameManager.instance.Delay(delegate(){
+            ShowArrow(); //等待完成后重新显示
+            //轮到敌方回合
+            if (!GameManager.instance.IsGameOver())
+                GameManager.instance.NextTurn();
+        }, 1f);
+        
     }
 
     // 初始化高亮点位列表
@@ -302,7 +311,7 @@ public class Player : Movement
             {
                 //判断是否到达终点
                 //Debug.Log("检测: ");
-                CheckReachTarget();
+                CheckCellType();
                 //isMoving = false;
                 GameManager.instance.NextTurn();
                 GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
@@ -313,9 +322,10 @@ public class Player : Movement
 
     }
 
-    private bool CheckReachTarget()
+    private bool CheckCellType()
     {
-        if (GameManager.instance.IsOnTarget(GetPosition()))
+        string type = GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition()).GetCellType();
+        if (type == "Target")
         {
             Debug.Log("到达目标");
 

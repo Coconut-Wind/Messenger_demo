@@ -1,5 +1,7 @@
-Library
-ProjectSettings
-Packages
-Temp
-Logs
+Library/
+UserSettings/
+Packages/
+Temp/
+Logs/
+obj/
+profile/

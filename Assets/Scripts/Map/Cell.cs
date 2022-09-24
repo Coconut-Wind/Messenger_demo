@@ -54,10 +54,12 @@ public class Cell : MonoBehaviour
         if (isHightLighting)
         {
             Ring.SetActive(true);
+            Ring.GetComponent<Ring>().SetShining(true);
         }
         else
         {
             Ring.SetActive(false);
+            Ring.GetComponent<Ring>().SetShining(false);
         }
     }
 
@@ -68,9 +70,10 @@ public class Cell : MonoBehaviour
 
     //侦测鼠标点击
     private void OnMouseUp() {
-        if (!Input.GetMouseButtonUp(0))
+        Debug.Log("CLICK");
+        if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver())
             return;
-
+        
         //检测是否可达
         if (GameManager.instance.player.GetHeightLightCellList().Contains(this))
         {

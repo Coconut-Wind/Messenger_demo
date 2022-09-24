@@ -146,4 +146,20 @@ public class GameManager : MonoBehaviour
         }
         return arr;
     }
+
+    //----延时工具----
+
+    public void Delay(CustomVoid pDelegate, float time)
+    {
+        StartCoroutine(TimeWait(pDelegate, time));
+    }
+
+    protected IEnumerator TimeWait(CustomVoid pDelegate, float time)
+    {
+        yield return new WaitForSeconds(time);
+        pDelegate.Invoke();
+    }
+
+    public delegate void CustomVoid();
+    //----------------
 }
