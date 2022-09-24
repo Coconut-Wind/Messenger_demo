@@ -50,7 +50,14 @@ public class GameManager : MonoBehaviour
             return;
         }
         isPlayersTurn = !isPlayersTurn;
+        if (isPlayersTurn)
+        {
+            player.SetRunOnce(false);
+        }
         Debug.Log("现在是" + (isPlayersTurn ? "玩家" : "敌人") + "回合");
+        
+        //更新玩家的攻击箭头
+        
     }
 
     //询问是否为玩家回合

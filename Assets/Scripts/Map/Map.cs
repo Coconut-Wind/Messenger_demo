@@ -264,7 +264,7 @@ public class Map : MonoBehaviour
                 if (cellMap[i, j].GetComponent<Cell>()) // 如果生成的点位有Cell这个组件，即生成的点位是有效点位
                 {
                     Cell cell = cellMap[i, j].GetComponent<Cell>(); // 获取到新生成有效点位的Cell脚本组件
-                    cell.SetIndex(i, j);
+                    cell.SetPosition(new Vector2Int(i, j));
 
                     //如果为目标点位，则向GM提交
                     if (cell.GetCellType() == "TargetCell")

@@ -46,7 +46,7 @@ public class Enemy : Movement
         {
             isDead = true;
             //this.healthBar.SetActive(false);
-            //this.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
             Destroy(this.healthBar);
             Destroy(this.gameObject);
         }
@@ -182,7 +182,7 @@ public class Enemy : Movement
             for (int i = 0; i < adjs.Count; i++)
             {
                 //当前位置是否检索过？
-                Vector2Int npos = adjs[i].GetIndex();
+                Vector2Int npos = adjs[i].GetPosition();
                 int id = npos.x + npos.y * GameManager.instance.GetCurrentMap().GetMapShape().y;
                 if (!map[npos.x, npos.y])
                 {

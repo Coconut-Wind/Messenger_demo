@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3610277007032472912}
   - component: {fileID: 1654379266198233228}
   - component: {fileID: -1705834728235109785}
+  - component: {fileID: 9203061729294226075}
   m_Layer: 0
   m_Name: NormalCell
   m_TagString: Untagged
@@ -99,6 +100,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ring: {fileID: 8995516050591364585}
+--- !u!58 &9203061729294226075
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5819446674817178006}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.6567353
 --- !u!1 &8995516050591364585
 GameObject:
   m_ObjectHideFlags: 0

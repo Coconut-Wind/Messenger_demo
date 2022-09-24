@@ -8,22 +8,19 @@ public class Cell : MonoBehaviour
     protected string cellType; // NullCell、NormalCell、PosiCell、NegaCell
     
     // cellMap[x, y]
-    protected int x;
-    protected int y;
-
+    protected Vector2Int position;
     protected List<Cell> adjCellList; // 邻接点位数组，存储的是点位的实例
     protected bool isHightLighting = false;
 
     // Setter cellMap中的下标
-    public void SetIndex(int _x, int _y) {
-        x = _x;
-        y = _y;
+    public void SetPosition(Vector2Int pos) {
+        position = pos;
     }
 
     // Getter cellMap中的下标
-    public Vector2Int GetIndex()
+    public Vector2Int GetPosition()
     {
-        return new Vector2Int(x, y);
+        return position;
     }
 
     // Setter 点位类型
@@ -67,6 +64,19 @@ public class Cell : MonoBehaviour
     public bool IsHightLighting()
     {
         return isHightLighting;
+    }
+
+    //侦测鼠标点击
+    private void OnMouseUp() {
+        if (!Input.GetMouseButtonUp(0))
+            return;
+
+        //检测是否可达
+        if (GameManager.instance.player.GetHeightLightCellList().Contains(this))
+        {
+            //发起主角移动
+            GameManager.instance.player.WalkTo(GetPosition());
+        }
     }
 
 }

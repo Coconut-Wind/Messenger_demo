@@ -28,7 +28,9 @@ public class EnemiesManager : MonoBehaviour
         List<Vector2Int> res = new List<Vector2Int>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            res.Add(transform.GetChild(i).GetComponent<Enemy>().GetPosition());
+            Enemy e = transform.GetChild(i).GetComponent<Enemy>();
+            if (e.gameObject.activeSelf) //由于Destroy不会立即执行，可以先设置active，根据active判断敌人是否存在
+                res.Add( e.GetPosition());
         }
         return res;
     }
