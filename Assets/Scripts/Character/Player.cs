@@ -164,8 +164,8 @@ public class Player : Movement
     //获取离鼠标坐标最近的点位
     private Vector2Int GetNearestPosition(Vector2 mousePosition)
     {
-        List<Cell> list = onCell.GetAdjCellList();
-        list.Add(onCell);
+        List<Cell> list = highLightCellList;//onCell.GetAdjCellList();
+        //list.Add(onCell);
         float minDis = int.MaxValue;
         Vector2Int targetPos = lastPosition;
         foreach (Cell c in list)
