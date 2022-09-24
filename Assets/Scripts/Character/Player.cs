@@ -18,6 +18,7 @@ public class Player : Movement
     private bool isShowingArrow = false; //是否正在显示攻击箭头
 
     private Vector2Int lastPosition, nextPosition;
+    private List<Cell> highLightCellList; // 高亮点位列表
 
 
     private void Awake()
@@ -48,6 +49,9 @@ public class Player : Movement
         //如果游戏结束或者非玩家回合则不执行下面
         if (GameManager.instance.IsGameOver() || !GameManager.instance.IsPlayersTurn()) 
             return;
+
+        // 每个回合开始初始化高亮列表
+        SetHighLightCellList();
 
         //鼠标事件
         CheckMouseOver();
@@ -112,7 +116,7 @@ public class Player : Movement
         if (isMouseDown)
         {
             //可达点位高亮
-            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true);
+            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePosition;
             
@@ -142,8 +146,7 @@ public class Player : Movement
                 isMouseOver = true;
                 ShowArrow();
                 //设置可达点位高亮
-                if (!GameManager.instance.GetCurrentMap().IsHightLightAvailablePoint())
-                    GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true);
+                GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
 
             }
         }
@@ -154,16 +157,15 @@ public class Player : Movement
 
         //如果没有检测到悬停，则不显示点位光圈
         if (!isMouseOver)
-            if (GameManager.instance.GetCurrentMap().IsHightLightAvailablePoint())
-                GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false);
+            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
 
     }
 
     //获取离鼠标坐标最近的点位
     private Vector2Int GetNearestPosition(Vector2 mousePosition)
     {
-        List<Cell> list = onCell.GetAdjCellList();
-        list.Add(onCell);
+        List<Cell> list = highLightCellList; //onCell.GetAdjCellList();
+        //list.Add(onCell);
         float minDis = int.MaxValue;
         Vector2Int targetPos = lastPosition;
         foreach (Cell c in list)
@@ -245,6 +247,24 @@ public class Player : Movement
         //轮到敌方回合
         if (!GameManager.instance.IsGameOver())
             GameManager.instance.NextTurn();
+    }
+
+    // 初始化高亮点位列表
+    private void SetHighLightCellList()
+    {
+        highLightCellList = new List<Cell>(onCell.GetAdjCellList());
+        
+        // 去除列表中有敌人的点位
+        List<Vector2Int> enemiesPos = GameManager.instance.enemiesManager.GetEnemiesPositions();
+        for(int i = 0; i<highLightCellList.Count; i++)
+        {
+            if(enemiesPos.Contains(highLightCellList[i].GetIndex()))
+            {
+                highLightCellList.Remove(highLightCellList[i]);
+                i--;
+            }
+        }
+        highLightCellList.Add(onCell);
     }
 
 

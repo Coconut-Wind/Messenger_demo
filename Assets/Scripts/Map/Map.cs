@@ -366,25 +366,16 @@ public class Map : MonoBehaviour
     }
 
     //设置可达点位高亮
-    public void SetHightLightAvailablePoint(bool hightLight)
+    public void SetHightLightAvailablePoint(bool hightLight, List<Cell> availableAdjCellList)
     {
         if (isHightLighting == hightLight)
             return;
         isHightLighting = hightLight;
 
-        List<Cell> avaPos = GetCellByIndex(GameManager.instance.player.GetPosition()).GetAdjCellList(); //获取所有邻点
-        avaPos.Add(GetCellByIndex(GameManager.instance.player.GetPosition())); //加入玩家所在点
-        Debug.Log(avaPos.Count);
-
-        foreach (Cell cell in avaPos)
+        foreach (Cell cell in availableAdjCellList)
         {
             cell.SetHightLight(hightLight);
         }
-    }
-
-    public bool IsHightLightAvailablePoint()
-    {
-        return isHightLighting;
     }
     /*
     //返回一个简易三维数组作为地图, 两层二维，一层存点位，一层存角色
