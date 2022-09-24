@@ -18,6 +18,6 @@ public class PlayerAttackArrow : MonoBehaviour
         //弹起的是否是左键
         if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver()) 
             return;
-        this.player.AttackEnemy(GameManager.instance.enemiesManager.GetEnemyByPos(to)); //发起攻击
+        this.player.AttackEnemy(GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyByPos(to)); //发起攻击
     }
 }

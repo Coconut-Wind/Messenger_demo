@@ -5,7 +5,7 @@ using UnityEngine;
 //GM，用于全局数据交换
 public class GameManager : MonoBehaviour
 {
-    public EnemiesManager enemiesManager; //敌人管理器
+    public GameObject enemiesManager; //敌人管理器
     public Player player; //玩家
     public static GameManager instance; //静态唯一实例
     private Map currentMap;
@@ -19,15 +19,17 @@ public class GameManager : MonoBehaviour
 
     //实现全局单例类
     private void Awake() {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if(instance != this)
+        
+        if(instance != this && instance != null)
         {
             Destroy(gameObject);
+            return;
         }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     //获取目前的地图
@@ -41,6 +43,8 @@ public class GameManager : MonoBehaviour
     {
         currentMap = mp;
     }
+
+    //----游戏流程控制---
     
     //切换到对方回合
     public void NextTurn()
@@ -66,12 +70,48 @@ public class GameManager : MonoBehaviour
         return isPlayersTurn;
     }
 
+    
+
+    public void Replay()
+    {
+        Debug.Log("Replay");
+        UIManager.instance.gameoverCanvas.SetActive(false);
+
+        player.StopAllCoroutines();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UIManager.instance.ClearAllEnemyHealthBar();
+        isGameOver = false;
+        isFinishedGoal = false;
+        isPlayersTurn = true;
+    }
+
+    public void NextLevel()
+    {
+        Debug.Log("NextLevel");
+        UIManager.instance.gameoverCanvas.SetActive(false);
+
+        //没有下一关，用Replay的代码充数一下
+        player.StopAllCoroutines();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UIManager.instance.ClearAllEnemyHealthBar();
+        isGameOver = false;
+        isFinishedGoal = false;
+        isPlayersTurn = true;
+    }
+
+
+    //--------------------
+
     //向GM提交目标点位
     public void PostTargetPositions(List<Vector2Int> targetList)
     {
         targetPositions = targetList;
     }
 
+    public int GetTargetCount()
+    {
+        return targetPositions.Count;
+    }
     //判断玩家是否在目标点位
     public bool IsOnTarget(Vector2Int pos)
     {
@@ -81,7 +121,8 @@ public class GameManager : MonoBehaviour
     //判断所在位置是否有敌人
     public bool isEnemy(Vector2Int pos)
     {
-        return enemiesManager.GetEnemiesPositions().Contains(pos);
+        return enemiesManager.GetComponent<EnemiesManager>()
+                .GetEnemiesPositions().Contains(pos);
     }
 
     //向GM提交player
@@ -102,7 +143,7 @@ public class GameManager : MonoBehaviour
         isFinishedGoal = finish;
         if (finish)
         {
-            isGameOver = true;
+            SetGameOver(true);
             Debug.Log("任务完成");
         }
         
@@ -117,6 +158,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GG");
         isGameOver = over;
+
+        UIManager.instance.gameoverCanvas.SetActive(true);
     }
 
     
@@ -138,7 +181,8 @@ public class GameManager : MonoBehaviour
             //将玩家所在点位设为true
             arr[playerPosition.x, playerPosition.y] = true;
             //将其他敌人所在点位设为true
-            List<Vector2Int> list = enemiesManager.GetEnemiesPositions();
+            List<Vector2Int> list = enemiesManager.GetComponent<EnemiesManager>()
+                                    .GetEnemiesPositions();
             foreach (Vector2Int pos in list)
             {
                 arr[pos.x, pos.y] = true;
@@ -146,6 +190,8 @@ public class GameManager : MonoBehaviour
         }
         return arr;
     }
+
+    
 
     //----延时工具----
 

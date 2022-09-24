@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 
     public GameObject enemyHealthBarHolder;
     public GameObject playerStateHolder;
+    public GameObject gameoverCanvas;
 
     private void Awake()
     {
@@ -28,8 +29,19 @@ public class UIManager : MonoBehaviour
         return enemyHealthBarHolder;
     }
 
+    //清除所有敌人血条
+    public void ClearAllEnemyHealthBar()
+    {
+        for (int i = 0; i < enemyHealthBarHolder.transform.childCount; i++)
+        {
+            Destroy(enemyHealthBarHolder.transform.GetChild(i).gameObject);
+        }
+    }
+
     public PlayerStatesUI GetPlayerStateHolder()
     {
         return playerStateHolder.GetComponent<PlayerStatesUI>();
     }
+
+    
 }

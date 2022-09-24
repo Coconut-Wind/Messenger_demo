@@ -5,9 +5,15 @@ using UnityEngine;
 //敌人管理器，挂在敌人的父节点上
 public class EnemiesManager : MonoBehaviour
 {
-
+    private void Start() {
+        //场景重载时这个gameobject会被销毁，然后new一个新的
+        //这使得单例类GameManager中的enemiesManager丢失
+        //因此需要手动设置一下
+        GameManager.instance.enemiesManager = this.gameObject;
+    }
     private void Update()
     {
+        
         //如果不是玩家回合，且游戏没有结束，则开始行动
         if (GameManager.instance.IsGameOver())
             return;
@@ -48,4 +54,6 @@ public class EnemiesManager : MonoBehaviour
         }
         return null;
     }
+
+    
 }

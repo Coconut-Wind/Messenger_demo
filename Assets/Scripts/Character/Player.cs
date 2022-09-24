@@ -40,6 +40,10 @@ public class Player : Movement
         base.Init(map, index);
         UIManager.instance.GetPlayerStateHolder().SetPlayer(this);
         GameManager.instance.PostPlayer(this);
+
+        //设置信的个数
+        letterNum = GameManager.instance.GetTargetCount();
+        UIManager.instance.GetPlayerStateHolder().SetLetterNumber(letterNum);
     }
 
     public void SetCurrentHealth(int health)
@@ -47,7 +51,11 @@ public class Player : Movement
         currentHealth = (int)Mathf.Clamp(health, 0, maxHealth);
         Debug.Log("玩家受到攻击");
 
-        
+        //检测死亡
+        if (currentHealth == 0)
+        {
+            GameManager.instance.SetGameOver(true);
+        }
     }
 
     public void CreateDamage(int damege)
@@ -286,10 +294,11 @@ public class Player : Movement
     // 初始化高亮点位列表
     public void UpdateHighLightCellList()
     {
+            
         highLightCellList = new List<Cell>(onCell.GetAdjCellList());
         
         // 去除列表中有敌人的点位
-        List<Vector2Int> enemiesPos = GameManager.instance.enemiesManager.GetEnemiesPositions();
+        List<Vector2Int> enemiesPos = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemiesPositions();
         for(int i = 0; i<highLightCellList.Count; i++)
         {
             if(enemiesPos.Contains(highLightCellList[i].GetPosition()))
@@ -342,12 +351,15 @@ public class Player : Movement
         string type = GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition()).GetCellType();
         if (type == "TargetCell")
         {
+            
             Debug.Log("到达目标");
 
             TargetCell tc = (TargetCell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
             if (!tc.isTriggered && letterNum > 0)
             {
                 letterNum--;
+                UIManager.instance.GetPlayerStateHolder().SetLetterNumber(letterNum); //修改ui显示
+
                 tc.isTriggered = true;
                 if (letterNum == 0)
                 {
