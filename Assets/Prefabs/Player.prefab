@@ -56,6 +56,9 @@ MonoBehaviour:
   maxArrowSelectDistance: 1.5
   attackArrow: {fileID: 935349154525670472, guid: 47cc51488d5d68c4084a4597a3f7eb31, type: 3}
   arrowHolder: {fileID: 3122741044463698526}
+  originColor: {r: 1, g: 1, b: 1, a: 1}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashTime: 0.2
 --- !u!212 &7604295666805212902
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -236,6 +239,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

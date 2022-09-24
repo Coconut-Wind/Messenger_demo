@@ -21,10 +21,17 @@ public class Player : Movement
 
     private Vector2Int lastPosition, nextPosition;
     private List<Cell> highLightCellList; // 高亮点位列表
+    [Header("---- 受伤效果 ----")]
+    [SerializeField] private Color originColor;
+    [SerializeField] private Color flashColor;
+    [SerializeField] private float flashTime;
+    private SpriteRenderer spriteRenderer;
 
 
     private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         currentHealth = maxHealth;
     }
 
@@ -41,6 +48,13 @@ public class Player : Movement
         Debug.Log("玩家受到攻击");
 
         
+    }
+
+    public void CreateDamage(int damege)
+    {
+        FlashColor(); // 受伤效果
+        int h = (int)Mathf.Clamp(currentHealth - damege, 0, maxHealth);
+        SetCurrentHealth(h);
     }
 
     public int GetCurrentHealth()
@@ -246,6 +260,7 @@ public class Player : Movement
     //攻击敌人
     public void AttackEnemy(Enemy enemy, int damage = 1)
     {
+        
         if (enemy.GetCurrentHealth() - damage <= 0)
         {//由于敌人死亡后立即被Destory，要先预判下死亡的状态
             HideArrow();
@@ -254,7 +269,7 @@ public class Player : Movement
             ShowArrow();
         }
         //给敌人扣血
-        enemy.SetCurrentHealth(enemy.GetCurrentHealth() - damage);
+        enemy.CreateDamage(damage);
 
         //没有动画，先延时顶替一下
         //先隐藏攻击箭头
@@ -365,30 +380,14 @@ public class Player : Movement
         return false;
     }
 
-    /*
-    
-    //人物运动的协程
-    IEnumerator Walk(System.Func<int> finish)
+    // 受伤效果
+    public void FlashColor()
     {
-        Vector2 substract = targetPos - (Vector2)transform.position;
-        Vector2 targetPosDir = (substract).normalized;
-        float dis = Vector2.Distance(transform.position, targetPos);
-        float num = dis / speed;
-        Vector2 per = substract / num;
-
-        Debug.Log(targetPosDir);
-
-        for (int i = 0; i < num - 1; i++)
-        {
-            transform.position = transform.position + (Vector3)per;
-            yield return new WaitForSeconds(Time.deltaTime * 15);
-        }
-        transform.position = targetPos;
-
-
-
-        //执行回调函数
-        finish();
-        yield return null;
-    }*/
+        spriteRenderer.color = flashColor;
+        Invoke("ResetColor", flashTime);
+    }
+    public void ResetColor()
+    {
+        spriteRenderer.color = originColor;
+    }
 }

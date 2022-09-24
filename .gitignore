@@ -1,8 +1,8 @@
 Library/
-UserSettings/
+
 Packages/
 Temp/
 obj/
 profile/
-Logs/*.log
+Logs/
 

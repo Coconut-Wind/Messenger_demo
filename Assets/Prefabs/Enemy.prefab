@@ -55,6 +55,9 @@ MonoBehaviour:
   maxWatchingDistance: 2
   maxAttackDistance: 1
   homePosition: {x: 0, y: 0}
+  originColor: {r: 1, g: 1, b: 1, a: 1}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashTime: 0.2
 --- !u!212 &735852617459387482
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -17,9 +17,16 @@ public class Enemy : Movement
     private GameObject healthBar = null; //血条
 
     private bool isDead = false;
+     [Header("---- 受伤效果 ----")]
+    [SerializeField] private Color originColor;
+    [SerializeField] private Color flashColor;
+    [SerializeField] private float flashTime = 0.2f;
+    private SpriteRenderer spriteRenderer;
+
 
     private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
     }
 
@@ -46,9 +53,13 @@ public class Enemy : Movement
         {
             isDead = true;
             //this.healthBar.SetActive(false);
-            this.gameObject.SetActive(false);
-            Destroy(this.healthBar);
-            Destroy(this.gameObject);
+
+            GameManager.instance.Delay(delegate(){
+                this.gameObject.SetActive(false);
+                Destroy(this.healthBar);
+                Destroy(this.gameObject);
+            }, 0.8f);
+            
         }
     }
 
@@ -215,8 +226,26 @@ public class Enemy : Movement
         return new Node(node.pos, dis, 0); //此时借用Node返回结果，dis为起点与终点的最短距离，而非第二步的node.step
     }
 
+    public void CreateDamage(int damege)
+    {
+        FlashColor(); // 受伤效果
+        int h = (int)Mathf.Clamp(currentHealth - damege, 0, maxHealth);
+        SetCurrentHealth(h);
+    }
+
     public void AttackPlayer(int damage)
     {
-        GameManager.instance.player.SetCurrentHealth(GameManager.instance.player.GetCurrentHealth() - damage);
+        GameManager.instance.player.CreateDamage(damage);
+    }
+
+    // 受伤效果
+    public void FlashColor()
+    {
+        spriteRenderer.color = flashColor;
+        Invoke("ResetColor", flashTime);
+    }
+    public void ResetColor()
+    {
+        spriteRenderer.color = originColor;
     }
 }
