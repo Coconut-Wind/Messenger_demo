@@ -11,6 +11,7 @@ public class Cell : MonoBehaviour
     protected Vector2Int position;
     protected List<Cell> adjCellList; // 邻接点位数组，存储的是点位的实例
     protected bool isHightLighting = false;
+    public bool isTriggered = false; //点位效果是否已经触发过
 
     // Setter cellMap中的下标
     public void SetPosition(Vector2Int pos) {

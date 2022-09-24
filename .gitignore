@@ -2,6 +2,7 @@ Library/
 UserSettings/
 Packages/
 Temp/
-Logs/
 obj/
 profile/
+Logs/*.log
+

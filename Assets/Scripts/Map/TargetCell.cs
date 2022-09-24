@@ -6,7 +6,6 @@ using UnityEngine;
 public class TargetCell : Cell
 {
     // Start is called before the first frame update
-    public bool isReached = false;
     public GameObject castle;
 
     private void Start() {

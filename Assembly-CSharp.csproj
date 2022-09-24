@@ -40,18 +40,18 @@
      <Compile Include="Assets\Scripts\Map\TargetCell.cs" />
      <Compile Include="Assets\Scripts\FacingCamera.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
      <Compile Include="Assets\Scripts\Character\Enemy.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerStatesUI.cs" />
+     <Compile Include="Assets\Scripts\Map\Edge.cs" />
      <Compile Include="Assets\Scripts\Character\Player.cs" />
      <Compile Include="Assets\Scripts\Character\Movement.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerMoveArrow.cs" />
-     <Compile Include="Assets\Scripts\Character\EnemiesManager.cs" />
-     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
-     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
-     <Compile Include="Assets\Scripts\UI\PlayerStatesUI.cs" />
-     <Compile Include="Assets\Scripts\Map\Edge.cs" />
      <Compile Include="Assets\Scripts\Map\Cell.cs" />
      <Compile Include="Assets\Scripts\Map\Ring.cs" />
      <Compile Include="Assets\Scripts\Map\Map.cs" />
+     <Compile Include="Assets\Scripts\Character\EnemiesManager.cs" />
      <None Include="Assets\Data\mapInfo.txt" />
     <Reference Include="UnityEngine">
         <HintPath>D:\unityEditor\2021.3.9f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -671,9 +671,6 @@
     <Reference Include="Unity.VSCode.Editor">
         <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Tilemap.Editor">
-        <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
         <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
     </Reference>
@@ -701,17 +698,11 @@
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
         <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
         <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
         <HintPath>D:\杂\程序\Messenger_demo\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>

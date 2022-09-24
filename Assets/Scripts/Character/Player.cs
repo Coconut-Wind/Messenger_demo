@@ -325,21 +325,41 @@ public class Player : Movement
     private bool CheckCellType()
     {
         string type = GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition()).GetCellType();
-        if (type == "Target")
+        if (type == "TargetCell")
         {
             Debug.Log("到达目标");
 
             TargetCell tc = (TargetCell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
-            if (!tc.isReached && letterNum > 0)
+            if (!tc.isTriggered && letterNum > 0)
             {
                 letterNum--;
-                tc.isReached = true;
+                tc.isTriggered = true;
                 if (letterNum == 0)
                 {
                     //任务完成
                     GameManager.instance.SetIsFinishedGoal(true);
                 }
                 return true;
+            }
+        }
+        else if (type == "PosiCell")
+        {
+            Debug.Log("到达增益点位");
+
+            Cell c = (Cell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
+            if (!c.isTriggered)
+            {
+                SetCurrentHealth(GetCurrentHealth() + 1);
+            }
+        }
+        else if (type == "NegaCell")
+        {
+            Debug.Log("到达减益点位");
+
+            Cell c = (Cell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
+            if (!c.isTriggered)
+            {
+                SetCurrentHealth(GetCurrentHealth() - 1);
             }
         }
         return false;
