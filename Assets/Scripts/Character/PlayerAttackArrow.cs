@@ -13,11 +13,17 @@ public class PlayerAttackArrow : MonoBehaviour
         this.to = to;
     }
 
-    private void OnMouseUp() 
+    private void Update()
     {
-        //弹起的是否是左键
-        if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver()) 
+        if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver())
             return;
-        this.player.AttackEnemy(GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyByPos(to)); //发起攻击
+        
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pos = transform.GetChild(0).position;
+        if (Vector2.Distance(pos, mousePos) < 0.7f)
+        {
+            Debug.Log("Attack at: " + to);
+            this.player.AttackEnemy(GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyByPos(to)); //发起攻击
+        }
     }
 }

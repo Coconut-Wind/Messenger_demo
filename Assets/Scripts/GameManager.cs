@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
             {
                 //lose
                 //游戏结束音效在Player处
-                UIManager.instance.SetGameOverTitleText("You Dead");
+                UIManager.instance.SetGameOverTitleText("You Died");
             }
         }
     }
@@ -213,7 +213,7 @@ public class GameManager : MonoBehaviour
         if (exceptCharas)
         {
             //将玩家所在点位设为true
-            arr[playerPosition.x, playerPosition.y] = true;
+            //arr[playerPosition.x, playerPosition.y] = true;
             //将其他敌人所在点位设为true
             List<Vector2Int> list = enemiesManager.GetComponent<EnemiesManager>()
                                     .GetEnemiesPositions();

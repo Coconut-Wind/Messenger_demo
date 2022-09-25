@@ -344,14 +344,15 @@ public class Player : Movement
 
     private bool CheckCellType()
     {
-        string type = GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition()).GetCellType();
+        Cell cell = GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
+        string type = cell.GetCellType();
         Debug.Log(type);
         if (type == "TargetCell")
         {
             
             Debug.Log("到达目标");
 
-            TargetCell tc = (TargetCell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
+            TargetCell tc = (TargetCell)cell;
             if (!tc.isTriggered && letterNum > 0)
             {
                 letterNum--;
@@ -371,22 +372,22 @@ public class Player : Movement
         {
             Debug.Log("到达增益点位");
 
-            Cell c = (Cell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
-            if (!c.isTriggered)
+            if (!cell.isTriggered)
             {
                 SetCurrentHealth(GetCurrentHealth() + 1);
                 AudioPlayer.instance.Play("positive");
+                cell.isTriggered = true;
             }
         }
         else if (type == "NegaCell")
         {
             Debug.Log("到达减益点位");
 
-            Cell c = (Cell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
-            if (!c.isTriggered)
+            if (!cell.isTriggered)
             {
                 CreateDamage(1);
                 AudioPlayer.instance.Play("negative");
+                cell.isTriggered = true;
             }
         }
         return false;

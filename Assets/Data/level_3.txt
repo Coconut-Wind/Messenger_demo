@@ -43,7 +43,7 @@ NullCell
 NullCell
 NegaCell,32,50
 NormalCell,43,51
-NormalCell,32,42,53
+NormalCell,32,42,34,53
 NullCell
 NormalCell,34,55
 NormalCell,55,56

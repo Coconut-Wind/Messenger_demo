@@ -177,13 +177,14 @@ public class Enemy : Movement
         Node first = new Node(startPos, 0, 0);
 
         bool[,] map = GameManager.instance.GetCurrentStateMap(true);//new bool[mapShape.y, mapShape.x];
-        //map[startPos.x, startPos.y] = true;
+        map[startPos.x, startPos.y] = true;
 
         list.Add(first);
 
         //bool isFound = false;
         int head = 0, tail = 1;
-        int dis = 9999;
+        int minDis = 9999;
+        int minDisId = 0;
         bool isFound = false;
 
         while (head < tail && !isFound)
@@ -203,13 +204,16 @@ public class Enemy : Movement
                     list.Add(new Node(npos, curr.step + 1, head));
                     tail++;
 
-                    //比对玩家位置
+                    //比对位置
                     if (targetPos == npos)
                     {
-                        dis = curr.step + 1;
+                        if (curr.step + 1 < minDis)
+                        {
+                            minDis = curr.step + 1;
+                            minDisId = head;
+                        }
                         //Debug.Log(startPos + "->" + targetPos +" dis:"+ dis + ", pos:" + npos);
                         isFound = true;
-                        break;
                     }
 
                     //添加搜索记录
@@ -219,14 +223,14 @@ public class Enemy : Movement
             head++;
         }
 
-        Node node = list[tail - 1]; //找到最后的点
+        Node node = list[minDisId]; //找到的点，距离最小值
 
         //回溯，找到第二个点
         while (node.last != 0)
         {
             node = list[node.last];
         }
-        return new Node(node.pos, dis, 0); //此时借用Node返回结果，dis为起点与终点的最短距离，而非第二步的node.step
+        return new Node(node.pos, minDis, 0); //此时借用Node返回结果，dis为起点与终点的最短距离，而非第二步的node.step
     }
 
     public void CreateDamage(int damege)

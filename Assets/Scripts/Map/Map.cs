@@ -62,6 +62,7 @@ public class Map : MonoBehaviour
     private void Start()
     {
         UIManager.instance.gameObject.SetActive(true);
+        UIManager.instance.ClearAllEnemyHealthBar();
         AudioPlayer.instance.gameObject.SetActive(true);
         AudioPlayer.instance.ReplayBgm();
         GameManager.instance.SetCurrentMap(this);
