@@ -66,14 +66,17 @@ public class LevelManager : MonoBehaviour
 
     private void CreateLevelButtons()
     {
-        for (int i = 0; i < levelFileNames.Count; i++)
+        int col = levelFileNames.Count % 5;
+        int row = levelFileNames.Count / 5;
+        for (int i = 0; i <= row; i++)
+        for (int j = 0; j < col; j++)
         {
-            string path = levelFileNames[i];
+            string path = levelFileNames[i * col + j];
             GameObject btn = Instantiate(levelButton, 
-                new Vector3(transform.position.x + i * ButtonPadding, transform.position.y, 1f), 
+                new Vector3(transform.position.x + j * ButtonPadding, transform.position.y + i * ButtonPadding, 1f), 
                 Quaternion.identity);
             LevelButton lb = btn.GetComponent<LevelButton>();
-            lb.SetTargetLevel(i + 1, path);
+            lb.SetTargetLevel(i * col + j + 1, path);
 
             btn.transform.SetParent(transform);
         }
