@@ -136,6 +136,9 @@ public class Enemy : Movement
         //玩家进入攻击范围
         if (nB.step <= maxAttackDistance)
             state = 3;
+        if (state == 3 && nB.step > maxAttackDistance)
+            state = 0;
+
         Debug.Log("state: "+ state);
         //行为处理
         if (state == 1)
@@ -180,7 +183,7 @@ public class Enemy : Movement
 
         //bool isFound = false;
         int head = 0, tail = 1;
-        int dis = 0;
+        int dis = 9999;
         bool isFound = false;
 
         while (head < tail && !isFound)
@@ -231,6 +234,11 @@ public class Enemy : Movement
         FlashColor(); // 受伤效果
         int h = (int)Mathf.Clamp(currentHealth - damege, 0, maxHealth);
         SetCurrentHealth(h);
+        if (h > 0) //检测死亡
+            AudioPlayer.instance.Play("negative"); //播放受伤音效
+        else
+            AudioPlayer.instance.Play("dead"); //播放死亡音效
+
     }
 
     public void AttackPlayer(int damage)
@@ -247,5 +255,12 @@ public class Enemy : Movement
     public void ResetColor()
     {
         spriteRenderer.color = originColor;
+    }
+
+    //移动到达时的回调
+    protected override int OnReachCell()
+    {
+        AudioPlayer.instance.Play("Reach");
+        return base.OnReachCell();
     }
 }

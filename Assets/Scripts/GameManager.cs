@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //GM，用于全局数据交换
 public class GameManager : MonoBehaviour
@@ -78,11 +79,12 @@ public class GameManager : MonoBehaviour
         UIManager.instance.gameoverCanvas.SetActive(false);
 
         player.StopAllCoroutines();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
         UIManager.instance.ClearAllEnemyHealthBar();
         isGameOver = false;
         isFinishedGoal = false;
         isPlayersTurn = true;
+        AudioPlayer.instance.SetBgmPlaying(true); //重启bgm
     }
 
     public void NextLevel()
@@ -90,10 +92,24 @@ public class GameManager : MonoBehaviour
         Debug.Log("NextLevel");
         UIManager.instance.gameoverCanvas.SetActive(false);
 
-        //没有下一关，用Replay的代码充数一下
         player.StopAllCoroutines();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+
+
+        LevelManager.SetCurrentLevel(LevelManager.currentLevelId + 1);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
         UIManager.instance.ClearAllEnemyHealthBar();
+        isGameOver = false;
+        isFinishedGoal = false;
+        isPlayersTurn = true;
+        AudioPlayer.instance.SetBgmPlaying(true);
+    }
+
+    public void OtherLevels()
+    {
+        Debug.Log("OtherLevels");
+        UIManager.instance.gameoverCanvas.SetActive(false);
+        SceneManager.LoadScene(2);
+        AudioPlayer.instance.ReplayBgm();
         isGameOver = false;
         isFinishedGoal = false;
         isPlayersTurn = true;
@@ -160,6 +176,24 @@ public class GameManager : MonoBehaviour
         isGameOver = over;
 
         UIManager.instance.gameoverCanvas.SetActive(true);
+        //判断输赢
+        if (isGameOver)
+        {
+            //停止bgm
+            AudioPlayer.instance.SetBgmPlaying(false);
+            if (isFinishedGoal)
+            {
+                //win
+                AudioPlayer.instance.Play("win");
+                UIManager.instance.SetGameOverTitleText("Mission Completed");
+            }
+            else
+            {
+                //lose
+                //游戏结束音效在Player处
+                UIManager.instance.SetGameOverTitleText("You Dead");
+            }
+        }
     }
 
     

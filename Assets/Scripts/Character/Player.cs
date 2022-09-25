@@ -49,8 +49,7 @@ public class Player : Movement
     public void SetCurrentHealth(int health)
     {
         currentHealth = (int)Mathf.Clamp(health, 0, maxHealth);
-        Debug.Log("玩家受到攻击");
-
+        Debug.Log("设置玩家生命：" + health);
         //检测死亡
         if (currentHealth == 0)
         {
@@ -60,9 +59,14 @@ public class Player : Movement
 
     public void CreateDamage(int damege)
     {
+        Debug.Log("玩家受到攻击");
         FlashColor(); // 受伤效果
         int h = (int)Mathf.Clamp(currentHealth - damege, 0, maxHealth);
         SetCurrentHealth(h);
+        if (h > 0) //检测死亡
+            AudioPlayer.instance.Play("negative"); //播放受伤音效
+        else
+            AudioPlayer.instance.Play("gameover"); //播放游戏结束音效
     }
 
     public int GetCurrentHealth()
@@ -153,7 +157,7 @@ public class Player : Movement
         }
     }
 
-    //检测鼠标是否至于置于主角上
+    /// <summary>检测鼠标是否至于置于主角上 </summary>
     private void CheckMouseOver()
     {
         //将屏幕坐标转换为世界坐标
@@ -180,14 +184,13 @@ public class Player : Movement
         //如果鼠标不在 箭头选择 范围内
         if (dis > maxArrowSelectDistance)
             HideArrow();
-
         //如果没有检测到悬停，则不显示点位光圈
         //if (!isMouseOver)
             //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
 
     }
 
-    //获取离鼠标坐标最近的点位
+    /// <summary> 获取离鼠标坐标最近的点位 </summary>
     private Vector2Int GetNearestPosition(Vector2 mousePosition)
     {
         List<Cell> list = highLightCellList; //onCell.GetAdjCellList();
@@ -320,35 +323,29 @@ public class Player : Movement
     //移动
     public override void WalkTo(Vector2Int to)
     {
-        Debug.Log("Walk to " + to);
-        targetPos = GameManager.instance.GetCurrentMap().AdjustPosition(to);
-        SetPosition(to.x, to.y);
-        Vector2 substract = targetPos - (Vector2)transform.position;
-        Vector2 targetPosDir = (substract).normalized;
-        
-        //isMoving = true;
+        AudioPlayer.instance.Play("Reach"); // 音效
+        base.WalkTo(to);
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
+        
         HideArrow();
-        StartCoroutine(Walk(//开启协程
-            //lambda, 当任务完成时执行
-            delegate ()
-            {
-                //判断是否到达终点
-                //Debug.Log("检测: ");
-                CheckCellType();
-                //isMoving = false;
-                GameManager.instance.NextTurn();
-                GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
-                ShowArrow();
-                return 0;
-            }
-        ));
+    }
 
+    protected override int OnReachCell()
+    {
+        //判断是否到达终点
+        //Debug.Log("检测: ");
+        CheckCellType();
+        //isMoving = false;
+        GameManager.instance.NextTurn();
+        GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
+        ShowArrow();
+        return base.OnReachCell();
     }
 
     private bool CheckCellType()
     {
         string type = GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition()).GetCellType();
+        Debug.Log(type);
         if (type == "TargetCell")
         {
             
@@ -359,12 +356,13 @@ public class Player : Movement
             {
                 letterNum--;
                 UIManager.instance.GetPlayerStateHolder().SetLetterNumber(letterNum); //修改ui显示
-
                 tc.isTriggered = true;
+                AudioPlayer.instance.Play("positive");
                 if (letterNum == 0)
                 {
                     //任务完成
                     GameManager.instance.SetIsFinishedGoal(true);
+                    
                 }
                 return true;
             }
@@ -377,6 +375,7 @@ public class Player : Movement
             if (!c.isTriggered)
             {
                 SetCurrentHealth(GetCurrentHealth() + 1);
+                AudioPlayer.instance.Play("positive");
             }
         }
         else if (type == "NegaCell")
@@ -386,7 +385,8 @@ public class Player : Movement
             Cell c = (Cell)GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
             if (!c.isTriggered)
             {
-                SetCurrentHealth(GetCurrentHealth() - 1);
+                CreateDamage(1);
+                AudioPlayer.instance.Play("negative");
             }
         }
         return false;

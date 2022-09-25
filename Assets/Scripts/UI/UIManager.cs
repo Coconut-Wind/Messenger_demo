@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 // 全局UI管理
 public class UIManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject enemyHealthBarHolder;
     public GameObject playerStateHolder;
     public GameObject gameoverCanvas;
+    public TextMeshProUGUI gameoverTitle;
 
     private void Awake()
     {
@@ -41,6 +43,11 @@ public class UIManager : MonoBehaviour
     public PlayerStatesUI GetPlayerStateHolder()
     {
         return playerStateHolder.GetComponent<PlayerStatesUI>();
+    }
+
+    public void SetGameOverTitleText(string title)
+    {
+        gameoverTitle.text = title;
     }
 
     

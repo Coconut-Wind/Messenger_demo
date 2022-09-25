@@ -41,7 +41,7 @@ public class Map : MonoBehaviour
     private string[] cellType = new string[5] { "NullCell", "NormalCell", "PosiCell", "NegaCell", "TargetCell" }; // 点位的五种类型
     private Hashtable cellTypeTable; //string -> int 映射表
     public StreamReader mapInfoTxt; // 用于读取地图信息，即Data文件夹中的mapInfo，目前为手动挂载
-    public string mapInfoPath = "Assets/Data/mapInfo.txt"; // 地图信息文件路径
+    public string mapInfoPath = "Assets/Data/level_3.txt"; // 地图信息文件路径
     
     //角色所在点位的编号
     private int[] enemiesPosition; //敌人的位置 (所在点的编号，一个整数表示)
@@ -61,6 +61,9 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
+        UIManager.instance.gameObject.SetActive(true);
+        AudioPlayer.instance.gameObject.SetActive(true);
+        AudioPlayer.instance.ReplayBgm();
         GameManager.instance.SetCurrentMap(this);
         GenerateMap();
         GenerateEdge();
@@ -83,9 +86,19 @@ public class Map : MonoBehaviour
     // 读取地图信息
     private void ReadMapInfo()
     {
+        
         //mapInfoList = new List<List<string>>(); // 初始化地图信息列表
-        mapInfoTxt = new StreamReader(mapInfoPath); // 读取文件
-
+        //mapInfoTxt = new StreamReader(mapInfoPath); // 读取文件
+        /*string text = Resources.Load<TextAsset>(LevelManager.currentLevelPath).text;
+        MemoryStream stream = new MemoryStream();
+        StreamWriter writer = new StreamWriter(stream);
+        writer.Write(text);
+        writer.Flush();
+        stream.Position = 0;
+        mapInfoTxt = new StreamReader(stream); //new StreamReader(LevelManager.currentLevelPath);
+        */
+        Debug.Log(System.Environment.CurrentDirectory);
+        mapInfoTxt = new StreamReader(System.Environment.CurrentDirectory + "\\" + LevelManager.currentLevelPath);
         string inputType = ""; //正在录入的数据类型：Map、Character
         int lineCounter = 0;
 

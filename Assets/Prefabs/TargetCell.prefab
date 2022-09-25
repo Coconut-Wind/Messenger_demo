@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ring: {fileID: 1873428198617404671}
-  isReached: 0
+  isTriggered: 0
   castle: {fileID: 1478317109470545868, guid: 80526d29ed145854eaa50883eb0004e0, type: 3}
 --- !u!212 &7188142612277926631
 SpriteRenderer:
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b2594444cc6844c4cba42d9918cca9ab, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

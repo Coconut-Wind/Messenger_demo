@@ -35,10 +35,17 @@ public class Movement : MonoBehaviour
 
     public virtual void WalkTo(Vector2Int to)
     {
-        Debug.Log("Walk to " + to);
+        if (to == GetPosition())
+            return;
+        //Debug.Log("Walk to " + to);
         targetPos = GameManager.instance.GetCurrentMap().AdjustPosition(to);
         SetPosition(to.x, to.y);
-        StartCoroutine(Walk(null));
+        StartCoroutine(Walk(OnReachCell));
+    }
+
+    protected virtual int OnReachCell()
+    {
+        return 0;
     }
 
     protected IEnumerator Walk(System.Func<int> finish)

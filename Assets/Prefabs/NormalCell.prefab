@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ring: {fileID: 4438328575594034326}
+  isTriggered: 0
 --- !u!58 &9203061729294226075
 CircleCollider2D:
   m_ObjectHideFlags: 0
