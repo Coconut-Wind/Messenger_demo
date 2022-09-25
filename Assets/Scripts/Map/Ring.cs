@@ -14,7 +14,7 @@ public class Ring : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isShining)
         {
