@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : Movement
 {
+    // TODO：是否应该考虑将人物属性数值类参数全部改为float类型，涉及到存在道具加成问题
     public int maxHealth = 3;
     public int currentHealth; // 当前生命值
     public int letterNum = 2;
@@ -26,6 +28,10 @@ public class Player : Movement
     [SerializeField] private Color flashColor;
     [SerializeField] private float flashTime;
     private SpriteRenderer spriteRenderer;
+
+    
+    /// 使用道具事件，事件响应者：Property类；事件处理器：Perperty.PropertyAbility
+    public event Action<Player, UsePropertyEventArgs> OnUseProperty; // 使用道具事件
 
 
     private void Awake()
@@ -82,7 +88,7 @@ public class Player : Movement
     private void Update()
     {
         //如果游戏结束或者非玩家回合则不执行下面
-        if (GameManager.instance.IsGameOver() || !GameManager.instance.IsPlayersTurn()) 
+        if (GameManager.instance.IsGameOver() || !GameManager.instance.IsPlayersTurn())
             return;
 
         if (!runOnce)
@@ -93,7 +99,7 @@ public class Player : Movement
             // 每个回合开始初始化高亮列表
             GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
             HideArrow();
-            
+
             UpdateHighLightCellList();
             ShowArrow();
             GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
@@ -108,7 +114,7 @@ public class Player : Movement
     //处理点击事件
     private void CheckMouseClick()
     {
-        
+
         if (Input.GetMouseButtonDown(0)) //左键按下
         {
             if (isMouseOver)
@@ -122,7 +128,7 @@ public class Player : Movement
             if (isMouseDown)
             {
                 isMouseDown = false;
-                
+
                 transform.position = GameManager.instance.GetCurrentMap().AdjustPosition(nextPosition);
                 Debug.Log("last: " + lastPosition + ", next: " + nextPosition);
                 if (nextPosition != lastPosition)
@@ -130,7 +136,7 @@ public class Player : Movement
                     //发生移动,下一回合
                     //吸附点位
                     SetPosition(nextPosition.x, nextPosition.y);
-                    
+
                     //目标检测
                     CheckCellType();
                     GameManager.instance.NextTurn();
@@ -149,9 +155,9 @@ public class Player : Movement
             GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePosition;
-            
+
             nextPosition = GetNearestPosition(mousePosition);
-            
+
             //拖动主角时，不显示攻击箭头
             HideArrow();
         }
@@ -164,7 +170,7 @@ public class Player : Movement
         Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 self = transform.position; //Camera.main.ViewportToWorldPoint(transform.position);
         float dis = Vector2.Distance(mouse, self);
-        
+
         isMouseOver = false;
 
         //根据距离判断是否悬停在Player上
@@ -186,7 +192,7 @@ public class Player : Movement
             HideArrow();
         //如果没有检测到悬停，则不显示点位光圈
         //if (!isMouseOver)
-            //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
+        //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
 
     }
 
@@ -203,7 +209,7 @@ public class Player : Movement
             Vector2Int cPos = c.GetPosition();
             Vector2 cPosReal = GameManager.instance.GetCurrentMap().AdjustPosition(c.GetPosition());
 
-            float disSq = (mousePosition.x - cPosReal.x) * (mousePosition.x - cPosReal.x) 
+            float disSq = (mousePosition.x - cPosReal.x) * (mousePosition.x - cPosReal.x)
                         + (mousePosition.y - cPosReal.y) * (mousePosition.y - cPosReal.y);
             if (disSq < minDis)
             {
@@ -215,7 +221,7 @@ public class Player : Movement
         return targetPos;
     }
 
-    
+
 
     //显示附近所有敌人的箭头
     public void ShowArrow()
@@ -239,7 +245,7 @@ public class Player : Movement
             float angle = Vector2.Angle(Vector2.right, e);
             if (e.y > 0)
                 angle = -angle;
-    
+
             //如果那个点位是有敌人
             if (GameManager.instance.isEnemy(target))
             {
@@ -271,7 +277,7 @@ public class Player : Movement
     //攻击敌人
     public void AttackEnemy(Enemy enemy, int damage = 1)
     {
-        
+
         if (enemy.GetCurrentHealth() - damage <= 0)
         {//由于敌人死亡后立即被Destory，要先预判下死亡的状态
             HideArrow();
@@ -285,26 +291,27 @@ public class Player : Movement
         //没有动画，先延时顶替一下
         //先隐藏攻击箭头
         HideArrow();
-        GameManager.instance.Delay(delegate(){
+        GameManager.instance.Delay(delegate ()
+        {
             ShowArrow(); //等待完成后重新显示
             //轮到敌方回合
             if (!GameManager.instance.IsGameOver())
                 GameManager.instance.NextTurn();
         }, 1f);
-        
+
     }
 
     // 初始化高亮点位列表
     public void UpdateHighLightCellList()
     {
-            
+
         highLightCellList = new List<Cell>(onCell.GetAdjCellList());
-        
+
         // 去除列表中有敌人的点位
         List<Vector2Int> enemiesPos = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemiesPositions();
-        for(int i = 0; i<highLightCellList.Count; i++)
+        for (int i = 0; i < highLightCellList.Count; i++)
         {
-            if(enemiesPos.Contains(highLightCellList[i].GetPosition()))
+            if (enemiesPos.Contains(highLightCellList[i].GetPosition()))
             {
                 highLightCellList.Remove(highLightCellList[i]);
                 i--;
@@ -326,7 +333,7 @@ public class Player : Movement
         AudioPlayer.instance.Play("Reach"); // 音效
         base.WalkTo(to);
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
-        
+
         HideArrow();
     }
 
@@ -349,7 +356,7 @@ public class Player : Movement
         Debug.Log(type);
         if (type == "TargetCell")
         {
-            
+
             Debug.Log("到达目标");
 
             TargetCell tc = (TargetCell)cell;
@@ -363,7 +370,7 @@ public class Player : Movement
                 {
                     //任务完成
                     GameManager.instance.SetIsFinishedGoal(true);
-                    
+
                 }
                 return true;
             }
@@ -402,5 +409,13 @@ public class Player : Movement
     public void ResetColor()
     {
         spriteRenderer.color = originColor;
+    }
+
+    /// <summary> 触发道具效果或者使用道具时调用该方法触发OnUseProperty事件 </summary>
+    // 可能是被动道具 => 一获取就改变玩家属性，或者在特定时候发动（攻击时，移动结束后）
+    // 可能是主动道具 => 通过道具栏的道具使用按钮调用（恢复生命值，传送）
+    public void UseProperty(UsePropertyEventArgs _args)
+    {
+        OnUseProperty(this, _args);
     }
 }
