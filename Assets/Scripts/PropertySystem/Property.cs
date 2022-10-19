@@ -43,13 +43,17 @@ public class Property : MonoBehaviour
     {
         PropertyManager.instance.currentClickProperty = gameObject;
 
+        PropertyManager.instance.isOpenedPanel = true;
+
         // 根据道具类型选择打开的面板
         GameObject panel = isPassive? PropertyManager.instance.passivePropertyDetailPanel : PropertyManager.instance.activePropertyDetailPanel;
         
         panel.SetActive(true);
 
-        Image image = panel.transform.GetChild(0).GetComponent<Image>();
-        image.sprite = propertyImage.sprite;
+        panel.transform.Find("PropertyImage") .GetComponent<Image>().sprite = propertyImage.sprite;
+        Debug.Log(propertyName);
+        //image.sprite = propertyImage.sprite;
+        Debug.Log(propertyName);
 
         TextMeshProUGUI propertyNameText =  panel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         propertyNameText.text = propertyName;

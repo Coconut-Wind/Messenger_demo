@@ -54,8 +54,10 @@ MonoBehaviour:
   letterNum: 2
   maxSelectDistance: 0.5
   maxArrowSelectDistance: 1.5
+  moveableTimes: 1
   attackArrow: {fileID: 935349154525670472, guid: 47cc51488d5d68c4084a4597a3f7eb31, type: 3}
   arrowHolder: {fileID: 3122741044463698526}
+  isMoving: 0
   originColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashTime: 0.2

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Enemy : Movement
 {
+    public string enemyName = "Robber";
     public int maxHealth = 2; //生命值
     public int currentHealth = 2; // 当前生命值
     public int maxChaseDistance = 2; //距离营地的最大值
@@ -53,6 +54,11 @@ public class Enemy : Movement
         {
             isDead = true;
             //this.healthBar.SetActive(false);
+            if (UIManager.instance.GetEnemyStateHolder().enemy == this)
+            {
+                UIManager.instance.ShowEnemyInfo(null);
+                
+            }
 
             GameManager.instance.Delay(delegate(){
                 this.gameObject.SetActive(false);
@@ -265,6 +271,18 @@ public class Enemy : Movement
     protected override int OnReachCell()
     {
         AudioPlayer.instance.Play("Reach");
+        //GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
+        EnemiesManager enemiesManager = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>();
+        enemiesManager.unreachEnemyCount--;
+        if (enemiesManager.unreachEnemyCount == 0)
+        {
+            GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
+        }
         return base.OnReachCell();
     }
+
+    private void Update() {
+        
+    }
+
 }

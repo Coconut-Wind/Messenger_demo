@@ -5,11 +5,14 @@ using UnityEngine;
 //敌人管理器，挂在敌人的父节点上
 public class EnemiesManager : MonoBehaviour
 {
+    public int unreachEnemyCount = 0; //未走到目标点的敌人数量
     private void Start() {
         //场景重载时这个gameobject会被销毁，然后new一个新的
         //这使得单例类GameManager中的enemiesManager丢失
         //因此需要手动设置一下
         GameManager.instance.enemiesManager = this.gameObject;
+        
+        unreachEnemyCount = 0;
     }
     private void Update()
     {
@@ -19,12 +22,48 @@ public class EnemiesManager : MonoBehaviour
             return;
         if (!GameManager.instance.IsPlayersTurn())
         {
+            unreachEnemyCount = transform.childCount;
+
             for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).GetComponent<Enemy>().ChasePlayer();
             }
             
             GameManager.instance.NextTurn();
+        }
+        else
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                bool find = false;
+
+                Vector2 mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    Transform et = transform.GetChild(i);
+                    Enemy script = et.GetComponent<Enemy>();
+
+                    if (Vector2.Distance(mpos, et.position) <= 1f)
+                    {
+                        Debug.Log("from:"+this+", "+Vector2.Distance(mpos, et.position));
+                        if (!UIManager.instance.enemyStateHolder.activeSelf
+                            || UIManager.instance.GetEnemyStateHolder().enemy != script)
+                        {
+                            UIManager.instance.ShowEnemyInfo(script);
+                        }
+                        else
+                        {
+                            UIManager.instance.ShowEnemyInfo(null);
+                        }
+                        find = true;
+                    }
+                }
+                if (!find)
+                {
+                    UIManager.instance.ShowEnemyInfo(null);
+                }
+                
+            }
         }
     }
 

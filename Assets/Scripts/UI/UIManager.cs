@@ -10,20 +10,28 @@ public class UIManager : MonoBehaviour
 
     public GameObject enemyHealthBarHolder;
     public GameObject playerStateHolder;
+    public GameObject enemyStateHolder;
+    //public GameObject itemsHolder;
     public GameObject gameoverCanvas;
+    public GameObject propertyCanvas;
+    public DragCamera cameraController;
     public TextMeshProUGUI gameoverTitle;
+    public TextMeshProUGUI topBar_text;
+    public GameObject topBar_skipButton;
+
 
     private void Awake()
     {
-        if(instance == null)
+        if(instance != this && instance != null)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
+            return;
         }
         else
         {
-            Destroy(gameObject);
+            instance = this;
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     public GameObject GetEnemyHealthBar()
@@ -45,10 +53,49 @@ public class UIManager : MonoBehaviour
         return playerStateHolder.GetComponent<PlayerStatesUI>();
     }
 
+    public EnemyStatesUI GetEnemyStateHolder()
+    {
+        return enemyStateHolder.GetComponent<EnemyStatesUI>();
+    }
+
+    /*public ItemsHolder GetItemsHolder()
+    {
+        return itemsHolder.GetComponent<ItemsHolder>();
+    }*/
+
     public void SetGameOverTitleText(string title)
     {
         gameoverTitle.text = title;
     }
 
-    
+    public void ShowInfoBars(string type = "all")
+    {
+        if (type == "all" || type == "player")
+            playerStateHolder.SetActive(true);
+        if (type == "all" || type == "enemy")
+            enemyStateHolder.SetActive(true);
+    }
+
+    public void HideInfoBars(string type = "all")
+    {
+        if (type == "all" || type == "player")
+            playerStateHolder.SetActive(false);
+        if (type == "all" || type == "enemy")
+            enemyStateHolder.SetActive(false);
+    }
+
+    public void ShowEnemyInfo(Enemy e)
+    {
+        if (e != null)
+        {
+            enemyStateHolder.SetActive(true);
+            GetEnemyStateHolder().enemy = e;
+
+        }
+        else
+        {
+            GetEnemyStateHolder().enemy = null;
+            enemyStateHolder.SetActive(false);
+        }
+    }
 }

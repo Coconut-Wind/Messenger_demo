@@ -10,7 +10,8 @@ public class LevelManager : MonoBehaviour
     public static int currentLevelId = 1;
     public static string currentLevelPath = "Assets\\Data\\level_1.txt";
 
-    public int ButtonPadding = 2;
+    public float buttonPadding = 2;
+    public int buttonPerLine = 5;
 
     public GameObject levelButton;
 
@@ -66,19 +67,31 @@ public class LevelManager : MonoBehaviour
 
     private void CreateLevelButtons()
     {
-        int col = levelFileNames.Count % 5;
-        int row = levelFileNames.Count / 5;
+        if (levelFileNames.Count <= 0)
+            return;
+        int col = (levelFileNames.Count-1) % buttonPerLine;
+        int row = (levelFileNames.Count-1) / buttonPerLine;
+        Debug.Log(row + ", " + row);
         for (int i = 0; i <= row; i++)
-        for (int j = 0; j < col; j++)
-        {
-            string path = levelFileNames[i * col + j];
-            GameObject btn = Instantiate(levelButton, 
-                new Vector3(transform.position.x + j * ButtonPadding, transform.position.y + i * ButtonPadding, 1f), 
-                Quaternion.identity);
-            LevelButton lb = btn.GetComponent<LevelButton>();
-            lb.SetTargetLevel(i * col + j + 1, path);
+        {Debug.Log("i:"+i);
+            for (int j = 0; j <= ((i==row)?col:buttonPerLine-1); j++)
+            {
+                Debug.Log("j:"+j);
+                int id = i * buttonPerLine + j;
+                
+                
+                Debug.Log(id);
+                string path = levelFileNames[id];
+                if (path.EndsWith("z.txt"))//隐藏隐藏关卡
+                    continue;
+                GameObject btn = Instantiate(levelButton, 
+                    new Vector3(transform.position.x + j * buttonPadding, transform.position.y - i * buttonPadding, 1f), 
+                    Quaternion.identity);
+                LevelButton lb = btn.GetComponent<LevelButton>();
+                lb.SetTargetLevel(id+1, path);
 
-            btn.transform.SetParent(transform);
+                btn.transform.SetParent(transform);
+            }
         }
     }
 
