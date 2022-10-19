@@ -11,6 +11,7 @@ public class Map : MonoBehaviour
     [SerializeField] private GameObject posiCellPrefab; // 增益点位的预制体
     [SerializeField] private GameObject negaCellPrefab; // 减益点位的预制体
     [SerializeField] private GameObject targetCellPrefab; // 目标点位的预制体
+    [SerializeField] private GameObject goldenCellPrefab; // 黄金点位的预制体
     // TODO:还有增益点位和减益点位的预制体没创建
     [SerializeField] private GameObject edgePrefab; // 边的预制体
     [SerializeField] private GameObject player; //玩家的预制体
@@ -38,7 +39,7 @@ public class Map : MonoBehaviour
     [SerializeField] private Transform playerManager;
 
     private CellNode[] cellAdjList; // 邻接表
-    private string[] cellType = new string[5] { "NullCell", "NormalCell", "PosiCell", "NegaCell", "TargetCell" }; // 点位的五种类型
+    private string[] cellType = new string[6] { "NullCell", "NormalCell", "PosiCell", "NegaCell", "TargetCell", "GoldenCell" }; // 点位的6种类型
     private Hashtable cellTypeTable; //string -> int 映射表
     public StreamReader mapInfoTxt; // 用于读取地图信息，即Data文件夹中的mapInfo，目前为手动挂载
     public string mapInfoPath = "Assets/Data/level_3.txt"; // 地图信息文件路径
@@ -63,6 +64,7 @@ public class Map : MonoBehaviour
     {
         UIManager.instance.gameObject.SetActive(true);
         UIManager.instance.ClearAllEnemyHealthBar();
+        PropertyManager.instance.RemoveAllPlayerProperty();
         AudioPlayer.instance.gameObject.SetActive(true);
         AudioPlayer.instance.ReplayBgm();
         GameManager.instance.SetCurrentMap(this);
@@ -164,6 +166,11 @@ public class Map : MonoBehaviour
                             {
                                 spawnedCell = Instantiate(targetCellPrefab, transform.position, Quaternion.identity);
                                 spawnedCell.GetComponent<Cell>().SetCellType("TargetCell");
+                            }
+                            else if (lineInfo[j] == "GoldenCell")
+                            {
+                                spawnedCell = Instantiate(goldenCellPrefab, transform.position, Quaternion.identity);
+                                spawnedCell.GetComponent<Cell>().SetCellType("GoldenCell");
                             }
 
                             cellAdjList[lineCounter - 1] = new CellNode();
@@ -313,6 +320,8 @@ public class Map : MonoBehaviour
     //生成敌人
     private void GenerateEnemies()
     {
+        if (enemiesPosition == null) return;
+
         for (int i = 0; i < enemiesPosition.Length; i++){
             int y = (enemiesPosition[i] / cellMapColumn);
             int x = (enemiesPosition[i] % cellMapColumn);

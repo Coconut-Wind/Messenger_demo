@@ -71,6 +71,11 @@ public class Cell : MonoBehaviour
 
     //侦测鼠标点击
     private void OnMouseUp() {
+        //如果打开了面板，则不执行
+        Debug.Log("B");
+        if (PropertyManager.instance.isOpenedPanel)
+            return;
+
         Debug.Log("CLICK");
         if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver())
             return;

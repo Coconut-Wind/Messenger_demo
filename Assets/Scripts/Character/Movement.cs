@@ -36,7 +36,10 @@ public class Movement : MonoBehaviour
     public virtual void WalkTo(Vector2Int to)
     {
         if (to == GetPosition())
+        {
+            OnReachCell();
             return;
+        }
         //Debug.Log("Walk to " + to);
         targetPos = GameManager.instance.GetCurrentMap().AdjustPosition(to);
         SetPosition(to.x, to.y);

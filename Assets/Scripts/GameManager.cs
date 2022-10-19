@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject enemiesManager; //敌人管理器
-    public Player player; //玩家
+    [HideInInspector]public Player player; //玩家
     public static GameManager instance; //静态唯一实例
     private Map currentMap;
     private Vector2Int playerPosition; //玩家所在点位
@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour
     private bool isFinishedGoal = false; //任务完成判断
     private bool isGameOver = false; //游戏结束判断 
     //((isGameOver && isFinishedGoal)视为通关， (isGameOver && !isFinishedGoal)视为失败)
+
+    private int turnCount_ = 1;
+    public int turnCount
+    {
+        get{return turnCount_;}
+    }
 
     //实现全局单例类
     private void Awake() {
@@ -60,15 +66,29 @@ public class GameManager : MonoBehaviour
             player.SetRunOnce(false);
         }
         Debug.Log("现在是" + (isPlayersTurn ? "玩家" : "敌人") + "回合");
-        
-        //更新玩家的攻击箭头
-        
+        turnCount_++;
     }
 
     //询问是否为玩家回合
     public bool IsPlayersTurn()
     {
         return isPlayersTurn;
+    }
+
+    public void SetTopBar(bool isPlayer)
+    {
+        Debug.Log("TopBar: " + isPlayer);
+        if (isPlayer)
+        {
+            //Debug.Log(1);
+            UIManager.instance.topBar_text.text = "玩家回合";
+            UIManager.instance.topBar_skipButton.SetActive(true);
+        }
+        else
+        {
+            UIManager.instance.topBar_text.text = "敌人回合";
+            UIManager.instance.topBar_skipButton.SetActive(false);
+        }
     }
 
     
@@ -102,6 +122,7 @@ public class GameManager : MonoBehaviour
         isFinishedGoal = false;
         isPlayersTurn = true;
         AudioPlayer.instance.SetBgmPlaying(true);
+
     }
 
     public void OtherLevels()
@@ -242,4 +263,24 @@ public class GameManager : MonoBehaviour
 
     public delegate void CustomVoid();
     //----------------
+
+    //-------道具通信-----
+    /*
+    public void AddItem(string itemName, string description="", string usedDesc = "")
+    {
+        UIManager.instance.GetItemsHolder().AddItem(itemName, description, usedDesc);
+    }
+
+    public void UseItem(string itemName, string usedDesc)
+    {
+        Debug.Log("使用了道具" + itemName);
+
+        if (itemName == "马")
+        {
+            Debug.Log(usedDesc);
+            player.moveableTimes = 2;
+        }
+    }
+    */
+    //-------------------
 }
