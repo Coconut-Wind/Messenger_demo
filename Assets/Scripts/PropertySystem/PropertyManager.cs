@@ -39,6 +39,7 @@ public class PropertyManager : MonoBehaviour
 
     private void Update()
     {
+        //测试用
         if (Input.GetKeyDown(KeyCode.N))
         {
             GenerateProperty(0);
@@ -69,6 +70,13 @@ public class PropertyManager : MonoBehaviour
         var spawnedProperty = Instantiate(propertyPrefabsList[_id]);
         spawnedProperty.transform.SetParent(propertyPanel.transform);
         spawnedProperty.transform.localScale = new Vector3(1,1,1);
+
+        //如果是被动道具，则使用
+        Property property = spawnedProperty.GetComponent<Property>();
+        if (property.isPassive)
+        {
+            GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID));
+        }
     }
 
     public void RemoveAllPlayerProperty()

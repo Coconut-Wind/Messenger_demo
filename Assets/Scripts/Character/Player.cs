@@ -5,6 +5,7 @@ using System;
 
 public class Player : Movement
 {
+    public int attackDMG = 1;
     public int maxHealth = 3;
     public int currentHealth; // 当前生命值
     public int letterNum = 2;
@@ -46,8 +47,9 @@ public class Player : Movement
     }
 
     private void Start() {
-        //GameManager.instance.AddItem("马", "每回合的移动次数增加至2", "每回合的移动次数增加至2" );
+        //测试用：添加道具
         PropertyManager.instance.GenerateProperty(0);
+        PropertyManager.instance.GenerateProperty(1);
     }
 
     private void Update()
@@ -283,10 +285,10 @@ public class Player : Movement
     }
 
     //攻击敌人
-    public void AttackEnemy(Enemy enemy, int damage = 1)
+    public void AttackEnemy(Enemy enemy)
     {
         
-        if (enemy.GetCurrentHealth() - damage <= 0)
+        if (enemy.GetCurrentHealth() - attackDMG <= 0)
         {//由于敌人死亡后立即被Destory，要先预判下死亡的状态
             HideArrow();
             UpdateHighLightCellList();
@@ -294,7 +296,7 @@ public class Player : Movement
             ShowArrow();
         }
         //给敌人扣血
-        enemy.CreateDamage(damage);
+        enemy.CreateDamage(attackDMG);
 
         //没有动画，先延时顶替一下
         //先隐藏攻击箭头

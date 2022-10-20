@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
         EnemyMoving //玩家回合之后的敌方回合
     }
     public TurnState turnState = TurnState.WaitngPlayer;
+    
     private bool isPlayersTurn = true; //回合判断
     private bool isFinishedGoal = false; //任务完成判断
     private bool isGameOver = false; //游戏结束判断 

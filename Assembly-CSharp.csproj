@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\Map\Map.cs" />
      <Compile Include="Assets\Scripts\Character\EnemiesManager.cs" />
      <Compile Include="Assets\Scripts\AudioPlayer.cs" />
+     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertySword.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Data\level_6.txt" />
