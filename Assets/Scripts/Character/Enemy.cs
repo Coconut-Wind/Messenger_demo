@@ -276,7 +276,7 @@ public class Enemy : Movement
         enemiesManager.unreachEnemyCount--;
         if (enemiesManager.unreachEnemyCount == 0)
         {
-            GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
+            //GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
         }
         return base.OnReachCell();
     }

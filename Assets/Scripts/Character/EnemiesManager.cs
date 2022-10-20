@@ -23,13 +23,22 @@ public class EnemiesManager : MonoBehaviour
         if (!GameManager.instance.IsPlayersTurn())
         {
             unreachEnemyCount = transform.childCount;
-
-            for (int i = 0; i < transform.childCount; i++)
+            if (transform.childCount > 0)
             {
-                transform.GetChild(i).GetComponent<Enemy>().ChasePlayer();
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    transform.GetChild(i).GetComponent<Enemy>().ChasePlayer();
+                }
+                
+                GameManager.instance.NextTurn();
+                GameManager.instance.SetTopBar(false); //将topbar改成敌人回合
+                
+                GameManager.instance.Delay(delegate(){
+                    GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
+                    
+                }, 1.5f);
             }
             
-            GameManager.instance.NextTurn();
         }
         else
         {

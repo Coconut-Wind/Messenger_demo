@@ -67,6 +67,7 @@ public class Player : Movement
             HideArrow();
             
             UpdateHighLightCellList();
+            
             ShowArrow();
             GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
         }
@@ -300,7 +301,7 @@ public class Player : Movement
         HideArrow();
         GameManager.instance.Delay(delegate(){
             ShowArrow(); //等待完成后重新显示
-            //轮到敌方回合
+            //下一步操作
             if (!GameManager.instance.IsGameOver())
             {
                 NextStep();
@@ -367,7 +368,7 @@ public class Player : Movement
         }*/
         
         NextStep();
-        GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
+        //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
         ShowArrow();
         return base.OnReachCell();
     }
@@ -383,9 +384,16 @@ public class Player : Movement
         {
             moveTime = 1;
             GameManager.instance.NextTurn();
-            GameManager.instance.SetTopBar(false); //将topbar改成敌人回合
         }
+        GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false,  highLightCellList); //显示点位光圈
     }
+
+    public void SkipTurn()
+    {
+        moveTime = moveableTimes;
+        NextStep();
+    }
+
 
     private bool CheckCellType()
     {
