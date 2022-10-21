@@ -7,19 +7,20 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject enemiesManager; //敌人管理器
-    [HideInInspector]public Player player; //玩家
+    [HideInInspector] public Player player; //玩家
     public static GameManager instance; //静态唯一实例
     private Map currentMap;
     private Vector2Int playerPosition; //玩家所在点位
     private List<Vector2Int> targetPositions; //目标点位
-    
-    public enum TurnState{
+
+    public enum TurnState
+    {
         WaitngPlayer, //玩家移动或攻击之前
         PlayerMoving, //玩家移动或攻击之时
         EnemyMoving //玩家回合之后的敌方回合
     }
     public TurnState turnState = TurnState.WaitngPlayer;
-    
+
     private bool isPlayersTurn = true; //回合判断
     private bool isFinishedGoal = false; //任务完成判断
     private bool isGameOver = false; //游戏结束判断 
@@ -28,13 +29,14 @@ public class GameManager : MonoBehaviour
     private int turnCount_ = 1;
     public int turnCount
     {
-        get{return turnCount_;}
+        get { return turnCount_; }
     }
 
     //实现全局单例类
-    private void Awake() {
-        
-        if(instance != this && instance != null)
+    private void Awake()
+    {
+
+        if (instance != this && instance != null)
         {
             Destroy(gameObject);
             return;
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
     }
 
     //设置目前的地图
-    public void SetCurrentMap(Map mp) 
+    public void SetCurrentMap(Map mp)
     {
         currentMap = mp;
     }
@@ -69,10 +71,12 @@ public class GameManager : MonoBehaviour
     public void NextTurn()
     {
         //若游戏结束则不理会
-        if (isGameOver){
+        if (isGameOver)
+        {
             return;
         }
         isPlayersTurn = !isPlayersTurn;
+        isPlayersTurn = GameManager.instance.enemiesManager.transform.childCount == 0 ? true : !isPlayersTurn;
         if (isPlayersTurn)
         {
             player.SetRunOnce(false);
@@ -103,7 +107,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+
 
     public void Replay()
     {
@@ -195,7 +199,7 @@ public class GameManager : MonoBehaviour
             SetGameOver(true);
             Debug.Log("任务完成");
         }
-        
+
     }
 
     public bool IsFinishedGoal()
@@ -229,7 +233,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+
     public bool IsGameOver()
     {
         return isGameOver;
@@ -258,7 +262,7 @@ public class GameManager : MonoBehaviour
         return arr;
     }
 
-    
+
 
     //----延时工具----
 

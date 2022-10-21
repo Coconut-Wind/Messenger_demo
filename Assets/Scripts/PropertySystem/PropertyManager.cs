@@ -8,9 +8,9 @@ public class PropertyManager : MonoBehaviour
 {
     public static PropertyManager instance;
     [Header("有关道具")]
-    [SerializeField] private List<Property> propertyList; // 所有道具的列表
+    public List<Property> propertyList; // 所有道具的列表
+    public List<Property> playerPropertyList;
     [SerializeField] private List<GameObject> propertyPrefabsList; // 按照ID顺序，用于生成道具图标即道具本身
-    [SerializeField] private List<Property> playerPropertyList;
 
     [Header("有关UI")]
     public Canvas propertyCanvas;

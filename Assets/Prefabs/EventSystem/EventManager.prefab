@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6909014852258005388
+--- !u!1 &6819115354437516642
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6909014852258005389}
-  - component: {fileID: 6909014852258005394}
+  - component: {fileID: 6819115354437516668}
+  - component: {fileID: 6819115354437516643}
   m_Layer: 0
-  m_Name: PropertyManager
+  m_Name: EventManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6909014852258005389
+--- !u!4 &6819115354437516668
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6909014852258005388}
+  m_GameObject: {fileID: 6819115354437516642}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,26 +32,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6909014852258005394
+--- !u!114 &6819115354437516643
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6909014852258005388}
+  m_GameObject: {fileID: 6819115354437516642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09cf011f0409d6341adf7c9900a25689, type: 3}
+  m_Script: {fileID: 11500000, guid: c339e1baca8a59d47a2170bf6055636e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propertyList: []
-  playerPropertyList: []
-  propertyPrefabsList:
-  - {fileID: 1448829865538147290, guid: fc0cce066d772d24c92215916fa0bf32, type: 3}
-  - {fileID: 1448829865538147290, guid: 550bdfef2f8474141abdac768e98031d, type: 3}
-  propertyCanvas: {fileID: 0}
-  propertyPanel: {fileID: 0}
-  passivePropertyDetailPanel: {fileID: 0}
-  activePropertyDetailPanel: {fileID: 0}
-  currentClickProperty: {fileID: 0}
-  isOpenedPanel: 0
+  eventList:
+  - {fileID: 11400000, guid: 1ec05fc97cc70cb4687b2a1be21928a9, type: 2}
+  posiEventList: []
+  negaEventList: []
+  eventPanel: {fileID: 0}
+  eventDescription: {fileID: 0}
+  optionsPanel: {fileID: 0}
+  optionButtonPrefab: {fileID: 8932283879255815873, guid: f1119a0cd7f979d4abf15a93dbab3322, type: 3}
+  optionButtonList: []
+  afterOptionPanel: {fileID: 0}
+  optionDescription: {fileID: 0}
+  currentClickOption: {fileID: 0}
+  currentEvent: {fileID: 0}

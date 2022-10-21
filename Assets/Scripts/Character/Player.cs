@@ -396,7 +396,7 @@ public class Player : Movement
         NextStep();
     }
 
-
+    // TODO:这个方法需要修改，以配合使用事件系统
     private bool CheckCellType()
     {
         Cell cell = GameManager.instance.GetCurrentMap().GetCellByIndex(GetPosition());
@@ -452,6 +452,21 @@ public class Player : Movement
             SetCurrentHealth(maxHealth);
             AudioPlayer.instance.Play("positive");
         }
+        else if(type == "NormalCell")
+        {
+            Debug.Log("到达普通点位");
+
+            if(!cell.isTriggered)
+            {
+                float rand = UnityEngine.Random.value; // [0.0, 1.0]
+                if(rand <= EventManager.instance.eventTriggerProbability)
+                {
+                    EventManager.instance.EventHappen();
+                }
+                cell.isTriggered = true;
+            }
+        }
+
         return false;
     }
 
