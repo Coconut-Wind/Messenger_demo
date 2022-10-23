@@ -28,7 +28,7 @@ public class Property : MonoBehaviour
     }
 
     // 该GameObject关闭时，即玩家失去到了该道具，此时取消事件订阅
-    private void OnDisable()
+    private void Ondestroy()
     {
         GameManager.instance.player.OnUseProperty -= PropertyAbility;
 

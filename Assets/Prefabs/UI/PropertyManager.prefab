@@ -44,11 +44,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09cf011f0409d6341adf7c9900a25689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propertyList: []
+  propertyList:
+  - {fileID: 1459041637670067642, guid: fc0cce066d772d24c92215916fa0bf32, type: 3}
+  - {fileID: 4298897066005426970, guid: 550bdfef2f8474141abdac768e98031d, type: 3}
+  - {fileID: 0}
+  - {fileID: 6124748198332249243, guid: 94e266b7f9b150f4a89bcf62bebcf9b3, type: 3}
+  - {fileID: 3229811602261330861, guid: f4bfb5c1b2857134a92913d6fdabd9b9, type: 3}
+  - {fileID: 6488292499290051346, guid: 5a524999c05192f49b7420599d3aef1c, type: 3}
+  - {fileID: 7728482311424213183, guid: e1b5557d9e9dd3a4aa54e0a070b508d4, type: 3}
+  - {fileID: 8738726816792677477, guid: 692dc16e95a36fa42a8271e021c92008, type: 3}
+  - {fileID: 8878473088021095109, guid: 8adb61e247d82c947bd3c0b4441ddc7a, type: 3}
   playerPropertyList: []
   propertyPrefabsList:
   - {fileID: 1448829865538147290, guid: fc0cce066d772d24c92215916fa0bf32, type: 3}
   - {fileID: 1448829865538147290, guid: 550bdfef2f8474141abdac768e98031d, type: 3}
+  - {fileID: 0}
+  - {fileID: 1448829865538147290, guid: 94e266b7f9b150f4a89bcf62bebcf9b3, type: 3}
+  - {fileID: 1448829865538147290, guid: f4bfb5c1b2857134a92913d6fdabd9b9, type: 3}
+  - {fileID: 1448829865538147290, guid: 5a524999c05192f49b7420599d3aef1c, type: 3}
+  - {fileID: 1448829865538147290, guid: e1b5557d9e9dd3a4aa54e0a070b508d4, type: 3}
+  - {fileID: 1448829865538147290, guid: 692dc16e95a36fa42a8271e021c92008, type: 3}
+  - {fileID: 1448829865538147290, guid: 8adb61e247d82c947bd3c0b4441ddc7a, type: 3}
   propertyCanvas: {fileID: 0}
   propertyPanel: {fileID: 0}
   passivePropertyDetailPanel: {fileID: 0}

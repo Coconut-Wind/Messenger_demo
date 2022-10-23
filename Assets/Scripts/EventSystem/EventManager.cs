@@ -52,7 +52,7 @@ public class EventManager : MonoBehaviour
     public void EventHappen()
     {
         RandomChooseEvent();
-        InitEventPanel(eventList[0]);
+        InitEventPanel(currentEvent);
         OpenEventPanel();
     }
 
@@ -112,10 +112,16 @@ public class EventManager : MonoBehaviour
     // 获得道具需要以另一个道具为前提
     public void GetPropertyByNeedProperty(int _id)
     {
+        currentClickOption.GetComponent<Button>().interactable = false;
         foreach (var property in PropertyManager.instance.playerPropertyList)
         {
             if (property.propertyID == _id) // 如果这个道具玩家拥有，那么就可以获得一个随机道具
             {
+                // 前提道具消失
+                PropertyManager.instance.DestoryPropertyByPropertyID(_id);
+
+                currentClickOption.GetComponent<Button>().interactable = true; // 按钮启用交互
+
                 int rand = Random.Range(0, PropertyManager.instance.propertyList.Count);
                 PropertyManager.instance.GenerateProperty(rand);
                 break;
@@ -123,14 +129,51 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    // 无事发生需要以另一个道具为前提
+    public void NothingHappenByNeedProperty(int _id)
+    {
+        currentClickOption.GetComponent<Button>().interactable = false;
+        foreach (var property in PropertyManager.instance.playerPropertyList)
+        {
+            if (property.propertyID == _id) // 如果这个道具玩家拥有，那么就可以获得一个随机道具
+            {
+                // 前提道具消失
+                PropertyManager.instance.DestoryPropertyByPropertyID(_id);
+
+                currentClickOption.GetComponent<Button>().interactable = true; // 按钮启用交互
+                break;
+            }
+        }
+    }
+
+    // 随机获得体力药剂或恢复药剂
+    public void GetHpOrEpPotionsRandom()
+    {
+        int rand = Random.Range(0, 2);
+        if (rand == 0)
+        {
+            GetPropertyByPropertyID(7); // 获得体力药剂
+        }
+        else if (rand == 1)
+        {
+            GetPropertyByPropertyID(6); // 获得恢复药剂
+        }
+    }
+
     // 当前生命值上升或者下降 _num可以是负数，即下降
     public void CurrentHealthUpOrDown(int _num)
     {
-        GameManager.instance.player.currentHealth += _num;
+        GameManager.instance.player.SetCurrentHealth(GameManager.instance.player.currentHealth + _num);
     }
 
-    // TODO：生成敌人
+    // TODO：在玩家附近生成若干个敌人
     public void GenerateEnemies()
+    {
+
+    }
+
+    // 跳过_num个回合
+    public void SkipYourTurn(int _num)
     {
 
     }
@@ -159,7 +202,7 @@ public class EventManager : MonoBehaviour
         // 初始化选项描述
         string descriptionText = eventOption.optionEffectList[rand].optionEffectDescription;
         ref List<Property> propertyList = ref PropertyManager.instance.playerPropertyList;
-        descriptionText = descriptionText.Replace("[道具]", propertyList[propertyList.Count-1].propertyName);
+        descriptionText = descriptionText.Replace("[道具]", propertyList[propertyList.Count - 1].propertyName);
         optionDescription.text = descriptionText;
     }
 
@@ -170,7 +213,7 @@ public class EventManager : MonoBehaviour
         {
             var optionButton = Instantiate(optionButtonPrefab, transform.position, Quaternion.identity);
             optionButton.transform.SetParent(optionsPanel.transform);
-            optionButton.transform.localScale = new Vector3(1,1,1);
+            optionButton.transform.localScale = new Vector3(1, 1, 1);
             optionButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _event.eventOptionList[i].optionName;
             optionButtonList.Add(optionButton);
 

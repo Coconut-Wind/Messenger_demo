@@ -37,14 +37,14 @@ public class PropertyManager : MonoBehaviour
         //passivePropertyDetailPanel =     
     }
 
-    private void Update()
-    {
-        //测试用
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            GenerateProperty(0);
-        }
-    }
+    // private void Update()
+    // {
+    //     //测试用
+    //     if (Input.GetKeyDown(KeyCode.N))
+    //     {
+    //         GenerateProperty(0);
+    //     }
+    // }
 
     public void AddPlayerOwnedPropertyList(Property _property)
     {
@@ -78,6 +78,26 @@ public class PropertyManager : MonoBehaviour
         if (property.isPassive)
         {
             GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID));
+            // if(_id == 3) // 如果是刺客风帽
+            // {
+            //     GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID, ));
+            // }
+            // else // TODO：或许还有别的情况
+            // {
+                
+            // }
+        }
+    }
+
+    /// <summary> 摧毁道具时应调用该方法 </summary>
+    public void DestoryPropertyByPropertyID(int _id)
+    {
+        foreach (var property in playerPropertyList)
+        {
+            if(property.propertyID == _id)
+            {
+                Destroy(property.gameObject);
+            }
         }
     }
 
@@ -100,6 +120,7 @@ public class PropertyManager : MonoBehaviour
     public void OnClickUsePropertyButton()
     {
         Property currentProperty = currentClickProperty.GetComponent<Property>();
+        // TODO:一次性道具需要根据需要的参数传参
         GameManager.instance.player.UseProperty(new UsePropertyEventArgs(currentProperty.propertyID));
 
         // 一次性

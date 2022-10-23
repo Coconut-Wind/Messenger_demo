@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeb8ecff7bcb1349890e39feaff9021, type: 3}
+  m_Name: Event1
+  m_EditorClassIdentifier: 
+  eventID: 1
+  eventType: positive
+  eventDescription: "\u8DEF\u4E0A\u6709\u4E00\u4E2A\u5B9D\u7BB1\uFF0C\u8981\u4E0D\u8981\u6253\u5F00\u770B\u770B\uFF1F"
+  optionNum: 2
+  eventOptionList:
+  - optionName: "\u6253\u5F00"
+    optionEffectList:
+    - optionEffectDescription: "\u83B7\u5F97\u4E86[\u9053\u5177]\uFF01"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: GetPropertyRandom
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    - optionEffectDescription: "\u4E0D\u597D\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5B9D\u7BB1\u602A\uFF0C\u5B83\u54AC\u4E86\u4F60\u4E00\u53E3\u4E4B\u540E\u8DD1\u4E86\uFF01\uFF08\u51CF\u5C11\u4E00\u70B9\u751F\u547D\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: CurrentHealthUpOrDown
+            m_Mode: 3
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: -1
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  - optionName: "\u4E0D\u6253\u5F00"
+    optionEffectList:
+    - optionEffectDescription: "\u4EC0\u4E48\u4E5F\u6CA1\u6709\u53D1\u751F"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls: []

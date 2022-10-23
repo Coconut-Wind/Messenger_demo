@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeb8ecff7bcb1349890e39feaff9021, type: 3}
+  m_Name: Event4
+  m_EditorClassIdentifier: 
+  eventID: 4
+  eventType: positive
+  eventDescription: "\u5728\u91CE\u5916\u9047\u5230\u4E86\u5546\u961F\uFF0C\u4ED6\u4EEC\u4F3C\u4E4E\u6B63\u5728\u4F11\u606F\u3002"
+  optionNum: 3
+  eventOptionList:
+  - optionName: "\u4EA4\u8C08"
+    optionEffectList:
+    - optionEffectDescription: "\u5728\u91CE\u5916\u9047\u5230\u4E86\u4EBA\u7C7B\uFF0C\u5546\u4EBA\u5341\u5206\u9AD8\u5174\uFF0C\u9001\u4E86\u4F60\u4E00\u74F6[\u9053\u5177]\u3002\uFF08\u968F\u673A\u83B7\u5F97[\u56DE\u590D\u836F\u5242]/[\u4F53\u529B\u836F\u5242]\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: GetHpOrEpPotionsRandom
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  - optionName: "\u8D2D\u4E70"
+    optionEffectList:
+    - optionEffectDescription: "\u4F60\u770B\u4E86\u770B\u5546\u961F\u7684\u8D27\u7269\uFF0C\u63D0\u51FA\u60F3\u8981\u4EA4\u6613\u7684\u60F3\u6CD5\u3002\uFF08\u524D\u63D0\uFF1A\u62E5\u6709\u9053\u5177[\u4E00\u888B\u91D1\u5E01]\uFF1B\u83B7\u5F97[\u9053\u5177]\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: GetPropertyByNeedProperty
+            m_Mode: 3
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 5
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  - optionName: "\u79BB\u5F00"
+    optionEffectList:
+    - optionEffectDescription: "\u4EC0\u4E48\u90FD\u6CA1\u6709\u53D1\u751F\u3002"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls: []

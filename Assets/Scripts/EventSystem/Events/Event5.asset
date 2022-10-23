@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeb8ecff7bcb1349890e39feaff9021, type: 3}
+  m_Name: Event5
+  m_EditorClassIdentifier: 
+  eventID: 5
+  eventType: positive
+  eventDescription: "\u591C\u665A\u5728\u91CE\u5916\u9047\u5230\u4E86\u4E00\u4F19\u4EBA\uFF0C\u81EA\u79F0\u4E5F\u662F\u300E\u4FE1\u4F7F\u300F\uFF0C\u9080\u8BF7\u4F60\u4E00\u540C\u9732\u8425"
+  optionNum: 2
+  eventOptionList:
+  - optionName: "\u63A5\u53D7"
+    optionEffectList:
+    - optionEffectDescription: "\u4F60\u8DDF\u4ED6\u4EEC\u4E00\u8D77\u4F11\u606F\u4E86\u4E00\u4E2A\u665A\u4E0A\uFF0C\u4E34\u8D70\u65F6\u4ED6\u4EEC\u9001\u4E86\u4F60\u4E00\u70B9\u4E34\u522B\u793C\u7269\u3002\uFF08\u56DE\u590D\u4E00\u70B9\u751F\u547D\uFF0C\u83B7\u5F97[\u9053\u5177]\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: CurrentHealthUpOrDown
+            m_Mode: 3
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 1
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: GetPropertyRandom
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    - optionEffectDescription: "\u534A\u591C\uFF0C\u90A3\u4F19\u4EBA\u4F3C\u4E4E\u6709\u4EC0\u4E48\u5C0F\u52A8\u4F5C\uFF0C\u4F60\u53D1\u73B0\u4ED6\u4EEC\u5176\u5B9E\u662F\u53DB\u519B\uFF0C\u4F46\u4F60\u5F53\u65F6\u6BEB\u65E0\u9632\u5907\uFF0C\u88AB\u4ED6\u4EEC\u5077\u88AD\u4E86\u3002\uFF08\u51CF\u5C11\u4E00\u70B9\u751F\u547D\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: CurrentHealthUpOrDown
+            m_Mode: 3
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: -1
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  - optionName: "\u62D2\u7EDD"
+    optionEffectList:
+    - optionEffectDescription: "\u4F60\u79BB\u5F00\u4E86\uFF0C\u4EC0\u4E48\u90FD\u6CA1\u6709\u53D1\u751F\u3002"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls: []

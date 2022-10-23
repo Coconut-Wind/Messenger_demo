@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeb8ecff7bcb1349890e39feaff9021, type: 3}
+  m_Name: Event3
+  m_EditorClassIdentifier: 
+  eventID: 3
+  eventType: positive
+  eventDescription: "\u4F60\u9047\u5230\u4E86\u70ED\u5FC3\u7684\u4EBA\u5BB6\uFF0C\u4ED6\u4EEC\u8BF4\u8981\u6536\u7559\u4F60\u4F4F\u4E00\u665A\u3002"
+  optionNum: 2
+  eventOptionList:
+  - optionName: "\u63A5\u53D7"
+    optionEffectList:
+    - optionEffectDescription: "\u4F60\u63A5\u53D7\u4E86\u90A3\u6237\u4EBA\u5BB6\u7684\u70ED\u60C5\u62DB\u5F85\uFF0C\u8212\u670D\u7684\u4F11\u606F\u4E86\u4E00\u665A\u3002\uFF08\u56DE\u590D\u4E86\u4E00\u70B9\u751F\u547D\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: CurrentHealthUpOrDown
+            m_Mode: 3
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 1
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  - optionName: "\u4E0D\u63A5\u53D7"
+    optionEffectList:
+    - optionEffectDescription: "\u4EC0\u4E48\u4E5F\u6CA1\u6709\u53D1\u751F\u3002"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls: []

@@ -45,9 +45,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventList:
+  - {fileID: 11400000, guid: 075f0053f075a584286c4b510fcf1d5c, type: 2}
   - {fileID: 11400000, guid: 1ec05fc97cc70cb4687b2a1be21928a9, type: 2}
+  - {fileID: 11400000, guid: efbc3be52afa3b447b9c9633a4f12f6c, type: 2}
+  - {fileID: 11400000, guid: 910e379209040bc4b85588352e43a735, type: 2}
+  - {fileID: 11400000, guid: f5998581f43897d4cb3a905da9833e36, type: 2}
+  - {fileID: 11400000, guid: c7f10534104903e458fa1fb874e67533, type: 2}
+  - {fileID: 11400000, guid: 14c0eb421f5be20449cf0957dc2a0818, type: 2}
+  - {fileID: 11400000, guid: ef3e364a39b440c4abe606a5c56c7386, type: 2}
   posiEventList: []
   negaEventList: []
+  eventTriggerProbability: 0.2
   eventPanel: {fileID: 0}
   eventDescription: {fileID: 0}
   optionsPanel: {fileID: 0}
@@ -55,5 +63,5 @@ MonoBehaviour:
   optionButtonList: []
   afterOptionPanel: {fileID: 0}
   optionDescription: {fileID: 0}
-  currentClickOption: {fileID: 0}
   currentEvent: {fileID: 0}
+  currentClickOption: {fileID: 0}

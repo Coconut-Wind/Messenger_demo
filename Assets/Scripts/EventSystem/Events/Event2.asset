@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeb8ecff7bcb1349890e39feaff9021, type: 3}
+  m_Name: Event2
+  m_EditorClassIdentifier: 
+  eventID: 2
+  eventType: negative
+  eventDescription: "\u4F60\u8D70\u5728\u8DEF\u4E0A\uFF0C\u7A81\u7136\u5468\u56F4\u8DF3\u51FA\u6765\u51E0\u4E2A\u76D7\u8D3C\u3002"
+  optionNum: 2
+  eventOptionList:
+  - optionName: "\u6218\u6597"
+    optionEffectList:
+    - optionEffectDescription: "\u6218\u6597\uFF08\u5468\u56F4\u968F\u673A\u51FA\u73B0\u82E5\u5E72\u4E2A\u4E2A\u654C\u4EBA\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: GenerateEnemies
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  - optionName: "\u6536\u4E70"
+    optionEffectList:
+    - optionEffectDescription: "\u6536\u4E70\u76D7\u8D3C\uFF08\u524D\u63D0\uFF1A\u62E5\u6709\u9053\u5177[\u4E00\u888B\u91D1\u5E01]\uFF09"
+      effectAction:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
+            m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+            m_MethodName: NothingHappenByNeedProperty
+            m_Mode: 3
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 5
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
