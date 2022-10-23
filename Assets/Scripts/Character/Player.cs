@@ -13,7 +13,7 @@ public class Player : Movement
     public float maxArrowSelectDistance = 1.5f;
     
     public int moveableTimes = 2; //可移动次数
-    private int moveTime = 1; //目前的移动次数
+    [HideInInspector] public int moveTime = 1; //目前的移动次数
 
     [SerializeField] private GameObject attackArrow; //攻击指示箭头
     [SerializeField] private Transform arrowHolder; //存放攻击箭头的父节点
@@ -23,7 +23,7 @@ public class Player : Movement
     private bool isMouseOver = false; //是否鼠标悬停在上方
     private bool isShowingArrow = false; //是否正在显示攻击箭头
 
-    public bool isMoving = false; //玩家是否正在移动
+    [HideInInspector] public bool isMoving = false; //玩家是否正在移动
 
     private bool runOnce = false; //控制该回合只执行一次的代码
 
@@ -38,6 +38,8 @@ public class Player : Movement
     /// 使用道具事件，事件响应者：Property类；事件处理器：Perperty.PropertyAbility
     public event Action<Player, UsePropertyEventArgs> OnUseProperty; // 使用道具事件
 
+    //双刃剑道具事件
+    [HideInInspector]public bool isUsingDoubleSword = false;
 
     private void Awake()
     {

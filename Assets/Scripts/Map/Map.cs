@@ -20,6 +20,8 @@ public class Map : MonoBehaviour
 
     private GameObject[,] cellMap; // 整张点位地图，二维数组
     
+    private Cell[] allCells; // 整张图的所有非空点位
+    
     [Header("---- cellMap参数 ----")]
     [SerializeField] private int cellMapRow;
     [SerializeField] private int cellMapColumn;
@@ -176,6 +178,12 @@ public class Map : MonoBehaviour
                             cellAdjList[lineCounter - 1] = new CellNode();
                             cellAdjList[lineCounter - 1].cell = spawnedCell;
                             cellAdjList[lineCounter - 1].firstEdge = null;
+
+                            // 处理非空点位列表
+                            if (lineInfo[j] != "NullCell")
+                            {
+                                
+                            }
                         }
                         else
                         {

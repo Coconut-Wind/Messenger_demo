@@ -71,8 +71,10 @@ public class PropertyManager : MonoBehaviour
         spawnedProperty.transform.SetParent(propertyPanel.transform);
         spawnedProperty.transform.localScale = new Vector3(1,1,1);
 
-        //如果是被动道具，则使用
+        
         Property property = spawnedProperty.GetComponent<Property>();
+        AddPlayerOwnedPropertyList(property); //加入到List中便于管理
+        //如果是被动道具，则使用
         if (property.isPassive)
         {
             GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID));

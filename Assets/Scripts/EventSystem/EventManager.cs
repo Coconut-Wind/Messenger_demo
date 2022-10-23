@@ -153,11 +153,14 @@ public class EventManager : MonoBehaviour
         // 从事件选项可能发生的情况中选择一种
         int rand = Random.Range(0, eventOption.optionEffectList.Count);
 
-        // 初始化选项描述
-        optionDescription.text = eventOption.optionEffectList[rand].optionEffectDescription;
         // 触发选项效果
         eventOption.optionEffectList[rand].effectAction.Invoke();
 
+        // 初始化选项描述
+        string descriptionText = eventOption.optionEffectList[rand].optionEffectDescription;
+        ref List<Property> propertyList = ref PropertyManager.instance.playerPropertyList;
+        descriptionText = descriptionText.Replace("[道具]", propertyList[propertyList.Count-1].propertyName);
+        optionDescription.text = descriptionText;
     }
 
     // 动态生成选项
@@ -167,6 +170,7 @@ public class EventManager : MonoBehaviour
         {
             var optionButton = Instantiate(optionButtonPrefab, transform.position, Quaternion.identity);
             optionButton.transform.SetParent(optionsPanel.transform);
+            optionButton.transform.localScale = new Vector3(1,1,1);
             optionButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _event.eventOptionList[i].optionName;
             optionButtonList.Add(optionButton);
 

@@ -19,7 +19,7 @@ MonoBehaviour:
   eventOptionList:
   - optionName: "\u6253\u5F00"
     optionEffectList:
-    - optionEffectDescription: "\u83B7\u5F97\u4E86\u4E00\u4E9B[\u9053\u5177]\uFF08\u83B7\u5F97[\u9053\u5177]\uFF09"
+    - optionEffectDescription: "\u83B7\u5F97\u4E86[\u9053\u5177]\uFF01"
       effectAction:
         m_PersistentCalls:
           m_Calls:
@@ -35,7 +35,7 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-    - optionEffectDescription: "\u4E0D\u597D\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5B9D\u7BB1\u602A\uFF0C\u5B83\u54AC\u4E86\u4F60\u4E00\u53E3\u4E4B\u540E\u8DD1\u4E86\uFF08\u51CF\u5C11\u4E00\u70B9\u751F\u547D\uFF09"
+    - optionEffectDescription: "\u4E0D\u597D\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5B9D\u7BB1\u602A\uFF0C\u5B83\u54AC\u4E86\u4F60\u4E00\u53E3\u4E4B\u540E\u8DD1\u4E86\uFF01\uFF08\u51CF\u5C11\u4E00\u70B9\u751F\u547D\uFF09"
       effectAction:
         m_PersistentCalls:
           m_Calls:
