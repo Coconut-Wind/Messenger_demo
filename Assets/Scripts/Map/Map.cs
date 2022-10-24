@@ -15,7 +15,7 @@ public class Map : MonoBehaviour
     // TODO:还有增益点位和减益点位的预制体没创建
     [SerializeField] private GameObject edgePrefab; // 边的预制体
     [SerializeField] private GameObject player; //玩家的预制体
-    [SerializeField] private GameObject enemy; //敌人的预制体
+    public GameObject enemy; //敌人的预制体
 
 
     private GameObject[,] cellMap; // 整张点位地图，二维数组

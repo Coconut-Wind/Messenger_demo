@@ -42,7 +42,7 @@ MonoBehaviour:
           - m_Target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
             m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
             m_MethodName: SkipYourTurn
-            m_Mode: 3
+            m_Mode: 1
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

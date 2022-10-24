@@ -14,7 +14,7 @@ NullCell
 NullCell
 NormalCell,3,22
 NormalCell,14,22
-NormalCell,5,25
+NormalCell,5,25,13
 NullCell
 NullCell
 NormalCell,6,26,27

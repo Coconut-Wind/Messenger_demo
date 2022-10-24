@@ -8,7 +8,7 @@ public class PropertyHorse: Property
     {
         if(_args.propertyID == propertyID)
         {
-            _player.moveableTimes = 2;
+            _player.moveableTimes += 1;
         }
     }
 }

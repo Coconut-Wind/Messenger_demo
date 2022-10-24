@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        isPlayersTurn = !isPlayersTurn;
+        // isPlayersTurn = !isPlayersTurn;
         isPlayersTurn = GameManager.instance.enemiesManager.transform.childCount == 0 ? true : !isPlayersTurn;
         if (isPlayersTurn)
         {

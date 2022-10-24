@@ -13,7 +13,7 @@ public class Player : Movement
     public float maxArrowSelectDistance = 1.5f;
     
     public int moveableTimes = 2; //可移动次数
-    [HideInInspector] public int moveTime = 1; //目前的移动次数
+    public int moveTime = 1; //目前的移动次数
 
     [SerializeField] private GameObject attackArrow; //攻击指示箭头
     [SerializeField] private Transform arrowHolder; //存放攻击箭头的父节点
@@ -50,8 +50,8 @@ public class Player : Movement
 
     private void Start() {
         //测试用：添加道具
-        PropertyManager.instance.GenerateProperty(0);
-        PropertyManager.instance.GenerateProperty(1);
+        // PropertyManager.instance.GenerateProperty(0);
+        // PropertyManager.instance.GenerateProperty(1);
     }
 
     private void Update()

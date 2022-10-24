@@ -6,17 +6,18 @@ using UnityEngine;
 public class EnemiesManager : MonoBehaviour
 {
     public int unreachEnemyCount = 0; //未走到目标点的敌人数量
-    private void Start() {
+    private void Start()
+    {
         //场景重载时这个gameobject会被销毁，然后new一个新的
         //这使得单例类GameManager中的enemiesManager丢失
         //因此需要手动设置一下
         GameManager.instance.enemiesManager = this.gameObject;
-        
+
         unreachEnemyCount = 0;
     }
     private void Update()
     {
-        
+
         //如果不是玩家回合，且游戏没有结束，则开始行动
         if (GameManager.instance.IsGameOver())
             return;
@@ -29,16 +30,17 @@ public class EnemiesManager : MonoBehaviour
                 {
                     transform.GetChild(i).GetComponent<Enemy>().ChasePlayer();
                 }
-                
+
                 GameManager.instance.NextTurn();
                 GameManager.instance.SetTopBar(false); //将topbar改成敌人回合
-                
-                GameManager.instance.Delay(delegate(){
+
+                GameManager.instance.Delay(delegate ()
+                {
                     GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
-                    
+
                 }, 1.5f);
             }
-            
+
         }
         else
         {
@@ -54,7 +56,7 @@ public class EnemiesManager : MonoBehaviour
 
                     if (Vector2.Distance(mpos, et.position) <= 1f)
                     {
-                        Debug.Log("from:"+this+", "+Vector2.Distance(mpos, et.position));
+                        Debug.Log("from:" + this + ", " + Vector2.Distance(mpos, et.position));
                         if (!UIManager.instance.enemyStateHolder.activeSelf
                             || UIManager.instance.GetEnemyStateHolder().enemy != script)
                         {
@@ -71,7 +73,7 @@ public class EnemiesManager : MonoBehaviour
                 {
                     UIManager.instance.ShowEnemyInfo(null);
                 }
-                
+
             }
         }
     }
@@ -84,9 +86,24 @@ public class EnemiesManager : MonoBehaviour
         {
             Enemy e = transform.GetChild(i).GetComponent<Enemy>();
             if (e.gameObject.activeSelf) //由于Destroy不会立即执行，可以先设置active，根据active判断敌人是否存在
-                res.Add( e.GetPosition());
+                res.Add(e.GetPosition());
         }
         return res;
+    }
+
+    // 拿到所有的敌人List
+    public List<Enemy> GetEnemyList()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Enemy e = transform.GetChild(i).GetComponent<Enemy>();
+            if(e.gameObject.activeSelf)
+            {
+                enemies.Add(e);
+            }
+        }
+        return enemies;
     }
 
     //根据网格坐标获取敌人脚本
@@ -103,5 +120,5 @@ public class EnemiesManager : MonoBehaviour
         return null;
     }
 
-    
+
 }

@@ -112,7 +112,7 @@ public class EventManager : MonoBehaviour
     // 获得道具需要以另一个道具为前提
     public void GetPropertyByNeedProperty(int _id)
     {
-        currentClickOption.GetComponent<Button>().interactable = false;
+        // currentClickOption.GetComponent<Button>().interactable = false;
         foreach (var property in PropertyManager.instance.playerPropertyList)
         {
             if (property.propertyID == _id) // 如果这个道具玩家拥有，那么就可以获得一个随机道具
@@ -120,7 +120,7 @@ public class EventManager : MonoBehaviour
                 // 前提道具消失
                 PropertyManager.instance.DestoryPropertyByPropertyID(_id);
 
-                currentClickOption.GetComponent<Button>().interactable = true; // 按钮启用交互
+                // currentClickOption.GetComponent<Button>().interactable = true; // 按钮启用交互
 
                 int rand = Random.Range(0, PropertyManager.instance.propertyList.Count);
                 PropertyManager.instance.GenerateProperty(rand);
@@ -132,7 +132,7 @@ public class EventManager : MonoBehaviour
     // 无事发生需要以另一个道具为前提
     public void NothingHappenByNeedProperty(int _id)
     {
-        currentClickOption.GetComponent<Button>().interactable = false;
+        // currentClickOption.GetComponent<Button>().interactable = false;
         foreach (var property in PropertyManager.instance.playerPropertyList)
         {
             if (property.propertyID == _id) // 如果这个道具玩家拥有，那么就可以获得一个随机道具
@@ -140,7 +140,7 @@ public class EventManager : MonoBehaviour
                 // 前提道具消失
                 PropertyManager.instance.DestoryPropertyByPropertyID(_id);
 
-                currentClickOption.GetComponent<Button>().interactable = true; // 按钮启用交互
+                // currentClickOption.GetComponent<Button>().interactable = true; // 按钮启用交互
                 break;
             }
         }
@@ -169,13 +169,39 @@ public class EventManager : MonoBehaviour
     // TODO：在玩家附近生成若干个敌人
     public void GenerateEnemies()
     {
-
+        List<Cell> playerCanReachCellList = GameManager.instance.player.GetHeightLightCellList();
+        for (int i = 0; i < playerCanReachCellList.Count; i++)
+        {
+            if (playerCanReachCellList[i].GetCellType() == "TargetCell")
+            {
+                playerCanReachCellList.Remove(playerCanReachCellList[i]);
+                i--;
+            }
+        }
+        if (playerCanReachCellList.Count > 0) // 如果存在可达点位
+        {
+            int rand = Random.Range(1, playerCanReachCellList.Count);
+            for (int i = 0; i < rand; i++)
+            {
+                var enemy = Instantiate(FindObjectOfType<Map>().enemy, transform.position, Quaternion.identity);
+                enemy.transform.SetParent(GameManager.instance.enemiesManager.transform);
+                enemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                enemy.GetComponent<Enemy>().Init(FindObjectOfType<Map>(), playerCanReachCellList[i].GetPosition());
+                enemy.transform.position = playerCanReachCellList[i].transform.position;
+            }
+        }
+        // 处理高亮和攻击图标
+        GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, playerCanReachCellList);
+        GameManager.instance.player.HideArrow();
+        GameManager.instance.player.UpdateHighLightCellList();
+        GameManager.instance.player.ShowArrow();
+        GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, playerCanReachCellList);
     }
 
-    // 跳过_num个回合
-    public void SkipYourTurn(int _num)
+    // 跳过一个回合
+    public void SkipYourTurn()
     {
-
+        GameManager.instance.SkipPlayerTurn();
     }
 
 
@@ -196,13 +222,19 @@ public class EventManager : MonoBehaviour
         // 从事件选项可能发生的情况中选择一种
         int rand = Random.Range(0, eventOption.optionEffectList.Count);
 
+        // 在触发选项效果前获取玩家持有道具数
+        int playerPropertyNum = PropertyManager.instance.playerPropertyList.Count;
+
         // 触发选项效果
         eventOption.optionEffectList[rand].effectAction.Invoke();
 
         // 初始化选项描述
         string descriptionText = eventOption.optionEffectList[rand].optionEffectDescription;
         ref List<Property> propertyList = ref PropertyManager.instance.playerPropertyList;
-        descriptionText = descriptionText.Replace("[道具]", propertyList[propertyList.Count - 1].propertyName);
+        if (playerPropertyNum < propertyList.Count) // 在触发选项效果前获取玩家持有道具数比现在的持有道具数小，说明获得了道具
+        {
+            descriptionText = descriptionText.Replace("[道具]", propertyList[propertyList.Count-1].propertyName);
+        }
         optionDescription.text = descriptionText;
     }
 

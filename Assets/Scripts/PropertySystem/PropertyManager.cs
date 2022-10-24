@@ -25,26 +25,26 @@ public class PropertyManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
         instance = this;
         DontDestroyOnLoad(this);
     }
 
-    private void Start() 
+    private void Start()
     {
         //passivePropertyDetailPanel =     
     }
 
-    // private void Update()
-    // {
-    //     //测试用
-    //     if (Input.GetKeyDown(KeyCode.N))
-    //     {
-    //         GenerateProperty(0);
-    //     }
-    // }
+    private void Update()
+    {
+        //测试用
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            GenerateProperty(0);
+        }
+    }
 
     public void AddPlayerOwnedPropertyList(Property _property)
     {
@@ -67,25 +67,25 @@ public class PropertyManager : MonoBehaviour
     /// <summary> 获得道具时应调用该方法，根据道具ID生成道具图标即道具本身</summary>
     public void GenerateProperty(int _id)
     {
+        Debug.Log("GenerateProperty: " + _id);
         var spawnedProperty = Instantiate(propertyPrefabsList[_id]);
         spawnedProperty.transform.SetParent(propertyPanel.transform);
-        spawnedProperty.transform.localScale = new Vector3(1,1,1);
+        spawnedProperty.transform.localScale = new Vector3(1, 1, 1);
 
-        
+
         Property property = spawnedProperty.GetComponent<Property>();
         AddPlayerOwnedPropertyList(property); //加入到List中便于管理
         //如果是被动道具，则使用
         if (property.isPassive)
         {
-            GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID));
-            // if(_id == 3) // 如果是刺客风帽
-            // {
-            //     GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID, ));
-            // }
-            // else // TODO：或许还有别的情况
-            // {
-                
-            // }
+            if (_id == 3) // 如果是刺客风帽
+            {
+                GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID, GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyList()));
+            }
+            else // TODO：或许还有别的道具需要单独讨论的情况
+            {
+                GameManager.instance.player.UseProperty(new UsePropertyEventArgs(property.propertyID));
+            }
         }
     }
 
@@ -94,7 +94,7 @@ public class PropertyManager : MonoBehaviour
     {
         foreach (var property in playerPropertyList)
         {
-            if(property.propertyID == _id)
+            if (property.propertyID == _id)
             {
                 Destroy(property.gameObject);
             }
@@ -103,10 +103,10 @@ public class PropertyManager : MonoBehaviour
 
     public void RemoveAllPlayerProperty()
     {
-         for (int i = 0; i < propertyPanel.transform.childCount; i++)
-         {
+        for (int i = 0; i < propertyPanel.transform.childCount; i++)
+        {
             Destroy(propertyPanel.transform.GetChild(i).gameObject);
-         }
+        }
     }
 
     public void ClosePropertyDetailPanel(GameObject _panel)

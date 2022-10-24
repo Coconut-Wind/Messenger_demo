@@ -55,7 +55,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef3e364a39b440c4abe606a5c56c7386, type: 2}
   posiEventList: []
   negaEventList: []
-  eventTriggerProbability: 0.2
+  eventTriggerProbability: 1
   eventPanel: {fileID: 0}
   eventDescription: {fileID: 0}
   optionsPanel: {fileID: 0}

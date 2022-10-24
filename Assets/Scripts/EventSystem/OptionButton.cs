@@ -7,6 +7,7 @@ public class OptionButton : MonoBehaviour
     public void OnClick()
     {
         EventManager.instance.currentClickOption = this.gameObject;
-
     }
+
+    
 }
