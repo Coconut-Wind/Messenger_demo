@@ -19,9 +19,9 @@ public class Map : MonoBehaviour
 
 
     private GameObject[,] cellMap; // 整张点位地图，二维数组
-    
-    private List<Cell> allCells= new List<Cell>(); // 整张图的所有非空点位
-    
+
+    private List<Cell> allCells = new List<Cell>(); // 整张图的所有非空点位
+
     [Header("---- cellMap参数 ----")]
     [SerializeField] private int cellMapRow;
     [SerializeField] private int cellMapColumn;
@@ -45,7 +45,7 @@ public class Map : MonoBehaviour
     private Hashtable cellTypeTable; //string -> int 映射表
     public StreamReader mapInfoTxt; // 用于读取地图信息，即Data文件夹中的mapInfo，目前为手动挂载
     public string mapInfoPath = "Assets/Data/level_3.txt"; // 地图信息文件路径
-    
+
     //角色所在点位的编号
     private int[] enemiesPosition; //敌人的位置 (所在点的编号，一个整数表示)
     private int playerPosition; //玩家的位置 (所在点的编号，一个整数表示)
@@ -84,14 +84,14 @@ public class Map : MonoBehaviour
         cellTypeTable = new Hashtable();
         for (int i = 0; i < cellType.Length; i++)
         {
-           cellTypeTable.Add(cellType[i], i); 
+            cellTypeTable.Add(cellType[i], i);
         }
     }
 
     // 读取地图信息
     private void ReadMapInfo()
     {
-        
+
         //mapInfoList = new List<List<string>>(); // 初始化地图信息列表
         //mapInfoTxt = new StreamReader(mapInfoPath); // 读取文件
         /*string text = Resources.Load<TextAsset>(LevelManager.currentLevelPath).text;
@@ -110,7 +110,7 @@ public class Map : MonoBehaviour
         while (!mapInfoTxt.EndOfStream) // 如果没有到文件尾
         {
             List<string> lineInfo = new List<string>(mapInfoTxt.ReadLine().Split(',')); // 将一行数据分隔
-            
+
             if (lineInfo[0] == "Map") // 准备读取Map信息
             {
                 inputType = "Map";
@@ -138,7 +138,6 @@ public class Map : MonoBehaviour
                 }
                 else // 第二行后的数据记录点位的类型和邻接的点位；第一个为点位类型，剩下的为与该点位邻接的点位在邻接表的下标
                 {
-
                     for (int j = 0; j < lineInfo.Count; j++)
                     {
                         if (j == 0) // 读取点位类型cellType
@@ -213,7 +212,7 @@ public class Map : MonoBehaviour
                         enemiesPosition[k] = int.Parse(lineInfo[k]);
                     }
                 }
-                
+
                 lineCounter++;
             }
         }
@@ -233,7 +232,7 @@ public class Map : MonoBehaviour
                 cellMap[i, j] = cellAdjList[i * cellMapColumn + j].cell;
                 // Debug.Log(cellMap[i, j]);
             }
-        }        
+        }
     }
 
 
@@ -242,7 +241,7 @@ public class Map : MonoBehaviour
     {
         return AdjustPosition(pos.x, pos.y);
     }
-    
+
     public Vector2 AdjustPosition(int i, int j)
     {
         float positionX = 0; // 点位最终渲染的位置x分量
@@ -301,7 +300,7 @@ public class Map : MonoBehaviour
                     {
                         targets.Add(new Vector2Int(i, j));
                     }
-                    
+
                 }
             }
         }
@@ -331,7 +330,8 @@ public class Map : MonoBehaviour
     {
         if (enemiesPosition == null) return;
 
-        for (int i = 0; i < enemiesPosition.Length; i++){
+        for (int i = 0; i < enemiesPosition.Length; i++)
+        {
             int y = (enemiesPosition[i] / cellMapColumn);
             int x = (enemiesPosition[i] % cellMapColumn);
 

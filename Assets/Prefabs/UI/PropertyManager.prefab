@@ -47,7 +47,7 @@ MonoBehaviour:
   propertyList:
   - {fileID: 1459041637670067642, guid: fc0cce066d772d24c92215916fa0bf32, type: 3}
   - {fileID: 4298897066005426970, guid: 550bdfef2f8474141abdac768e98031d, type: 3}
-  - {fileID: 4230485146277174696, guid: 7c6032bb05d9e894f8c15801976b08b6, type: 3}
+  - {fileID: 4230485146277174696, guid: 082847ab67ba66d459d97b35b0462a4b, type: 3}
   - {fileID: 6124748198332249243, guid: 94e266b7f9b150f4a89bcf62bebcf9b3, type: 3}
   - {fileID: 3229811602261330861, guid: f4bfb5c1b2857134a92913d6fdabd9b9, type: 3}
   - {fileID: 6488292499290051346, guid: 5a524999c05192f49b7420599d3aef1c, type: 3}
@@ -58,7 +58,7 @@ MonoBehaviour:
   propertyPrefabsList:
   - {fileID: 1448829865538147290, guid: fc0cce066d772d24c92215916fa0bf32, type: 3}
   - {fileID: 1448829865538147290, guid: 550bdfef2f8474141abdac768e98031d, type: 3}
-  - {fileID: 1448829865538147290, guid: 7c6032bb05d9e894f8c15801976b08b6, type: 3}
+  - {fileID: 1448829865538147290, guid: 082847ab67ba66d459d97b35b0462a4b, type: 3}
   - {fileID: 1448829865538147290, guid: 94e266b7f9b150f4a89bcf62bebcf9b3, type: 3}
   - {fileID: 1448829865538147290, guid: f4bfb5c1b2857134a92913d6fdabd9b9, type: 3}
   - {fileID: 1448829865538147290, guid: 5a524999c05192f49b7420599d3aef1c, type: 3}

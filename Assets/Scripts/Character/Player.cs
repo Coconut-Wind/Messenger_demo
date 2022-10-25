@@ -11,14 +11,14 @@ public class Player : Movement
     public int letterNum = 2;
     public float maxSelectDistance = 0.5f; //鼠标与主角的最大选择距离
     public float maxArrowSelectDistance = 1.5f;
-    
+
     public int moveableTimes = 2; //可移动次数
     public int moveTime = 1; //目前的移动次数
 
     [SerializeField] private GameObject attackArrow; //攻击指示箭头
     [SerializeField] private Transform arrowHolder; //存放攻击箭头的父节点
-    //[SerializeField] private GameObject circle;
-    
+                                                    //[SerializeField] private GameObject circle;
+
     private bool isMouseDown = false; //是否正在主角处按下鼠标
     private bool isMouseOver = false; //是否鼠标悬停在上方
     private bool isShowingArrow = false; //是否正在显示攻击箭头
@@ -39,8 +39,8 @@ public class Player : Movement
     public event Action<Player, UsePropertyEventArgs> OnUseProperty; // 使用道具事件
 
     //双刃剑道具事件
-    [HideInInspector]public bool isUsingDoubleSword = false;
-    [HideInInspector]public bool isUsingJudas = false;
+    [HideInInspector] public bool isUsingDoubleSword = false;
+    [HideInInspector] public bool isUsingJudas = false;
 
     private void Awake()
     {
@@ -49,8 +49,10 @@ public class Player : Movement
         currentHealth = maxHealth;
     }
 
-    private void Start() {
+    private void Start()
+    {
         //测试用：添加道具
+        // PropertyManager.instance.GenerateProperty(0);
         PropertyManager.instance.GenerateProperty(2);
         // PropertyManager.instance.GenerateProperty(1);
     }
@@ -58,7 +60,7 @@ public class Player : Movement
     private void Update()
     {
         //如果游戏结束或者非玩家回合则不执行下面
-        if (GameManager.instance.IsGameOver() || !GameManager.instance.IsPlayersTurn()) 
+        if (GameManager.instance.IsGameOver() || !GameManager.instance.IsPlayersTurn())
             return;
 
         if (!runOnce) //每回合或一小步仅执行一次
@@ -70,9 +72,9 @@ public class Player : Movement
             // 每个回合开始初始化高亮列表
             GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
             HideArrow();
-            
+
             UpdateHighLightCellList();
-            
+
             ShowArrow();
             GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
         }
@@ -122,12 +124,12 @@ public class Player : Movement
         runOnce = once;
     }
 
-    
+
 
     //处理点击事件
     private void CheckMouseClick()
     {
-        
+
         if (Input.GetMouseButtonDown(0)) //左键按下
         {
             if (isMouseOver)
@@ -141,7 +143,7 @@ public class Player : Movement
             if (isMouseDown)
             {
                 isMouseDown = false;
-                
+
                 transform.position = GameManager.instance.GetCurrentMap().AdjustPosition(nextPosition);
                 Debug.Log("last: " + lastPosition + ", next: " + nextPosition);
                 if (nextPosition != lastPosition)
@@ -149,7 +151,7 @@ public class Player : Movement
                     //发生移动,下一回合
                     //吸附点位
                     SetPosition(nextPosition.x, nextPosition.y);
-                    
+
                     //目标检测
                     CheckCellType();
                     GameManager.instance.NextTurn();
@@ -168,9 +170,9 @@ public class Player : Movement
             GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePosition;
-            
+
             nextPosition = GetNearestPosition(mousePosition);
-            
+
             //拖动主角时，不显示攻击箭头
             HideArrow();
         }
@@ -183,7 +185,7 @@ public class Player : Movement
         Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 self = transform.position; //Camera.main.ViewportToWorldPoint(transform.position);
         float dis = Vector2.Distance(mouse, self);
-        
+
         isMouseOver = false;
 
         //根据距离判断是否悬停在Player上
@@ -205,7 +207,7 @@ public class Player : Movement
             HideArrow();
         //如果没有检测到悬停，则不显示点位光圈
         //if (!isMouseOver)
-            //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
+        //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
 
     }
 
@@ -222,7 +224,7 @@ public class Player : Movement
             Vector2Int cPos = c.GetPosition();
             Vector2 cPosReal = GameManager.instance.GetCurrentMap().AdjustPosition(c.GetPosition());
 
-            float disSq = (mousePosition.x - cPosReal.x) * (mousePosition.x - cPosReal.x) 
+            float disSq = (mousePosition.x - cPosReal.x) * (mousePosition.x - cPosReal.x)
                         + (mousePosition.y - cPosReal.y) * (mousePosition.y - cPosReal.y);
             if (disSq < minDis)
             {
@@ -234,7 +236,7 @@ public class Player : Movement
         return targetPos;
     }
 
-    
+
 
     //显示附近所有敌人的箭头
     public void ShowArrow()
@@ -258,7 +260,7 @@ public class Player : Movement
             float angle = Vector2.Angle(Vector2.right, e);
             if (e.y > 0)
                 angle = -angle;
-    
+
             //如果那个点位是有敌人
             if (GameManager.instance.isEnemy(target))
             {
@@ -290,7 +292,7 @@ public class Player : Movement
     //攻击敌人
     public void AttackEnemy(Enemy enemy)
     {
-        
+
         if (enemy.GetCurrentHealth() - attackDMG <= 0)
         {//由于敌人死亡后立即被Destory，要先预判下死亡的状态
             HideArrow();
@@ -304,7 +306,8 @@ public class Player : Movement
         //没有动画，先延时顶替一下
         //先隐藏攻击箭头
         HideArrow();
-        GameManager.instance.Delay(delegate(){
+        GameManager.instance.Delay(delegate ()
+        {
             ShowArrow(); //等待完成后重新显示
             //下一步操作
             if (!GameManager.instance.IsGameOver())
@@ -312,27 +315,27 @@ public class Player : Movement
                 NextStep();
             }
         }, 1f);
-        
+
     }
 
     // 初始化高亮点位列表
     public void UpdateHighLightCellList()
     {
+
         if (isUsingJudas)
         {
             highLightCellList = GameManager.instance.GetCurrentMap().GetAllCells();
         }
         else
         {
-            highLightCellList =  new List<Cell>(onCell.GetAdjCellList());
+            highLightCellList = new List<Cell>(onCell.GetAdjCellList());
         }
-        
-        
+
         // 去除列表中有敌人的点位
         List<Vector2Int> enemiesPos = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemiesPositions();
-        for(int i = 0; i<highLightCellList.Count; i++)
+        for (int i = 0; i < highLightCellList.Count; i++)
         {
-            if(enemiesPos.Contains(highLightCellList[i].GetPosition()))
+            if (enemiesPos.Contains(highLightCellList[i].GetPosition()))
             {
                 highLightCellList.Remove(highLightCellList[i]);
                 i--;
@@ -340,9 +343,9 @@ public class Player : Movement
         }
         // 去除列表中有终点的点位
         List<Vector2Int> targetPos = GameManager.instance.GetTargetPositions();
-        for(int i = 0; i<highLightCellList.Count; i++)
+        for (int i = 0; i < highLightCellList.Count; i++)
         {
-            if(targetPos.Contains(highLightCellList[i].GetPosition()))
+            if (targetPos.Contains(highLightCellList[i].GetPosition()))
             {
                 highLightCellList.Remove(highLightCellList[i]);
                 i--;
@@ -364,7 +367,7 @@ public class Player : Movement
         AudioPlayer.instance.Play("Reach"); // 音效
         base.WalkTo(to);
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
-        
+
         HideArrow();
 
         isMoving = true;
@@ -382,7 +385,7 @@ public class Player : Movement
     protected override int OnReachCell()
     {
         //判断是否到达终点
-        
+
         isMoving = false; //取消移动状态
 
         CheckCellType();
@@ -393,7 +396,7 @@ public class Player : Movement
             isShowingEnemyStateHolder = false;
             UIManager.instance.ShowInfoBars("enemy");
         }*/
-        
+
         NextStep();
         //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
         ShowArrow();
@@ -412,7 +415,7 @@ public class Player : Movement
             moveTime = 1;
             GameManager.instance.NextTurn();
         }
-        GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false,  highLightCellList); //显示点位光圈
+        GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList); //显示点位光圈
     }
 
     public void SkipTurn()
@@ -429,7 +432,7 @@ public class Player : Movement
         Debug.Log(type);
         if (type == "TargetCell")
         {
-            
+
             Debug.Log("到达目标");
 
             TargetCell tc = (TargetCell)cell;
@@ -443,7 +446,7 @@ public class Player : Movement
                 {
                     //任务完成
                     GameManager.instance.SetIsFinishedGoal(true);
-                    
+
                 }
                 return true;
             }
@@ -477,14 +480,14 @@ public class Player : Movement
             SetCurrentHealth(maxHealth);
             AudioPlayer.instance.Play("positive");
         }
-        else if(type == "NormalCell")
+        else if (type == "NormalCell")
         {
             Debug.Log("到达普通点位");
 
-            if(!cell.isTriggered)
+            if (!cell.isTriggered)
             {
                 float rand = UnityEngine.Random.value; // [0.0, 1.0]
-                if(rand <= EventManager.instance.eventTriggerProbability)
+                if (rand <= EventManager.instance.eventTriggerProbability)
                 {
                     EventManager.instance.EventHappen();
                 }

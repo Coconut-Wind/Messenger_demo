@@ -8,6 +8,7 @@ public class Enemy : Movement
     public string enemyName = "Robber";
     public int maxHealth = 2; //生命值
     public int currentHealth = 2; // 当前生命值
+    public int attackDMG = 1;
     public int maxChaseDistance = 2; //距离营地的最大值
     public int maxZoomDistance = 2; //距离营地的最大值
     public int maxWatchingDistance = 2; //官网距离到达离营最大值后，使其不返回营地的与玩家距离最大值
@@ -18,7 +19,7 @@ public class Enemy : Movement
     private GameObject healthBar = null; //血条
 
     private bool isDead = false;
-     [Header("---- 受伤效果 ----")]
+    [Header("---- 受伤效果 ----")]
     [SerializeField] private Color originColor;
     [SerializeField] private Color flashColor;
     [SerializeField] private float flashTime = 0.2f;
@@ -47,7 +48,7 @@ public class Enemy : Movement
 
     public void SetCurrentHealth(int health)
     {
-        Debug.Log("设置敌人生命："+ health);
+        Debug.Log("设置敌人生命：" + health);
         currentHealth = (int)Mathf.Clamp(health, 0, maxHealth);
 
         if (currentHealth == 0)
@@ -57,15 +58,16 @@ public class Enemy : Movement
             if (UIManager.instance.GetEnemyStateHolder().enemy == this)
             {
                 UIManager.instance.ShowEnemyInfo(null);
-                
+
             }
 
-            GameManager.instance.Delay(delegate(){
+            GameManager.instance.Delay(delegate ()
+            {
                 this.gameObject.SetActive(false);
                 Destroy(this.healthBar);
                 Destroy(this.gameObject);
             }, 0.8f);
-            
+
         }
     }
 
@@ -97,21 +99,21 @@ public class Enemy : Movement
         //两次搜索，获取三种距离
         Node nA = GetNextPosition(GetPosition(), homePosition); //从自身到营地
         Node nB = GetNextPosition(GetPosition(), GameManager.instance.GetPlayerPosition()); //从自身到玩家
-        Debug.Log("从自身到营地, dis:"+ (nA.step) + ", pos:" + nA.pos);
-        Debug.Log("从自身到玩家, dis:"+ (nB.step) + ", pos:" + nB.pos);
-        Debug.Log("从营地到玩家, dis:"+ (nB.step + nA.step));
-        
+        Debug.Log("从自身到营地, dis:" + (nA.step) + ", pos:" + nA.pos);
+        Debug.Log("从自身到玩家, dis:" + (nB.step) + ", pos:" + nB.pos);
+        Debug.Log("从营地到玩家, dis:" + (nB.step + nA.step));
+
         //下一个点位的变量声明
         Vector2Int nextPos = Vector2Int.zero;
 
 
         //行为逻辑树
-        
+
         //玩家进入领地范围
         if (nB.step + nA.step <= maxZoomDistance)
         {
             //是否进入攻击范围
-            if (nB.step <= maxAttackDistance) 
+            if (nB.step <= maxAttackDistance)
                 state = 3; //攻击
             else
                 state = 1; //追赶
@@ -128,9 +130,9 @@ public class Enemy : Movement
             if (nB.step <= maxWatchingDistance)
             {
                 //玩家进入攻击范围
-                if (nB.step <= maxAttackDistance)   
+                if (nB.step <= maxAttackDistance)
                     state = 3; //攻击
-                else 
+                else
                     state = 0; //不动
             }
             else
@@ -138,14 +140,14 @@ public class Enemy : Movement
                 state = 2; //返回
             }
         }
-        
+
         //玩家进入攻击范围
         if (nB.step <= maxAttackDistance)
             state = 3;
         if (state == 3 && nB.step > maxAttackDistance)
             state = 0;
 
-        Debug.Log("state: "+ state);
+        Debug.Log("state: " + state);
         //行为处理
         if (state == 1)
         {
@@ -162,7 +164,7 @@ public class Enemy : Movement
         else if (state == 3)
         {
             nextPos = GetPosition(); //不动
-            AttackPlayer(1); //攻击
+            AttackPlayer(attackDMG); //攻击
         }
 
         Debug.Log("next position:" + nextPos);
@@ -253,7 +255,8 @@ public class Enemy : Movement
 
     public void AttackPlayer(int damage)
     {
-        GameManager.instance.Delay(delegate{
+        GameManager.instance.Delay(delegate
+        {
             GameManager.instance.player.CreateDamage(damage);
         }, 0.5f);
     }
@@ -283,8 +286,9 @@ public class Enemy : Movement
         return base.OnReachCell();
     }
 
-    private void Update() {
-        
+    private void Update()
+    {
+
     }
 
 }

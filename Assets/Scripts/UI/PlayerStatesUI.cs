@@ -11,7 +11,10 @@ public class PlayerStatesUI : MonoBehaviour
     [Header("---- HealthBar ----")]
     private Image healthBarSlider;
     private GameObject playerHealthBar;
+    public TextMeshProUGUI playerHealthText; // 血条中的血量提示
     private TextMeshProUGUI letterNumText;
+    public TextMeshProUGUI playerAttackDMGText;
+    public TextMeshProUGUI playerMoveTimesText;
 
     // TODO：这是左上角的玩家状态栏控制脚本，在状态栏除了血量还可以显示别的
     // [Header("---- Other Player States Bar ----")]
@@ -31,6 +34,7 @@ public class PlayerStatesUI : MonoBehaviour
     private void Update()
     {
         ChangeHealthBar();
+        ChangePlayerStatesText();
     }
 
     public void ChangeHealthBar()
@@ -40,6 +44,16 @@ public class PlayerStatesUI : MonoBehaviour
             return;
         float slideRate = (float)player.currentHealth / player.maxHealth;
         healthBarSlider.fillAmount = slideRate;
+    }
+
+    public void ChangePlayerStatesText()
+    {
+        // 实时玩家属性变化
+        if(!player)
+            return;
+        playerHealthText.text = string.Format("{0} / {1}", player.currentHealth, player.maxHealth);
+        playerAttackDMGText.text = string.Format("攻击伤害：{0}", player.attackDMG);
+        playerMoveTimesText.text = string.Format("行动次数：{0}", player.moveableTimes);
     }
 
     public void SetLetterNumber(int n)
