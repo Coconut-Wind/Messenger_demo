@@ -422,6 +422,15 @@ public class Map : MonoBehaviour
         }
     }
 
+    public void SetHightLightEnemyReachablePoint(bool hightLight, Enemy enemy)
+    {
+        List<Cell> list = enemy.GetAllReachableCell();
+        foreach(Cell c in list)
+        {
+            c.SetHightLight(hightLight, false);
+        }
+    }
+
     public List<Cell> GetAllCells()
     {
         return allCells;

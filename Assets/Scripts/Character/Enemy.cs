@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class Enemy : Movement
 {
@@ -284,6 +285,58 @@ public class Enemy : Movement
             //GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
         }
         return base.OnReachCell();
+    }
+
+    public List<Cell> GetAllReachableCell()
+    {
+        List<Node> list = new List<Node>();
+        Node first = new Node(homePosition, 0, 0);
+        list.Add(first);
+        int head = 0, tail = 1;
+        bool enough = false;
+
+        bool[,] map = GameManager.instance.GetCurrentStateMap(false);//new bool[mapShape.y, mapShape.x];
+        map[homePosition.x, homePosition.y] = true;
+
+        while(head < list.Count  && !enough)
+        {
+            Node curr = list[head];
+            Cell currCell = GameManager.instance.GetCurrentMap().GetCellByIndex(curr.pos);
+            List<Cell> adjs = currCell.GetAdjCellList(); // 获取邻接表
+
+            //枚举所有可行路径
+            for (int i = 0; i < adjs.Count; i++)
+            {
+                //当前位置是否检索过？
+                Vector2Int npos = adjs[i].GetPosition();
+                int id = npos.x + npos.y * GameManager.instance.GetCurrentMap().GetMapShape().y;
+                if (!map[npos.x, npos.y])
+                {
+                    if (curr.step + 1 > maxChaseDistance)
+                    {
+                        enough = true;
+                        break;
+                    }
+                    else
+                    {
+                        list.Add(new Node(npos, curr.step + 1, head));
+                        tail++;
+
+                        //添加搜索记录
+                        map[npos.x, npos.y] = true;
+                    }
+                    
+                }
+            }
+            head++;
+        }
+        
+        List<Cell> res = new List<Cell>();
+        foreach(Node n in list)
+        {
+            res.Add(GameManager.instance.GetCurrentMap().GetCellByIndex(n.pos));
+        }
+        return res;
     }
 
     private void Update()

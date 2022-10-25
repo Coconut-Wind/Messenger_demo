@@ -41,6 +41,7 @@ public class Cell : MonoBehaviour
     {
         adjCellList = new List<Cell>(_adjCellList);
     }
+    
 
     // Getter 邻接点位数组
     public List<Cell> GetAdjCellList()
@@ -49,17 +50,20 @@ public class Cell : MonoBehaviour
     }
 
     //通过设置光圈是否可见来实现高亮
-    public void SetHightLight(bool hightLight)
+    public void SetHightLight(bool hightLight, bool isPlayer=true)
     {
         isHightLighting = hightLight;
+        Color mColor = isPlayer ? Color.white: Color.red;
         if (isHightLighting)
         {
             Ring.SetActive(true);
+            Ring.GetComponent<SpriteRenderer>().color = mColor;
             Ring.GetComponent<Ring>().SetShining(true);
         }
         else
         {
             Ring.SetActive(false);
+            Ring.GetComponent<SpriteRenderer>().color = mColor;
             Ring.GetComponent<Ring>().SetShining(false);
         }
     }

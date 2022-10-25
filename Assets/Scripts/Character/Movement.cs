@@ -24,6 +24,11 @@ public class Movement : MonoBehaviour
         return new Vector2Int(x, y);
     }
 
+    public Cell GetCell()
+    {
+        return onCell;
+    }
+
     public virtual void SetPosition(int _x, int _y)
     {
         x = _x;

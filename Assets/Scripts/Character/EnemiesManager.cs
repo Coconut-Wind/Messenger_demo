@@ -6,6 +6,8 @@ using UnityEngine;
 public class EnemiesManager : MonoBehaviour
 {
     public int unreachEnemyCount = 0; //未走到目标点的敌人数量
+    public Enemy enemyShowingAdjustCell = null;
+
     private void Start()
     {
         //场景重载时这个gameobject会被销毁，然后new一个新的
@@ -47,6 +49,13 @@ public class EnemiesManager : MonoBehaviour
             //点击敌人之后触发
             if (Input.GetMouseButtonUp(0))
             {
+                if (enemyShowingAdjustCell != null)
+                {
+                    Debug.Log(enemyShowingAdjustCell.GetPosition());
+                    GameManager.instance.GetCurrentMap().SetHightLightEnemyReachablePoint(false, enemyShowingAdjustCell);
+                    enemyShowingAdjustCell = null;
+                }
+
                 bool find = false;
 
                 Vector2 mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -62,10 +71,19 @@ public class EnemiesManager : MonoBehaviour
                             || UIManager.instance.GetEnemyStateHolder().enemy != script)
                         {
                             UIManager.instance.ShowEnemyInfo(script);
+
+                            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, 
+                                GameManager.instance.player.GetHeightLightCellList());
+
+                            GameManager.instance.GetCurrentMap().SetHightLightEnemyReachablePoint(true, script);
+                            
+                            enemyShowingAdjustCell = script;
                         }
                         else
                         {
                             UIManager.instance.ShowEnemyInfo(null);
+                            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, 
+                                GameManager.instance.player.GetHeightLightCellList());
                         }
                         find = true;
                         
@@ -75,6 +93,8 @@ public class EnemiesManager : MonoBehaviour
                 if (!find)
                 {
                     UIManager.instance.ShowEnemyInfo(null);
+                    GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, 
+                        GameManager.instance.player.GetHeightLightCellList());
                 }
 
             }
