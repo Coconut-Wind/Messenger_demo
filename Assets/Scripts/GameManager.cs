@@ -161,6 +161,11 @@ public class GameManager : MonoBehaviour
         targetPositions = targetList;
     }
 
+    public List<Vector2Int> GetTargetPositions()
+    {
+        return targetPositions;
+    }
+
     public int GetTargetCount()
     {
         return targetPositions.Count;

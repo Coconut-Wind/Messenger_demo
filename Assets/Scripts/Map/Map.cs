@@ -20,7 +20,7 @@ public class Map : MonoBehaviour
 
     private GameObject[,] cellMap; // 整张点位地图，二维数组
     
-    private Cell[] allCells; // 整张图的所有非空点位
+    private List<Cell> allCells= new List<Cell>(); // 整张图的所有非空点位
     
     [Header("---- cellMap参数 ----")]
     [SerializeField] private int cellMapRow;
@@ -138,6 +138,7 @@ public class Map : MonoBehaviour
                 }
                 else // 第二行后的数据记录点位的类型和邻接的点位；第一个为点位类型，剩下的为与该点位邻接的点位在邻接表的下标
                 {
+
                     for (int j = 0; j < lineInfo.Count; j++)
                     {
                         if (j == 0) // 读取点位类型cellType
@@ -182,7 +183,7 @@ public class Map : MonoBehaviour
                             // 处理非空点位列表
                             if (lineInfo[j] != "NullCell")
                             {
-                                
+                                allCells.Add(spawnedCell.GetComponent<Cell>());
                             }
                         }
                         else
@@ -407,6 +408,11 @@ public class Map : MonoBehaviour
         {
             cell.SetHightLight(hightLight);
         }
+    }
+
+    public List<Cell> GetAllCells()
+    {
+        return allCells;
     }
     /*
     //返回一个简易三维数组作为地图, 两层二维，一层存点位，一层存角色

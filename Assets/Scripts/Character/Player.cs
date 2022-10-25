@@ -40,6 +40,7 @@ public class Player : Movement
 
     //双刃剑道具事件
     [HideInInspector]public bool isUsingDoubleSword = false;
+    [HideInInspector]public bool isUsingJudas = false;
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class Player : Movement
 
     private void Start() {
         //测试用：添加道具
-        // PropertyManager.instance.GenerateProperty(0);
+        PropertyManager.instance.GenerateProperty(2);
         // PropertyManager.instance.GenerateProperty(1);
     }
 
@@ -317,14 +318,31 @@ public class Player : Movement
     // 初始化高亮点位列表
     public void UpdateHighLightCellList()
     {
-            
-        highLightCellList = new List<Cell>(onCell.GetAdjCellList());
+        if (isUsingJudas)
+        {
+            highLightCellList = GameManager.instance.GetCurrentMap().GetAllCells();
+        }
+        else
+        {
+            highLightCellList =  new List<Cell>(onCell.GetAdjCellList());
+        }
+        
         
         // 去除列表中有敌人的点位
         List<Vector2Int> enemiesPos = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemiesPositions();
         for(int i = 0; i<highLightCellList.Count; i++)
         {
             if(enemiesPos.Contains(highLightCellList[i].GetPosition()))
+            {
+                highLightCellList.Remove(highLightCellList[i]);
+                i--;
+            }
+        }
+        // 去除列表中有终点的点位
+        List<Vector2Int> targetPos = GameManager.instance.GetTargetPositions();
+        for(int i = 0; i<highLightCellList.Count; i++)
+        {
+            if(targetPos.Contains(highLightCellList[i].GetPosition()))
             {
                 highLightCellList.Remove(highLightCellList[i]);
                 i--;
@@ -350,6 +368,11 @@ public class Player : Movement
         HideArrow();
 
         isMoving = true;
+
+        if (isUsingJudas)
+        {
+            isUsingJudas = false;
+        }
 
         //移动时会隐藏ui， 先记录下状态方便之后复原
         //isShowingEnemyStateHolder = UIManager.instance.enemyStateHolder.activeSelf;

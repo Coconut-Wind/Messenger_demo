@@ -52,7 +52,7 @@ public class DragCamera : MonoBehaviour, IDragHandler, IScrollHandler
         {
             //Debug.Log(zoomInSize);
             LocateToPlayer();
-
+            //Debug.Log("aa");
             //聚焦玩家
             if (Camera.main.orthographicSize > zoomInSize)
             {

@@ -253,7 +253,9 @@ public class Enemy : Movement
 
     public void AttackPlayer(int damage)
     {
-        GameManager.instance.player.CreateDamage(damage);
+        GameManager.instance.Delay(delegate{
+            GameManager.instance.player.CreateDamage(damage);
+        }, 0.5f);
     }
 
     // 受伤效果

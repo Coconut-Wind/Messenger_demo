@@ -38,6 +38,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Character\PlayerAttackArrow.cs" />
      <Compile Include="Assets\Scripts\CameraTracing.cs" />
+     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyHpPotionsPro.cs" />
+     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyHpPotions.cs" />
      <Compile Include="Assets\Scripts\UI\ReturnBtton.cs" />
      <Compile Include="Assets\Scripts\Map\TargetCell.cs" />
      <Compile Include="Assets\Scripts\FacingCamera.cs" />
@@ -52,11 +54,15 @@
      <Compile Include="Assets\Scripts\UI\LevelButton.cs" />
      <Compile Include="Assets\Scripts\PropertySystem\UsePropertyEventArgs.cs" />
      <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
+     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyCoins.cs" />
      <Compile Include="Assets\Scripts\Character\Enemy.cs" />
      <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyHorse.cs" />
      <Compile Include="Assets\Scripts\UI\LevelManager.cs" />
      <Compile Include="Assets\Scripts\EventSystem\OptionButton.cs" />
      <Compile Include="Assets\Scripts\EventSystem\EventOption.cs" />
+     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyEpPotions.cs" />
+     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyDoubleSword.cs" />
+     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyAssassinHood.cs" />
      <Compile Include="Assets\Scripts\PropertySystem\PropertyManager.cs" />
      <Compile Include="Assets\Scripts\EventSystem\EventManager.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerStatesUI.cs" />
@@ -71,13 +77,7 @@
      <Compile Include="Assets\Scripts\Map\Map.cs" />
      <Compile Include="Assets\Scripts\Character\EnemiesManager.cs" />
      <Compile Include="Assets\Scripts\AudioPlayer.cs" />
-     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyCoins.cs" />
      <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyJudas.cs" />
-     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyAssassinHood.cs" />
-     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyDoubleSword.cs" />
-     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyHpPotions.cs" />
-     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyEpPotions.cs" />
-     <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyHpPotionsPro.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Data\level_6.txt" />

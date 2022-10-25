@@ -8,7 +8,8 @@ public class PropertyJudas: Property
     {
         if(_args.propertyID == propertyID)
         {
-            
+            _player.isUsingJudas = true;
+            _player.SetRunOnce(false);
         }
     }
 }
