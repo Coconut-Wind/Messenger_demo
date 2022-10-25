@@ -16,6 +16,12 @@ public class PlayerAttackArrow : MonoBehaviour
 
     private void Update()
     {
+        // 如果面板打开了，禁止攻击
+        if(PropertyManager.instance.isOpenedPanel || EventManager.instance.isEventPanelOpen)
+        {
+            return;
+        }
+
         //处理双刃剑效果: 前提是攻击图标还存在
         if (doubleAttack)
         {

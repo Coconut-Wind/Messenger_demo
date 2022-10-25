@@ -9,6 +9,7 @@ public class StoryManager : MonoBehaviour
     public static StoryManager instance;
     public GameObject storyPanel;
     public TextMeshProUGUI storyLineText;
+    public bool isStoryPanelOpen = false;
 
     [TextArea(1, 3)] public List<string> storyLineList;
     [SerializeField] private int currentLineIndex;
@@ -45,6 +46,7 @@ public class StoryManager : MonoBehaviour
                 }
                 else
                 {
+                    isStoryPanelOpen = false;
                     storyPanel.SetActive(false);
                 }
             }
@@ -59,6 +61,7 @@ public class StoryManager : MonoBehaviour
 
     public void OpenStoryPanel()
     {
+        isStoryPanelOpen = true;
         storyPanel.SetActive(true);
     }
 

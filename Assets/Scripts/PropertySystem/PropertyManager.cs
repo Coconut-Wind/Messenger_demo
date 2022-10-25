@@ -39,11 +39,11 @@ public class PropertyManager : MonoBehaviour
 
     private void Update()
     {
-        //测试用
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            GenerateProperty(0);
-        }
+        // //测试用
+        // if (Input.GetKeyDown(KeyCode.N))
+        // {
+        //     GenerateProperty(0);
+        // }
     }
 
     public void AddPlayerOwnedPropertyList(Property _property)
@@ -112,7 +112,8 @@ public class PropertyManager : MonoBehaviour
     public void ClosePropertyDetailPanel(GameObject _panel)
     {
         Debug.Log("A");
-        _panel.SetActive(false);
+        // _panel.SetActive(false);
+        UIManager.instance.PopHidePanel(_panel);
 
         isOpenedPanel = false;
     }

@@ -1036,7 +1036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 126}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 1267.7737, y: 304.9906}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &887962179
@@ -1473,6 +1473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storyPanel: {fileID: 290635172}
   storyLineText: {fileID: 887962179}
+  isStoryPanelOpen: 0
   storyLineList:
   - "\u5F88\u4E45\u4EE5\u524D\uFF0C\u8FD9\u7247\u5927\u9646\u4E5F\u66FE\u751F\u673A\u52C3\u52C3\u3001\u8D44\u6E90\u4E30\u5BCC\uFF0C\u4EBA\u4EEC\u5B89\u5C45\u4E50\u4E1A\uFF1B"
   - "\u4F46\u9B54\u738B\u7684\u5165\u4FB5\u6539\u53D8\u4E86\u8FD9\u4E00\u5207\uFF0C\u593A\u8D70\u4E86\u5927\u9646\u4E0A\u7684\u548C\u5E73\uFF0C\u5BF9\u4EBA\u7C7B\u793E\u4F1A\u9020\u6210\u4E86\u4E0D\u53EF\u9006\u8F6C\u7684\u4F24\u5BB3\u3002"

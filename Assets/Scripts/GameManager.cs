@@ -64,7 +64,8 @@ public class GameManager : MonoBehaviour
     //跳过玩家回合
     public void SkipPlayerTurn()
     {
-        player.SkipTurn();
+        if(!EventManager.instance.isEventPanelOpen && !PropertyManager.instance.isOpenedPanel)
+            player.SkipTurn();
     }
 
     //切换到对方回合
@@ -112,7 +113,8 @@ public class GameManager : MonoBehaviour
     public void Replay()
     {
         Debug.Log("Replay");
-        UIManager.instance.gameoverCanvas.SetActive(false);
+        // UIManager.instance.gameoverCanvas.SetActive(false);
+        UIManager.instance.PopHidePanel(UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject);
 
         player.StopAllCoroutines();
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
@@ -126,7 +128,8 @@ public class GameManager : MonoBehaviour
     public void NextLevel()
     {
         Debug.Log("NextLevel");
-        UIManager.instance.gameoverCanvas.SetActive(false);
+        // UIManager.instance.gameoverCanvas.SetActive(false);
+        UIManager.instance.PopHidePanel(UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject);
 
         player.StopAllCoroutines();
 
@@ -144,7 +147,9 @@ public class GameManager : MonoBehaviour
     public void OtherLevels()
     {
         Debug.Log("OtherLevels");
-        UIManager.instance.gameoverCanvas.SetActive(false);
+        // UIManager.instance.gameoverCanvas.SetActive(false);
+        UIManager.instance.PopHidePanel(UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject);
+        
         SceneManager.LoadScene(2);
         AudioPlayer.instance.ReplayBgm();
         isGameOver = false;
@@ -217,7 +222,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("GG");
         isGameOver = over;
 
-        UIManager.instance.gameoverCanvas.SetActive(true);
+        // UIManager.instance.gameoverCanvas.SetActive(true);
+        UIManager.instance.PopShowPanel(UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject);
+
         //判断输赢
         if (isGameOver)
         {

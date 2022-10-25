@@ -19,6 +19,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI topBar_text;
     public GameObject topBar_skipButton;
 
+    [Header("面板弹出弹出效果")]
+    [SerializeField] private float popSpeed;
+    [SerializeField] private AnimationCurve popShowCurve;
+    [SerializeField] private AnimationCurve popHideCurve;
 
     private void Awake()
     {
@@ -88,14 +92,55 @@ public class UIManager : MonoBehaviour
     {
         if (e != null)
         {
-            enemyStateHolder.SetActive(true);
+            // enemyStateHolder.SetActive(true);
+            PopShowPanel(enemyStateHolder);
+
             GetEnemyStateHolder().enemy = e;
 
         }
         else
         {
             GetEnemyStateHolder().enemy = null;
-            enemyStateHolder.SetActive(false);
+            // enemyStateHolder.SetActive(false);
+            PopHidePanel(enemyStateHolder);
         }
+    }
+
+
+    /// ------------------ 面板弹入弹出效果 ------------------
+    public void PopShowPanel(GameObject _panel)
+    {
+        StartCoroutine(PopShowPanelIE(_panel));
+    }
+    private IEnumerator PopShowPanelIE(GameObject _panel)
+    {
+        _panel.transform.localScale = Vector3.zero;
+        _panel.SetActive(true);
+        float timer = 0;
+        while(timer <= 1)
+        {
+            _panel.transform.localScale = Vector3.one * popShowCurve.Evaluate(timer);
+            timer += Time.deltaTime * popSpeed;
+            yield return null;
+        }
+        // Time.timeScale = 0;
+    }
+
+    public void PopHidePanel(GameObject _panel)
+    {
+        StartCoroutine(PopHidePanelIE(_panel));
+    }
+    private IEnumerator PopHidePanelIE(GameObject _panel)
+    {
+        // Time.timeScale = 1;
+        float timer = 0;
+        while(timer <= 1)
+        {
+            _panel.transform.localScale = Vector3.one * popHideCurve.Evaluate(timer);
+            timer += Time.deltaTime * popSpeed;
+            yield return null;
+        }
+        _panel.transform.localScale = Vector3.one;
+        _panel.SetActive(false);
     }
 }

@@ -18,7 +18,7 @@ public class LevelButton : MonoBehaviour
 
     private void OnMouseUp() 
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !StoryManager.instance.isStoryPanelOpen)
         {
             JumpToLevel();
         }

@@ -19,8 +19,8 @@ public class Player : Movement
     [SerializeField] private Transform arrowHolder; //存放攻击箭头的父节点
                                                     //[SerializeField] private GameObject circle;
 
-    private bool isMouseDown = false; //是否正在主角处按下鼠标
-    private bool isMouseOver = false; //是否鼠标悬停在上方
+    // private bool isMouseDown = false; //是否正在主角处按下鼠标
+    // private bool isMouseOver = false; //是否鼠标悬停在上方
     private bool isShowingArrow = false; //是否正在显示攻击箭头
 
     [HideInInspector] public bool isMoving = false; //玩家是否正在移动
@@ -122,93 +122,6 @@ public class Player : Movement
     public void SetRunOnce(bool once)
     {
         runOnce = once;
-    }
-
-
-
-    //处理点击事件
-    private void CheckMouseClick()
-    {
-
-        if (Input.GetMouseButtonDown(0)) //左键按下
-        {
-            if (isMouseOver)
-            {
-                isMouseDown = true;
-                lastPosition = GetPosition();
-            }
-        }
-        else if (Input.GetMouseButtonUp(0)) //左键弹起
-        {
-            if (isMouseDown)
-            {
-                isMouseDown = false;
-
-                transform.position = GameManager.instance.GetCurrentMap().AdjustPosition(nextPosition);
-                Debug.Log("last: " + lastPosition + ", next: " + nextPosition);
-                if (nextPosition != lastPosition)
-                {
-                    //发生移动,下一回合
-                    //吸附点位
-                    SetPosition(nextPosition.x, nextPosition.y);
-
-                    //目标检测
-                    CheckCellType();
-                    GameManager.instance.NextTurn();
-                }
-            }
-        }
-    }
-
-
-    //处理拖动事件
-    private void CheckMouseDrag()
-    {
-        if (isMouseDown)
-        {
-            //可达点位高亮
-            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = mousePosition;
-
-            nextPosition = GetNearestPosition(mousePosition);
-
-            //拖动主角时，不显示攻击箭头
-            HideArrow();
-        }
-    }
-
-    /// <summary>检测鼠标是否至于置于主角上 </summary>
-    private void CheckMouseOver()
-    {
-        //将屏幕坐标转换为世界坐标
-        Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 self = transform.position; //Camera.main.ViewportToWorldPoint(transform.position);
-        float dis = Vector2.Distance(mouse, self);
-
-        isMouseOver = false;
-
-        //根据距离判断是否悬停在Player上
-        //如果鼠标进入 主角选择 范围
-        if (dis <= maxSelectDistance && !isMouseDown)
-        {
-            if (GameManager.instance.IsPlayersTurn())
-            {
-                isMouseOver = true;
-                ShowArrow();
-                //设置可达点位高亮
-                //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
-
-            }
-        }
-
-        //如果鼠标不在 箭头选择 范围内
-        if (dis > maxArrowSelectDistance)
-            HideArrow();
-        //如果没有检测到悬停，则不显示点位光圈
-        //if (!isMouseOver)
-        //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
-
     }
 
     /// <summary> 获取离鼠标坐标最近的点位 </summary>
@@ -325,6 +238,18 @@ public class Player : Movement
         if (isUsingJudas)
         {
             highLightCellList = GameManager.instance.GetCurrentMap().GetAllCells();
+
+            // 去除列表中有终点的点位
+            List<Vector2Int> targetPos = GameManager.instance.GetTargetPositions();
+            for (int i = 0; i < highLightCellList.Count; i++)
+            {
+                if (targetPos.Contains(highLightCellList[i].GetPosition()))
+                {
+                    highLightCellList.Remove(highLightCellList[i]);
+                    i--;
+                }
+            }
+            highLightCellList.Add(onCell);
         }
         else
         {
@@ -341,17 +266,6 @@ public class Player : Movement
                 i--;
             }
         }
-        // 去除列表中有终点的点位
-        List<Vector2Int> targetPos = GameManager.instance.GetTargetPositions();
-        for (int i = 0; i < highLightCellList.Count; i++)
-        {
-            if (targetPos.Contains(highLightCellList[i].GetPosition()))
-            {
-                highLightCellList.Remove(highLightCellList[i]);
-                i--;
-            }
-        }
-        highLightCellList.Add(onCell);
     }
 
     public List<Cell> GetHeightLightCellList()

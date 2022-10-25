@@ -25,6 +25,7 @@ public class EventManager : MonoBehaviour
 
     public Event currentEvent; // 当前的事件
     public GameObject currentClickOption; // 当前被点击的选项
+    public bool isEventPanelOpen = false;
 
     private void Awake()
     {
@@ -43,8 +44,8 @@ public class EventManager : MonoBehaviour
     private void Start()
     {
         // // Test
-        // currentEvent = eventList[0];
-        // InitEventPanel(eventList[0]);
+        // currentEvent = eventList[7];
+        // InitEventPanel(eventList[7]);
         // OpenEventPanel();
     }
 
@@ -201,7 +202,7 @@ public class EventManager : MonoBehaviour
     // 跳过一个回合
     public void SkipYourTurn()
     {
-        GameManager.instance.SkipPlayerTurn();
+        GameManager.instance.NextTurn();
     }
 
 
@@ -233,7 +234,7 @@ public class EventManager : MonoBehaviour
         ref List<Property> propertyList = ref PropertyManager.instance.playerPropertyList;
         if (playerPropertyNum < propertyList.Count) // 在触发选项效果前获取玩家持有道具数比现在的持有道具数小，说明获得了道具
         {
-            descriptionText = descriptionText.Replace("[道具]", propertyList[propertyList.Count-1].propertyName);
+            descriptionText = descriptionText.Replace("[道具]", propertyList[propertyList.Count - 1].propertyName);
         }
         optionDescription.text = descriptionText;
     }
@@ -257,14 +258,18 @@ public class EventManager : MonoBehaviour
 
     public void OpenEventPanel()
     {
-        eventPanel.SetActive(true);
-        Time.timeScale = 0;
+        // eventPanel.SetActive(true);
+        // Time.timeScale = 0;
+        isEventPanelOpen = true;
+        UIManager.instance.PopShowPanel(eventPanel);
     }
 
     public void CloseEventPanel()
     {
-        eventPanel.SetActive(false);
-        Time.timeScale = 1;
+        // eventPanel.SetActive(false);
+        // Time.timeScale = 1;
+        isEventPanelOpen = false;
+        UIManager.instance.PopHidePanel(eventPanel);
 
         // 关闭面板时销毁生成的按钮
         foreach (var optionButton in optionButtonList)
@@ -275,13 +280,17 @@ public class EventManager : MonoBehaviour
 
     public void OpenAfterOptionPanel()
     {
-        afterOptionPanel.SetActive(true);
-        Time.timeScale = 0;
+        // afterOptionPanel.SetActive(true);
+        // Time.timeScale = 0;
+        isEventPanelOpen = true;
+        UIManager.instance.PopShowPanel(afterOptionPanel);
     }
 
     public void CloseAfterOptionPanel()
     {
-        afterOptionPanel.SetActive(false);
-        Time.timeScale = 1;
+        // afterOptionPanel.SetActive(false);
+        // Time.timeScale = 1;
+        isEventPanelOpen = false;
+        UIManager.instance.PopHidePanel(afterOptionPanel);
     }
 }

@@ -73,7 +73,7 @@ public class Cell : MonoBehaviour
     private void OnMouseUp() {
         //如果打开了面板，则不执行
         Debug.Log("B");
-        if (PropertyManager.instance.isOpenedPanel)
+        if (PropertyManager.instance.isOpenedPanel || EventManager.instance.isEventPanelOpen)
             return;
 
         Debug.Log("CLICK");

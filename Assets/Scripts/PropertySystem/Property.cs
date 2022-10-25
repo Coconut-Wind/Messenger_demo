@@ -41,6 +41,12 @@ public class Property : MonoBehaviour
 
     public void OpenPropertyDetailPanel()
     {
+        // 打开事件面板时不可以打开道具
+        if(EventManager.instance.isEventPanelOpen)
+        {
+            return;
+        }
+
         PropertyManager.instance.currentClickProperty = gameObject;
 
         PropertyManager.instance.isOpenedPanel = true;
@@ -48,7 +54,8 @@ public class Property : MonoBehaviour
         // 根据道具类型选择打开的面板
         GameObject panel = isPassive? PropertyManager.instance.passivePropertyDetailPanel : PropertyManager.instance.activePropertyDetailPanel;
         
-        panel.SetActive(true);
+        // panel.SetActive(true);
+        UIManager.instance.PopShowPanel(panel);
 
         panel.transform.Find("PropertyImage") .GetComponent<Image>().sprite = propertyImage.sprite;
         Debug.Log(propertyName);
