@@ -44,6 +44,7 @@ public class EnemiesManager : MonoBehaviour
         }
         else
         {
+            //点击敌人之后触发
             if (Input.GetMouseButtonUp(0))
             {
                 bool find = false;
@@ -67,6 +68,8 @@ public class EnemiesManager : MonoBehaviour
                             UIManager.instance.ShowEnemyInfo(null);
                         }
                         find = true;
+                        
+                        break; //检测到一个就立马退出
                     }
                 }
                 if (!find)

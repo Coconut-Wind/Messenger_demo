@@ -184,7 +184,7 @@ public class EventManager : MonoBehaviour
             int rand = Random.Range(1, playerCanReachCellList.Count);
             for (int i = 0; i < rand; i++)
             {
-                var enemy = Instantiate(FindObjectOfType<Map>().enemy, transform.position, Quaternion.identity);
+                var enemy = Instantiate(FindObjectOfType<Map>().enemy[0], transform.position, Quaternion.identity);
                 enemy.transform.SetParent(GameManager.instance.enemiesManager.transform);
                 enemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
                 enemy.GetComponent<Enemy>().Init(FindObjectOfType<Map>(), playerCanReachCellList[i].GetPosition());

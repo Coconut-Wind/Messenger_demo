@@ -1068,7 +1068,9 @@ MonoBehaviour:
   goldenCellPrefab: {fileID: 8849536659581587816, guid: c12e996ecd7750145ad1f45b9f4e95ef, type: 3}
   edgePrefab: {fileID: 1522026786971148190, guid: bf3b3e881c6657242bdc65735d0d459a, type: 3}
   player: {fileID: 1054916057643287194, guid: 3cb2df58ed2003444b396e39aa2e9138, type: 3}
-  enemy: {fileID: 741362135155862670, guid: 0d28c0d0ebf7e4a4ba6d970d2f45ffbb, type: 3}
+  enemy:
+  - {fileID: 5405585896363802459, guid: b519ad3c5d92b914a9cf963384cf5310, type: 3}
+  - {fileID: 5405585896363802459, guid: e985b7a05c205fe48a638e4d6bfc4280, type: 3}
   cellMapRow: 1
   cellMapColumn: 1
   cellPadding: 1
@@ -39583,7 +39585,7 @@ PrefabInstance:
       objectReference: {fileID: 329511055}
     - target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
       propertyPath: eventTriggerProbability
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6819115354437516643, guid: 2d9eb1e466c74fc4d9b83d82a6d2e6ce, type: 3}
       propertyPath: currentOptionGetPropertyID

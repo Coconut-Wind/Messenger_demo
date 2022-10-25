@@ -15,7 +15,7 @@ public class Map : MonoBehaviour
     // TODO:还有增益点位和减益点位的预制体没创建
     [SerializeField] private GameObject edgePrefab; // 边的预制体
     [SerializeField] private GameObject player; //玩家的预制体
-    public GameObject enemy; //敌人的预制体
+    public GameObject[] enemy; //敌人的预制体
 
 
     private GameObject[,] cellMap; // 整张点位地图，二维数组
@@ -48,6 +48,7 @@ public class Map : MonoBehaviour
 
     //角色所在点位的编号
     private int[] enemiesPosition; //敌人的位置 (所在点的编号，一个整数表示)
+    private int[] enemiesType; //敌人的种类(0:Robber, 1:Bandit)
     private int playerPosition; //玩家的位置 (所在点的编号，一个整数表示)
 
     //public int[,,] cellTypeMap;
@@ -207,9 +208,20 @@ public class Map : MonoBehaviour
                 else
                 {
                     enemiesPosition = new int[lineInfo.Count];
+                    enemiesType = new int[lineInfo.Count];
                     for (int k = 0; k < lineInfo.Count; k++)
                     {
-                        enemiesPosition[k] = int.Parse(lineInfo[k]);
+                        string []enemyInfo = lineInfo[k].Split(':');
+                        if (enemyInfo.Length == 1)
+                        {
+                            enemiesPosition[k] = int.Parse(lineInfo[k]);
+                            enemiesType[k] = 0;
+                        }
+                        else
+                        {
+                            enemiesPosition[k] = int.Parse(enemyInfo[0]);
+                            enemiesType[k] = int.Parse(enemyInfo[1]);
+                        }
                     }
                 }
 
@@ -336,7 +348,7 @@ public class Map : MonoBehaviour
             int x = (enemiesPosition[i] % cellMapColumn);
 
             Vector2 pos = AdjustPosition(y, x);
-            GameObject spawnEnemy = Instantiate(enemy, pos, Quaternion.identity);
+            GameObject spawnEnemy = Instantiate(enemy[enemiesType[i]], pos, Quaternion.identity);
             spawnEnemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
             spawnEnemy.transform.SetParent(enemiesManager);
             spawnEnemy.name = $"enemy {i + 1}";

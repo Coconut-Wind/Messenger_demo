@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Character\PlayerAttackArrow.cs" />
      <Compile Include="Assets\Scripts\CameraTracing.cs" />
+     <Compile Include="Assets\Scripts\StoryManager.cs" />
      <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyHpPotionsPro.cs" />
      <Compile Include="Assets\Scripts\PropertySystem\Properties\PropertyHpPotions.cs" />
      <Compile Include="Assets\Scripts\UI\ReturnBtton.cs" />
