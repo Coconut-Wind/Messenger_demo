@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
 {
-    public AudioClip positive;
-    public AudioClip negative;
-    public AudioClip reach;
-    public AudioClip gameover;
-    public AudioClip win;
-    public AudioClip dead;
-    
-    private AudioSource audioSource;
-
-    public static AudioPlayer instance;
-    private AudioSource bgmPlayer;
+    public List<AudioClip> effects;
+    public List<AudioClip> bgms;
+    public AudioSource bgmPlayer;
+    public AudioSource soundEffectPlayer;
+    public static AudioPlayer instance = null;
 
 
     //实现全局单例类
@@ -35,43 +29,38 @@ public class AudioPlayer : MonoBehaviour
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        soundEffectPlayer = transform.GetChild(1).GetComponent<AudioSource>();
         bgmPlayer = transform.GetChild(0).GetComponent<AudioSource>();
+
+        Play("bgm", "bgm");
     }
 
-    /// <summary> 
-    ///  播放音效
-    ///  hit, walk, gameover, win
-    /// </summary>
-    public void Play(string clipName)
+    ///<summary> type: "effect" / "bgm"</summary>
+    public void Play(string name, string type = "effect")
     {
-        AudioClip tmp = null;
-        switch (clipName)
-        {
-            case "negative":
-                tmp = negative;
-                break;
-            case "reach":
-                tmp = reach;
-                break;
-            case "gameover":
-                tmp = gameover;
-                break;
-            case "win":
-                tmp = win;
-                break;
-            case "dead":
-                tmp = dead;
-                break;
-            case "positive":
-                tmp = positive;
-                break;
-            default:
-                tmp = reach;
-                break;
-        }
-        audioSource.clip = tmp;
-        audioSource.Play();
+        if (type == "effect")
+            foreach (AudioClip ac in effects)
+            {
+                if (name.ToUpper() == ac.name.ToUpper())
+                {
+                    soundEffectPlayer.clip = ac;
+                    soundEffectPlayer.Play();
+                    Debug.Log("Sound Effect: " + name);
+                    break;
+                }
+            }
+        else if (type == "bgm")
+            foreach (AudioClip ac in bgms)
+            {
+                if (name.ToUpper() ==  ac.name.ToUpper())
+                {
+                    bgmPlayer.loop = true;
+                    bgmPlayer.clip = ac;
+                    bgmPlayer.Play();
+                    Debug.Log("BGM: " + name);
+                    break;
+                }
+            }
     }
 
     public void SetBgmPlaying(bool play) 

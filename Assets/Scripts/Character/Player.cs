@@ -334,21 +334,21 @@ public class Player : Movement
         {
             moveTime = 1;
             GameManager.instance.NextTurn();
-            //某某之书效果
-            if (isUsingBook)
-            {
-                if (usingBookTurnCount++ >= 3)
-                {
-                    isUsingBook = false;
-                    usingBookTurnCount = 0;
-                    //还原敌人的索敌范围
-                    List<Enemy> elist = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyList();
-                    foreach(Enemy e in elist){
-                        e.maxZoomDistance -= 2;
-                        e.maxZoomDistance -= 2;
-                    }
-                }
-            }
+            // //某某之书效果
+            // if (isUsingBook)
+            // {
+            //     if (usingBookTurnCount++ >= 3)
+            //     {
+            //         isUsingBook = false;
+            //         usingBookTurnCount = 0;
+            //         //还原敌人的索敌范围
+            //         List<Enemy> elist = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyList();
+            //         foreach(Enemy e in elist){
+            //             e.maxZoomDistance -= 2;
+            //             e.maxZoomDistance -= 2;
+            //         }
+            //     }
+            // }
         }
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList); //显示点位光圈
     }
