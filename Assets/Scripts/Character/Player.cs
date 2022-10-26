@@ -40,7 +40,12 @@ public class Player : Movement
 
     //双刃剑道具事件
     [HideInInspector] public bool isUsingDoubleSword = false;
+    //十字架道具事件
     [HideInInspector] public bool isUsingJudas = false;
+    //某某书道具事件
+    [HideInInspector] public bool isUsingBook = false;
+    [HideInInspector] public int usingBookTurnCount = 0;
+
 
     private void Awake()
     {
@@ -53,7 +58,7 @@ public class Player : Movement
     {
         //测试用：添加道具
         // PropertyManager.instance.GenerateProperty(0);
-        PropertyManager.instance.GenerateProperty(2);
+        PropertyManager.instance.GenerateProperty(9);
         // PropertyManager.instance.GenerateProperty(1);
     }
 
@@ -329,6 +334,21 @@ public class Player : Movement
         {
             moveTime = 1;
             GameManager.instance.NextTurn();
+            //某某之书效果
+            if (isUsingBook)
+            {
+                if (usingBookTurnCount++ >= 3)
+                {
+                    isUsingBook = false;
+                    usingBookTurnCount = 0;
+                    //还原敌人的索敌范围
+                    List<Enemy> elist = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyList();
+                    foreach(Enemy e in elist){
+                        e.maxZoomDistance -= 2;
+                        e.maxZoomDistance -= 2;
+                    }
+                }
+            }
         }
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList); //显示点位光圈
     }

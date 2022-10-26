@@ -13,6 +13,7 @@ public class Property : MonoBehaviour
     public string propertyName; // 道具名
     public string propertyDescription; // 道具描述
     public bool isPassive; // 是否为被动道具，false为主动
+    public bool isEveryPlayerTurn; //是否每个玩家回合都生效一次
     public bool isOneOff; // 是否为一次性道具
 
     [Header("道具参数")]
@@ -38,6 +39,7 @@ public class Property : MonoBehaviour
 
     /// <summary> 要实现道具的功能在子类实现该方法 </summary>
     protected virtual void PropertyAbility(Player _player, UsePropertyEventArgs _args) { }
+    
 
     public void OpenPropertyDetailPanel()
     {

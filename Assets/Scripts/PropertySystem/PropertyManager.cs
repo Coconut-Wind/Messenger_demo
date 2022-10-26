@@ -74,7 +74,7 @@ public class PropertyManager : MonoBehaviour
 
 
         Property property = spawnedProperty.GetComponent<Property>();
-        AddPlayerOwnedPropertyList(property); //加入到List中便于管理
+
         //如果是被动道具，则使用
         if (property.isPassive)
         {

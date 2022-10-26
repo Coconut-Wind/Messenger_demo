@@ -54,6 +54,7 @@ MonoBehaviour:
   - {fileID: 7728482311424213183, guid: e1b5557d9e9dd3a4aa54e0a070b508d4, type: 3}
   - {fileID: 8738726816792677477, guid: 692dc16e95a36fa42a8271e021c92008, type: 3}
   - {fileID: 8878473088021095109, guid: 8adb61e247d82c947bd3c0b4441ddc7a, type: 3}
+  - {fileID: 7676133790305508163, guid: dbb8e1e05b5860140ae309d51fc4b6d9, type: 3}
   playerPropertyList: []
   propertyPrefabsList:
   - {fileID: 1448829865538147290, guid: fc0cce066d772d24c92215916fa0bf32, type: 3}
@@ -65,6 +66,7 @@ MonoBehaviour:
   - {fileID: 1448829865538147290, guid: e1b5557d9e9dd3a4aa54e0a070b508d4, type: 3}
   - {fileID: 1448829865538147290, guid: 692dc16e95a36fa42a8271e021c92008, type: 3}
   - {fileID: 1448829865538147290, guid: 8adb61e247d82c947bd3c0b4441ddc7a, type: 3}
+  - {fileID: 1448829865538147290, guid: dbb8e1e05b5860140ae309d51fc4b6d9, type: 3}
   propertyCanvas: {fileID: 0}
   propertyPanel: {fileID: 0}
   passivePropertyDetailPanel: {fileID: 0}

@@ -536,7 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3324f4e3732390d4489f54f6c1a38467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unreachEnemyCount: 0
   enemyShowingAdjustCell: {fileID: 0}
 --- !u!114 &199072430
 MonoBehaviour:

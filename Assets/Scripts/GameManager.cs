@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     private int turnCount_ = 1;
     public int turnCount
     {
-        set {turnCount_ = value; }
+        set {turnCount_ = value; Debug.Log("回合"+value);}
         get { return turnCount_; }
     }
 
@@ -82,9 +82,19 @@ public class GameManager : MonoBehaviour
         if (isPlayersTurn)
         {
             player.SetRunOnce(false);
+
+            turnCount_++;
+            List<Property> plist = PropertyManager.instance.GetPlayerOwnedPropertyList();
+            Debug.Log(plist.Count);
+            foreach (Property p in plist)
+            {
+                if (p.isEveryPlayerTurn)
+                {Debug.Log("1111111111111111111111");
+                    GameManager.instance.player.UseProperty(new UsePropertyEventArgs(p.propertyID,  enemiesManager.GetComponent<EnemiesManager>().GetEnemyList()));
+                }
+            }
         }
         Debug.Log("现在是" + (isPlayersTurn ? "玩家" : "敌人") + "回合");
-        turnCount_++;
     }
 
 
