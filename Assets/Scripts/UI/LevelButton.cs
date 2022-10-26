@@ -31,6 +31,5 @@ public class LevelButton : MonoBehaviour
         LevelManager.currentLevelId = targetLevel;
         LevelManager.currentLevelPath = targetLevelPath;
         SceneManager.LoadScene(1);
-        
     }
 }

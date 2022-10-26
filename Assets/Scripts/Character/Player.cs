@@ -59,7 +59,7 @@ public class Player : Movement
     {
         //测试用：添加道具
         // PropertyManager.instance.GenerateProperty(0);
-        PropertyManager.instance.GenerateProperty(7);
+        // PropertyManager.instance.GenerateProperty(7);
         // PropertyManager.instance.GenerateProperty(1);
     }
 

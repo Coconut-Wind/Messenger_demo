@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ring: {fileID: 3162454315224002119}
+  isTriggered: 0
 --- !u!212 &8321784544607017855
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -89,8 +90,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: c6579549bfe0e7b4c85c8f5069c7aaca, type: 3}
-  m_Color: {r: 0.68301886, g: 0.9361309, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 622ebd4313dbf3a49b9e7bf4e5cb3329, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

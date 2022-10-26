@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI topBar_text;
     public GameObject topBar_skipButton;
 
+
     [Header("面板弹出弹出效果")]
     [SerializeField] private float popSpeed;
     [SerializeField] private AnimationCurve popShowCurve;
@@ -105,7 +106,6 @@ public class UIManager : MonoBehaviour
             PopHidePanel(enemyStateHolder);
         }
     }
-
 
     /// ------------------ 面板弹入弹出效果 ------------------
     public void PopShowPanel(GameObject _panel)

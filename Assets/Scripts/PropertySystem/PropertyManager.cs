@@ -34,7 +34,11 @@ public class PropertyManager : MonoBehaviour
 
     private void Start()
     {
-        //passivePropertyDetailPanel =     
+        //passivePropertyDetailPanel =    
+        // for (int i = 0; i < propertyList.Count; i++)
+        // {
+        //     GenerateProperty(i);
+        // } 
     }
 
     private void Update()

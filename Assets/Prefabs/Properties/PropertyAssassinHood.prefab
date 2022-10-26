@@ -68,8 +68,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 572db648a56a93048a942e8325033073, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -151,5 +151,6 @@ MonoBehaviour:
   propertyName: "\u523A\u5BA2\u98CE\u5E3D"
   propertyDescription: "\u770B\u8D77\u6765\u50CF\u662F\u4F20\u7EDF\u523A\u5BA2\u4F1A\u4F7F\u7528\u7684\u88C5\u5907\uFF0C\u4F3C\u4E4E\u5E26\u4E0A\u4E4B\u540E\u5C31\u6CA1\u90A3\u4E48\u5F15\u4EBA\u6CE8\u76EE\u4E86\uFF1B\u51CF\u5C11\u654C\u4EBA\u7D22\u654C\u8303\u56F4"
   isPassive: 1
+  isEveryPlayerTurn: 0
   isOneOff: 0
   isPlayerGet: 0

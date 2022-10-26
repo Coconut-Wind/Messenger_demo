@@ -130,6 +130,7 @@ public class GameManager : MonoBehaviour
 
         player.StopAllCoroutines();
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+
         UIManager.instance.ClearAllEnemyHealthBar();
         isGameOver = false;
         isFinishedGoal = false;
@@ -148,6 +149,7 @@ public class GameManager : MonoBehaviour
 
         LevelManager.SetCurrentLevel(LevelManager.currentLevelId + 1);
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+
         UIManager.instance.ClearAllEnemyHealthBar();
         isGameOver = false;
         isFinishedGoal = false;
@@ -159,10 +161,12 @@ public class GameManager : MonoBehaviour
     public void OtherLevels()
     {
         Debug.Log("OtherLevels");
-        // UIManager.instance.gameoverCanvas.SetActive(false);
-        UIManager.instance.PopHidePanel(UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject);
+        // UIManager.instance.PopHidePanel(UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject);
+        UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject.SetActive(false);
         
+
         SceneManager.LoadScene(2);
+
         AudioPlayer.instance.ReplayBgm();
         isGameOver = false;
         isFinishedGoal = false;
