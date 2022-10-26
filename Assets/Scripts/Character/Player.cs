@@ -46,7 +46,6 @@ public class Player : Movement
     [HideInInspector] public bool isUsingBook = false;
     [HideInInspector] public int usingBookTurnCount = 0;
 
-
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -343,7 +342,8 @@ public class Player : Movement
             //         usingBookTurnCount = 0;
             //         //还原敌人的索敌范围
             //         List<Enemy> elist = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyList();
-            //         foreach(Enemy e in elist){
+            //         foreach (Enemy e in elist)
+            //         {
             //             e.maxZoomDistance -= 2;
             //             e.maxZoomDistance -= 2;
             //         }

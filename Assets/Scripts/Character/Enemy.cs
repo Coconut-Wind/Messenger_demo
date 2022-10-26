@@ -60,8 +60,7 @@ public class Enemy : Movement
             {
                 UIManager.instance.ShowEnemyInfo(null);
                 GameManager.instance.enemiesManager.GetComponent<EnemiesManager>()
-                    .ClearHightLightEnemyReachablePoint();
-
+                                    .ClearHightLightEnemyReachablePoint();
             }
 
             GameManager.instance.Delay(delegate ()
@@ -288,7 +287,7 @@ public class Enemy : Movement
         //GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
         EnemiesManager enemiesManager = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>();
         enemiesManager.unreachEnemyCount--;
-
+        
         return base.OnReachCell();
     }
 
@@ -303,7 +302,7 @@ public class Enemy : Movement
         bool[,] map = GameManager.instance.GetCurrentStateMap(false);//new bool[mapShape.y, mapShape.x];
         map[homePosition.x, homePosition.y] = true;
 
-        while(head < list.Count  && !enough)
+        while (head < list.Count && !enough)
         {
             Node curr = list[head];
             Cell currCell = GameManager.instance.GetCurrentMap().GetCellByIndex(curr.pos);
@@ -330,14 +329,14 @@ public class Enemy : Movement
                         //添加搜索记录
                         map[npos.x, npos.y] = true;
                     }
-                    
+
                 }
             }
             head++;
         }
-        
+
         List<Cell> res = new List<Cell>();
-        foreach(Node n in list)
+        foreach (Node n in list)
         {
             res.Add(GameManager.instance.GetCurrentMap().GetCellByIndex(n.pos));
         }

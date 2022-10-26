@@ -88,7 +88,7 @@ public class LevelManager : MonoBehaviour
                 GameObject btn = Instantiate(levelButton, 
                     new Vector3(transform.position.x + j * buttonPadding, transform.position.y - i * buttonPadding, 1f), 
                     Quaternion.identity);
-                
+                    
                 LevelButton lb = btn.GetComponent<LevelButton>();
                 lb.SetTargetLevel(id+1, path);
 

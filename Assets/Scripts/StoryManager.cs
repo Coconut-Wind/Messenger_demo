@@ -47,6 +47,7 @@ public class StoryManager : MonoBehaviour
                 }
                 else
                 {
+                    AudioPlayer.instance.Play("bgm", "bgm");
                     isStoryPanelOpen = false;
                     storyPanel.SetActive(false);
                 }
@@ -64,6 +65,7 @@ public class StoryManager : MonoBehaviour
     {
         if (enableStory)
         {
+            AudioPlayer.instance.Play("StoryBGM", "bgm");
             isStoryPanelOpen = true;
             storyPanel.SetActive(true);
         }

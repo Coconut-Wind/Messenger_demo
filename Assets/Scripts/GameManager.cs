@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     private int turnCount_ = 1;
     public int turnCount
     {
-        set {turnCount_ = value; Debug.Log("回合"+value);}
+        set { turnCount_ = value; Debug.Log("回合" + value); }
         get { return turnCount_; }
     }
 
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     //跳过玩家回合
     public void SkipPlayerTurn()
     {
-        if(!EventManager.instance.isEventPanelOpen && !PropertyManager.instance.isOpenedPanel)
+        if (!EventManager.instance.isEventPanelOpen && !PropertyManager.instance.isOpenedPanel)
             player.SkipTurn();
     }
 
@@ -89,14 +89,14 @@ public class GameManager : MonoBehaviour
             foreach (Property p in plist)
             {
                 if (p.isEveryPlayerTurn)
-                {Debug.Log("1111111111111111111111");
-                    GameManager.instance.player.UseProperty(new UsePropertyEventArgs(p.propertyID,  enemiesManager.GetComponent<EnemiesManager>().GetEnemyList()));
+                {
+                    Debug.Log("1111111111111111111111");
+                    GameManager.instance.player.UseProperty(new UsePropertyEventArgs(p.propertyID, enemiesManager.GetComponent<EnemiesManager>().GetEnemyList()));
                 }
             }
         }
         Debug.Log("现在是" + (isPlayersTurn ? "玩家" : "敌人") + "回合");
     }
-
 
     //询问是否为玩家回合
     public bool IsPlayersTurn()
@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("OtherLevels");
         // UIManager.instance.gameoverCanvas.SetActive(false);
         UIManager.instance.PopHidePanel(UIManager.instance.gameoverCanvas.transform.GetChild(0).gameObject);
-        
+
         SceneManager.LoadScene(2);
         AudioPlayer.instance.ReplayBgm();
         isGameOver = false;

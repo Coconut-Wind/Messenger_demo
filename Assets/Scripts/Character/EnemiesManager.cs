@@ -6,8 +6,10 @@ using UnityEngine;
 public class EnemiesManager : MonoBehaviour
 {
     private int unreachEnemyCount_ = 0; //未走到目标点的敌人数量
-    public int unreachEnemyCount{
-        set{
+    public int unreachEnemyCount
+    {
+        set
+        {
             unreachEnemyCount_ = value;
             Debug.Log("unreach: " + value);
             if (unreachEnemyCount == 0)
@@ -16,7 +18,7 @@ public class EnemiesManager : MonoBehaviour
                 GameManager.instance.turnState = GameManager.TurnState.WaitngPlayer;
             }
         }
-        get{return unreachEnemyCount_;}
+        get { return unreachEnemyCount_; }
     }
     public Enemy enemyShowingAdjustCell = null;
 
@@ -49,14 +51,11 @@ public class EnemiesManager : MonoBehaviour
                     transform.GetChild(i).GetComponent<Enemy>().ChasePlayer();
                 }
 
-                
-
                 // GameManager.instance.Delay(delegate ()
                 // {
                 //     GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
-                //     GameManager.instance.turnState = GameManager.TurnState.WaitngPlayer;
 
-                // }, 1.0f);
+                // }, 1.5f);
             }
 
         }
@@ -83,27 +82,28 @@ public class EnemiesManager : MonoBehaviour
                         {
                             UIManager.instance.ShowEnemyInfo(script);
 
-                            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, 
+                            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false,
                                 GameManager.instance.player.GetHeightLightCellList());
 
                             GameManager.instance.GetCurrentMap().SetHightLightEnemyReachablePoint(true, script);
+
                             enemyShowingAdjustCell = script;
                         }
                         else
                         {
                             UIManager.instance.ShowEnemyInfo(null);
-                            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, 
+                            GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true,
                                 GameManager.instance.player.GetHeightLightCellList());
                         }
                         find = true;
-                        
+
                         break; //检测到一个就立马退出
                     }
                 }
                 if (!find)
                 {
                     UIManager.instance.ShowEnemyInfo(null);
-                    GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, 
+                    GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true,
                         GameManager.instance.player.GetHeightLightCellList());
                 }
 
@@ -131,7 +131,7 @@ public class EnemiesManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             Enemy e = transform.GetChild(i).GetComponent<Enemy>();
-            if(e.gameObject.activeSelf)
+            if (e.gameObject.activeSelf)
             {
                 enemies.Add(e);
             }

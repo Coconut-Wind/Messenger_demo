@@ -80,6 +80,9 @@ public class Cell : MonoBehaviour
             return;
 
         Debug.Log("CLICK");
+        Debug.Log("!Input.GetMouseButtonUp(0)：" + !Input.GetMouseButtonUp(0));
+        Debug.Log("GameManager.instance.IsGameOver()：" + GameManager.instance.IsGameOver());
+        Debug.Log("GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer：" + (GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer));
         if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver() || GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer)
             return;
         

@@ -46,8 +46,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2692eedc1c6d7e43b4be020efe7910c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effects: []
-  bgms: []
+  effects:
+  - {fileID: 8300000, guid: 0dfb6397155eb3144b1fdb075dd669e8, type: 3}
+  - {fileID: 8300000, guid: 73cddf973baf8ef458ac500de6be8a76, type: 3}
+  - {fileID: 8300000, guid: 6e03507eb3470c34e8e718f76945cbcb, type: 3}
+  - {fileID: 8300000, guid: bfecc6effaf1f754ea8329ee90bd44e1, type: 3}
+  - {fileID: 8300000, guid: 9eaef225a64cf944498d660f2a40aef3, type: 3}
+  - {fileID: 8300000, guid: dd4a2f88917ae0548a5d33bf95518c8f, type: 3}
+  - {fileID: 8300000, guid: be40d27ec0bd50449a24a9e56bb4207e, type: 3}
+  bgms:
+  - {fileID: 8300000, guid: 0e050281e27fc4741a7c262b297bf083, type: 3}
+  - {fileID: 8300000, guid: 8e4b1530d482e5a439e7e02e07e2f3b5, type: 3}
   bgmPlayer: {fileID: 4070253581512360063}
   soundEffectPlayer: {fileID: 361641660182401066}
 --- !u!1 &4070253581512360000

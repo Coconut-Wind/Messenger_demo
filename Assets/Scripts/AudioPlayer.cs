@@ -12,9 +12,10 @@ public class AudioPlayer : MonoBehaviour
 
 
     //实现全局单例类
-    private void Awake() {
-        
-        if(instance != this && instance != null)
+    private void Awake()
+    {
+
+        if (instance != this && instance != null)
         {
             Destroy(gameObject);
             return;
@@ -52,7 +53,7 @@ public class AudioPlayer : MonoBehaviour
         else if (type == "bgm")
             foreach (AudioClip ac in bgms)
             {
-                if (name.ToUpper() ==  ac.name.ToUpper())
+                if (name.ToUpper() == ac.name.ToUpper())
                 {
                     bgmPlayer.loop = true;
                     bgmPlayer.clip = ac;
@@ -63,7 +64,7 @@ public class AudioPlayer : MonoBehaviour
             }
     }
 
-    public void SetBgmPlaying(bool play) 
+    public void SetBgmPlaying(bool play)
     {
         if (play)
         {
@@ -73,7 +74,7 @@ public class AudioPlayer : MonoBehaviour
         {
             bgmPlayer.volume = 0f;
         }
-        
+
     }
 
     public void ReplayBgm()

@@ -39,7 +39,7 @@ public class Property : MonoBehaviour
 
     /// <summary> 要实现道具的功能在子类实现该方法 </summary>
     protected virtual void PropertyAbility(Player _player, UsePropertyEventArgs _args) { }
-    
+
 
     public void OpenPropertyDetailPanel()
     {

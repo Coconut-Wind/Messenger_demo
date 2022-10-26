@@ -181,15 +181,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.7830189, g: 0.74917334, b: 0.6012994, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: ba6b3a78d01156243aa549ace6d91da1, type: 3}
+  m_Color: {r: 0.6, g: 0.78431374, b: 0.81960785, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &234624330
@@ -832,7 +832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2590728264960452370, guid: b2010bbad9ff13b4f915146671eb297d, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2590728264960452370, guid: b2010bbad9ff13b4f915146671eb297d, type: 3}
       propertyPath: m_AnchorMax.x

@@ -143,14 +143,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1448829865538147290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91290621092cc3a4b9bafaf92ff84cfc, type: 3}
+  m_Script: {fileID: 11500000, guid: 7297536402e7b634daedb406a5021b5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   propertyID: 9
   propertyImage: {fileID: 1448829865538147294}
-  propertyName: "\u67D0\u67D0\u4E4B\u4E66"
-  propertyDescription: "\u6709\u7740\u534E\u4E3D\u7684\u5916\u8868\uFF0C\u4F46\u662F\u4E0D\u77E5\u9053\u4E3A\u4EC0\u4E48\u6563\u53D1\u7740\u4E00\u80A1\u8BE1\u5F02\u7684\u6C14\u606F;
-    (4\u56DE\u5408\u5185\u654C\u4EBA\u7D22\u654C\u8303\u56F4+2)"
+  propertyName: "\u8BC5\u5492\u4E4B\u4E66"
+  propertyDescription: "\u6709\u7740\u534E\u4E3D\u7684\u5916\u8868\uFF0C\u4F46\u662F\u4E0D\u77E5\u9053\u4E3A\u4EC0\u4E48\u6563\u53D1\u7740\u4E00\u80A1\u8BE1\u5F02\u7684\u6C14\u606F\uFF1B(\u56DB\u56DE\u5408\u5185\u654C\u4EBA\u7D22\u654C\u8303\u56F4+2)"
   isPassive: 0
   isEveryPlayerTurn: 1
   isOneOff: 0
