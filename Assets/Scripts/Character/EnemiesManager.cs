@@ -40,7 +40,7 @@ public class EnemiesManager : MonoBehaviour
         if (!GameManager.instance.IsPlayersTurn())
         {
             unreachEnemyCount = transform.childCount;
-           
+            
             if (transform.childCount > 0)
             {
                 GameManager.instance.turnState = GameManager.TurnState.EnemyMoving;
@@ -51,12 +51,15 @@ public class EnemiesManager : MonoBehaviour
                 {
                     transform.GetChild(i).GetComponent<Enemy>().ChasePlayer();
                 }
+                GameManager.instance.NextTurn();
             }
             else
             {
+                GameManager.instance.NextTurn();
                 GameManager.instance.turnState = GameManager.TurnState.WaitngPlayer;
+                GameManager.instance.SetTopBar(true);
             }
-            GameManager.instance.NextTurn();
+            
         }
         else
         {

@@ -110,12 +110,12 @@ public class GameManager : MonoBehaviour
         if (isPlayer)
         {
             //Debug.Log(1);
-            UIManager.instance.topBar_text.text = "玩家回合";
+            UIManager.instance.topBar_text.text = string.Format("回合{0} 玩家回合", turnCount);
             UIManager.instance.topBar_skipButton.SetActive(true);
         }
         else
         {
-            UIManager.instance.topBar_text.text = "敌人回合";
+            UIManager.instance.topBar_text.text = string.Format("回合{0} 敌人回合", turnCount);
             UIManager.instance.topBar_skipButton.SetActive(false);
         }
     }

@@ -71,6 +71,8 @@ public class Map : MonoBehaviour
         AudioPlayer.instance.gameObject.SetActive(true);
         AudioPlayer.instance.ReplayBgm();
         GameManager.instance.SetCurrentMap(this);
+        GameManager.instance.turnCount = 1;
+        GameManager.instance.SetTopBar(true);
         GenerateMap();
         GenerateEdge();
         GeneratePlayer();
