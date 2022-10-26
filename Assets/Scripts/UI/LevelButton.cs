@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LevelButton : MonoBehaviour
 {
     private int targetLevel = 1;
     private string targetLevelPath;
-    public TextMesh num;
+    // public TextMesh num;
+    public TextMeshProUGUI levelNum;
     
     public void SetTargetLevel(int level, string path)
     {
         targetLevel = level;
         targetLevelPath = path;
-        num.text = "" + level;
+        levelNum.text = "" + level;
     }
 
-    private void OnMouseUp() 
+    public void OnMouseUp() 
     {
         if (Input.GetMouseButtonUp(0) && !StoryManager.instance.isStoryPanelOpen)
         {

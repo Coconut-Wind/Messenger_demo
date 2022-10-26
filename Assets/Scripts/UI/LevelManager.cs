@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour
     public int buttonPerLine = 5;
 
     public GameObject levelButton;
+    public GameObject levelButtonPanel;
 
     public static List<string> levelFileNames;
 
@@ -90,7 +91,7 @@ public class LevelManager : MonoBehaviour
                 LevelButton lb = btn.GetComponent<LevelButton>();
                 lb.SetTargetLevel(id+1, path);
 
-                btn.transform.SetParent(transform);
+                btn.transform.SetParent(levelButtonPanel.transform);
             }
         }
     }
