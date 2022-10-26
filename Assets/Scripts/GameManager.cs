@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private int turnCount_ = 1;
     public int turnCount
     {
+        set {turnCount_ = value; }
         get { return turnCount_; }
     }
 
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("现在是" + (isPlayersTurn ? "玩家" : "敌人") + "回合");
         turnCount_++;
     }
+
 
     //询问是否为玩家回合
     public bool IsPlayersTurn()

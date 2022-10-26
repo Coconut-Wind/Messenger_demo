@@ -5,7 +5,19 @@ using UnityEngine;
 //敌人管理器，挂在敌人的父节点上
 public class EnemiesManager : MonoBehaviour
 {
-    public int unreachEnemyCount = 0; //未走到目标点的敌人数量
+    private int unreachEnemyCount_ = 0; //未走到目标点的敌人数量
+    public int unreachEnemyCount{
+        set{
+            unreachEnemyCount_ = value;
+            Debug.Log("unreach: " + value);
+            if (unreachEnemyCount == 0)
+            {
+                GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
+                GameManager.instance.turnState = GameManager.TurnState.WaitngPlayer;
+            }
+        }
+        get{return unreachEnemyCount_;}
+    }
     public Enemy enemyShowingAdjustCell = null;
 
     private void Start()
@@ -28,19 +40,23 @@ public class EnemiesManager : MonoBehaviour
             unreachEnemyCount = transform.childCount;
             if (transform.childCount > 0)
             {
+                GameManager.instance.turnState = GameManager.TurnState.EnemyMoving;
+                GameManager.instance.NextTurn();
+                GameManager.instance.SetTopBar(false); //将topbar改成敌人回合
+
                 for (int i = 0; i < transform.childCount; i++)
                 {
                     transform.GetChild(i).GetComponent<Enemy>().ChasePlayer();
                 }
 
-                GameManager.instance.NextTurn();
-                GameManager.instance.SetTopBar(false); //将topbar改成敌人回合
+                
 
-                GameManager.instance.Delay(delegate ()
-                {
-                    GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
+                // GameManager.instance.Delay(delegate ()
+                // {
+                //     GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
+                //     GameManager.instance.turnState = GameManager.TurnState.WaitngPlayer;
 
-                }, 1.5f);
+                // }, 1.0f);
             }
 
         }
@@ -49,12 +65,7 @@ public class EnemiesManager : MonoBehaviour
             //点击敌人之后触发
             if (Input.GetMouseButtonUp(0))
             {
-                if (enemyShowingAdjustCell != null)
-                {
-                    Debug.Log(enemyShowingAdjustCell.GetPosition());
-                    GameManager.instance.GetCurrentMap().SetHightLightEnemyReachablePoint(false, enemyShowingAdjustCell);
-                    enemyShowingAdjustCell = null;
-                }
+                ClearHightLightEnemyReachablePoint();
 
                 bool find = false;
 
@@ -76,7 +87,6 @@ public class EnemiesManager : MonoBehaviour
                                 GameManager.instance.player.GetHeightLightCellList());
 
                             GameManager.instance.GetCurrentMap().SetHightLightEnemyReachablePoint(true, script);
-                            
                             enemyShowingAdjustCell = script;
                         }
                         else
@@ -143,5 +153,14 @@ public class EnemiesManager : MonoBehaviour
         return null;
     }
 
+    public void ClearHightLightEnemyReachablePoint()
+    {
+        if (enemyShowingAdjustCell != null)
+        {
+            Debug.Log(enemyShowingAdjustCell.GetPosition());
+            GameManager.instance.GetCurrentMap().SetHightLightEnemyReachablePoint(false, enemyShowingAdjustCell);
+            enemyShowingAdjustCell = null;
+        }
+    }
 
 }

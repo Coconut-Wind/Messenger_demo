@@ -285,6 +285,7 @@ public class Player : Movement
         HideArrow();
 
         isMoving = true;
+        GameManager.instance.turnState = GameManager.TurnState.PlayerMoving;
 
         if (isUsingJudas)
         {

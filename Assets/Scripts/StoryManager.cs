@@ -6,6 +6,7 @@ using TMPro;
 
 public class StoryManager : MonoBehaviour
 {
+    public bool enableStory = false;
     public static StoryManager instance;
     public GameObject storyPanel;
     public TextMeshProUGUI storyLineText;
@@ -61,8 +62,11 @@ public class StoryManager : MonoBehaviour
 
     public void OpenStoryPanel()
     {
-        isStoryPanelOpen = true;
-        storyPanel.SetActive(true);
+        if (enableStory)
+        {
+            isStoryPanelOpen = true;
+            storyPanel.SetActive(true);
+        }
     }
 
     private IEnumerator ScrollingText()

@@ -59,6 +59,8 @@ public class Enemy : Movement
             if (UIManager.instance.GetEnemyStateHolder().enemy == this)
             {
                 UIManager.instance.ShowEnemyInfo(null);
+                GameManager.instance.enemiesManager.GetComponent<EnemiesManager>()
+                    .ClearHightLightEnemyReachablePoint();
 
             }
 
@@ -168,8 +170,11 @@ public class Enemy : Movement
             AttackPlayer(attackDMG); //攻击
         }
 
-        Debug.Log("next position:" + nextPos);
-        WalkTo(nextPos);
+        if (state != 3)
+        {
+            Debug.Log("next position:" + nextPos);
+            WalkTo(nextPos);
+        }
     }
 
     //获取要前往的下一个点
@@ -259,6 +264,9 @@ public class Enemy : Movement
         GameManager.instance.Delay(delegate
         {
             GameManager.instance.player.CreateDamage(damage);
+
+            EnemiesManager enemiesManager = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>();
+            enemiesManager.unreachEnemyCount--;
         }, 0.5f);
     }
 
@@ -280,10 +288,7 @@ public class Enemy : Movement
         //GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
         EnemiesManager enemiesManager = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>();
         enemiesManager.unreachEnemyCount--;
-        if (enemiesManager.unreachEnemyCount == 0)
-        {
-            //GameManager.instance.SetTopBar(true); //将topbar改成玩家回合
-        }
+
         return base.OnReachCell();
     }
 
