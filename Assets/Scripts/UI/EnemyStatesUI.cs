@@ -9,6 +9,7 @@ public class EnemyStatesUI : MonoBehaviour
     [HideInInspector] public Enemy enemy = null;
     
     public Image healthBarSlider;
+    public Image enemyIco;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI attackDMGText;
@@ -36,6 +37,7 @@ public class EnemyStatesUI : MonoBehaviour
         healthText.text = string.Format("{0} / {1}", enemy.currentHealth, enemy.maxHealth);
 
         // 更新敌人信息
+        enemyIco.sprite = enemy.GetComponent<SpriteRenderer>().sprite;
         nameText.text = enemy.enemyName;
         attackDMGText.text = string.Format("攻击伤害：{0}", enemy.attackDMG);
         zoomDistanceText.text = string.Format("巡逻距离：{0}", enemy.maxZoomDistance);

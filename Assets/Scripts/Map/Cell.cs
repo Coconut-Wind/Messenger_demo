@@ -76,7 +76,7 @@ public class Cell : MonoBehaviour
     //侦测鼠标点击
     private void OnMouseUp() {
         //如果打开了面板，则不执行
-        if (PropertyManager.instance.isOpenedPanel || EventManager.instance.isEventPanelOpen)
+        if (PropertyManager.instance.isOpenedPanel || UIManager.instance.isShowingTips || EventManager.instance.isEventPanelOpen)
             return;
 
         Debug.Log("CLICK");

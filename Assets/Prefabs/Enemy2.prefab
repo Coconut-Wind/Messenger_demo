@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  enemyName: Robber2
+  enemyName: Bandit
   maxHealth: 2
   currentHealth: 2
   attackDMG: 2

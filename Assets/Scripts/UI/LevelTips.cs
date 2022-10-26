@@ -25,15 +25,19 @@ public class LevelTips : MonoBehaviour
         {
             case 1:
                 UIManager.instance.PopShowPanel(level_1_TipsPanel);
+                UIManager.instance.isShowingTips = true;
                 break;
             case 2:
                 UIManager.instance.PopShowPanel(level_2_TipsPanel);
+                UIManager.instance.isShowingTips = true;
                 break;
             case 4:
                 UIManager.instance.PopShowPanel(level_4_TipsPanel);
+                UIManager.instance.isShowingTips = true;
                 break;
             case 6:
                 UIManager.instance.PopShowPanel(level_6_TipsPanel);
+                UIManager.instance.isShowingTips = true;
                 break;
         }
     }
@@ -44,15 +48,19 @@ public class LevelTips : MonoBehaviour
         {
             case 1:
                 UIManager.instance.PopHidePanel(level_1_TipsPanel);
+                UIManager.instance.isShowingTips = false;
                 break;
             case 2:
                 UIManager.instance.PopHidePanel(level_2_TipsPanel);
+                UIManager.instance.isShowingTips = false;
                 break;
             case 4:
                 UIManager.instance.PopHidePanel(level_4_TipsPanel);
+                UIManager.instance.isShowingTips = false;
                 break;
             case 6:
                 UIManager.instance.PopHidePanel(level_6_TipsPanel);
+                UIManager.instance.isShowingTips = false;
                 break;
         }
     }

@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI topBar_text;
     public GameObject topBar_skipButton;
 
+    //是否正在显示tip
+    public bool isShowingTips;
+
 
     [Header("面板弹出弹出效果")]
     [SerializeField] private float popSpeed;
