@@ -53,7 +53,7 @@ public class PlayerStatesUI : MonoBehaviour
             return;
         playerHealthText.text = string.Format("{0} / {1}", player.currentHealth, player.maxHealth);
         playerAttackDMGText.text = string.Format("攻击伤害：{0}", player.attackDMG);
-        playerMoveTimesText.text = string.Format("行动次数：{0}", player.moveableTimes);
+        playerMoveTimesText.text = string.Format("行动次数：{0} / {1}", player.moveTime-1, player.moveableTimes);
     }
 
     public void SetLetterNumber(int n)

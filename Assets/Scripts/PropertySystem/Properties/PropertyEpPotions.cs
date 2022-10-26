@@ -8,7 +8,8 @@ public class PropertyEpPotions : Property
     {
         if(_args.propertyID == propertyID)
         {
-            _player.moveTime--;
+            _player.isUsingEpPotions = true;
+            _player.moveableTimes += 1;
         }
     }
 }

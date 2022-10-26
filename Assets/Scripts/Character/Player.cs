@@ -38,6 +38,8 @@ public class Player : Movement
     /// 使用道具事件，事件响应者：Property类；事件处理器：Perperty.PropertyAbility
     public event Action<Player, UsePropertyEventArgs> OnUseProperty; // 使用道具事件
 
+    //体力药水道具事件
+    [HideInInspector] public bool isUsingEpPotions = false;
     //双刃剑道具事件
     [HideInInspector] public bool isUsingDoubleSword = false;
     //十字架道具事件
@@ -57,7 +59,7 @@ public class Player : Movement
     {
         //测试用：添加道具
         // PropertyManager.instance.GenerateProperty(0);
-        PropertyManager.instance.GenerateProperty(9);
+        PropertyManager.instance.GenerateProperty(7);
         // PropertyManager.instance.GenerateProperty(1);
     }
 
@@ -219,7 +221,7 @@ public class Player : Movement
         }
         //给敌人扣血
         enemy.CreateDamage(attackDMG);
-
+        moveTime++;
         //没有动画，先延时顶替一下
         //先隐藏攻击箭头
         HideArrow();
@@ -287,7 +289,7 @@ public class Player : Movement
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList);
 
         HideArrow();
-
+        moveTime++;
         isMoving = true;
         GameManager.instance.turnState = GameManager.TurnState.PlayerMoving;
 
@@ -295,10 +297,6 @@ public class Player : Movement
         {
             isUsingJudas = false;
         }
-
-        //移动时会隐藏ui， 先记录下状态方便之后复原
-        //isShowingEnemyStateHolder = UIManager.instance.enemyStateHolder.activeSelf;
-        //UIManager.instance.HideInfoBars();
     }
 
     protected override int OnReachCell()
@@ -308,16 +306,7 @@ public class Player : Movement
         isMoving = false; //取消移动状态
 
         CheckCellType();
-        //isMoving = false;
-        /*UIManager.instance.ShowInfoBars("player");
-        if (isShowingEnemyStateHolder)
-        {
-            isShowingEnemyStateHolder = false;
-            UIManager.instance.ShowInfoBars("enemy");
-        }*/
-
         NextStep();
-        //GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(true, highLightCellList);
         ShowArrow();
         return base.OnReachCell();
     }
@@ -326,29 +315,18 @@ public class Player : Movement
     {
         if (moveTime < moveableTimes)
         {
-            moveTime++;
             runOnce = false;
+            GameManager.instance.turnState = GameManager.TurnState.WaitngPlayer;
         }
         else
         {
             moveTime = 1;
             GameManager.instance.NextTurn();
-            // //某某之书效果
-            // if (isUsingBook)
-            // {
-            //     if (usingBookTurnCount++ >= 3)
-            //     {
-            //         isUsingBook = false;
-            //         usingBookTurnCount = 0;
-            //         //还原敌人的索敌范围
-            //         List<Enemy> elist = GameManager.instance.enemiesManager.GetComponent<EnemiesManager>().GetEnemyList();
-            //         foreach (Enemy e in elist)
-            //         {
-            //             e.maxZoomDistance -= 2;
-            //             e.maxZoomDistance -= 2;
-            //         }
-            //     }
-            // }
+            if (isUsingEpPotions)
+            {
+                isUsingEpPotions = false;
+                moveableTimes -= 1;
+            }
         }
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList); //显示点位光圈
     }

@@ -1602,7 +1602,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &671765996
@@ -3016,7 +3016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab45b89218205ca439fbd10b26efb3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableStory: 1
+  enableStory: 0
   storyPanel: {fileID: 290635172}
   storyLineText: {fileID: 887962179}
   isStoryPanelOpen: 0
@@ -4705,7 +4705,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1881312110
