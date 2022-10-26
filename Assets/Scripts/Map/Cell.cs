@@ -76,14 +76,14 @@ public class Cell : MonoBehaviour
     //侦测鼠标点击
     private void OnMouseUp() {
         //如果打开了面板，则不执行
-        if (PropertyManager.instance.isOpenedPanel || UIManager.instance.isShowingTips || EventManager.instance.isEventPanelOpen)
+        if (PropertyManager.instance.isOpenedPanel || EventManager.instance.isEventPanelOpen)
             return;
 
         Debug.Log("CLICK");
-        Debug.Log("!Input.GetMouseButtonUp(0)：" + !Input.GetMouseButtonUp(0));
-        Debug.Log("GameManager.instance.IsGameOver()：" + GameManager.instance.IsGameOver());
-        Debug.Log("GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer：" + (GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer));
-        if (!Input.GetMouseButtonUp(0) || GameManager.instance.IsGameOver() || GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer)
+        // Debug.Log("!Input.GetMouseButtonUp(0)：" + !Input.GetMouseButtonUp(0));
+        // Debug.Log("GameManager.instance.IsGameOver()：" + GameManager.instance.IsGameOver());
+        // Debug.Log("GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer：" + (GameManager.instance.turnState != GameManager.TurnState.WaitngPlayer));
+        if (PropertyManager.instance.isOpenedPanel || UIManager.instance.isShowingTips || EventManager.instance.isEventPanelOpen)
             return;
         
         //检测是否可达

@@ -26,6 +26,8 @@ public class EventManager : MonoBehaviour
     public Event currentEvent; // 当前的事件
     public GameObject currentClickOption; // 当前被点击的选项
     public bool isEventPanelOpen = false;
+    public GameObject afterOptionConfirmButton;
+    public static bool isOptionReturn;
 
     private void Awake()
     {
@@ -44,8 +46,8 @@ public class EventManager : MonoBehaviour
     private void Start()
     {
         // // Test
-        // currentEvent = eventList[7];
-        // InitEventPanel(eventList[7]);
+        // currentEvent = eventList[4];
+        // InitEventPanel(eventList[4]);
         // OpenEventPanel();
     }
 
@@ -53,6 +55,22 @@ public class EventManager : MonoBehaviour
     public void EventHappen()
     {
         RandomChooseEvent();
+        InitEventPanel(currentEvent);
+        OpenEventPanel();
+    }
+
+    // <summary> 玩家在增益点位触发事件时调用 </summary>
+    public void EventHappenInPosiCell()
+    {
+        RandomChoosePosiEvent();
+        InitEventPanel(currentEvent);
+        OpenEventPanel();
+    }
+
+    // <summary> 玩家在减益点位触发事件时调用 </summary>
+    public void EventHappenInNegaCell()
+    {
+        RandomChooseNegaEvent();
         InitEventPanel(currentEvent);
         OpenEventPanel();
     }
@@ -114,10 +132,13 @@ public class EventManager : MonoBehaviour
     public void GetPropertyByNeedProperty(int _id)
     {
         // currentClickOption.GetComponent<Button>().interactable = false;
+        bool isFound = false;
         foreach (var property in PropertyManager.instance.playerPropertyList)
         {
             if (property.propertyID == _id) // 如果这个道具玩家拥有，那么就可以获得一个随机道具
             {
+                isFound = true;
+                isOptionReturn = false;
                 // 前提道具消失
                 PropertyManager.instance.DestoryPropertyByPropertyID(_id);
 
@@ -128,22 +149,33 @@ public class EventManager : MonoBehaviour
                 break;
             }
         }
+        if (isFound == false) // 如果没有找到
+        {
+            isOptionReturn = true;
+        }
     }
 
     // 无事发生需要以另一个道具为前提
     public void NothingHappenByNeedProperty(int _id)
     {
         // currentClickOption.GetComponent<Button>().interactable = false;
+        bool isFound = false;
         foreach (var property in PropertyManager.instance.playerPropertyList)
         {
             if (property.propertyID == _id) // 如果这个道具玩家拥有，那么就可以获得一个随机道具
             {
+                isFound = true;
+                isOptionReturn = false;
                 // 前提道具消失
                 PropertyManager.instance.DestoryPropertyByPropertyID(_id);
 
                 // currentClickOption.GetComponent<Button>().interactable = true; // 按钮启用交互
                 break;
             }
+        }
+        if (isFound == false) // 如果没有找到
+        {
+            isOptionReturn = true;
         }
     }
 

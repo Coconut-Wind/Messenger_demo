@@ -370,7 +370,10 @@ public class Player : Movement
 
             if (!cell.isTriggered)
             {
-                SetCurrentHealth(GetCurrentHealth() + 1);
+                // SetCurrentHealth(GetCurrentHealth() + 1);
+
+                EventManager.instance.EventHappenInPosiCell(); // 一定触发事件
+
                 AudioPlayer.instance.Play("positive");
                 cell.isTriggered = true;
             }
@@ -381,7 +384,10 @@ public class Player : Movement
 
             if (!cell.isTriggered)
             {
-                CreateDamage(1);
+                // CreateDamage(1);
+
+                EventManager.instance.EventHappenInNegaCell(); // 一定触发事件
+
                 AudioPlayer.instance.Play("negative");
                 cell.isTriggered = true;
             }

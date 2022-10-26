@@ -3016,7 +3016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab45b89218205ca439fbd10b26efb3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableStory: 0
+  enableStory: 1
   storyPanel: {fileID: 290635172}
   storyLineText: {fileID: 887962179}
   isStoryPanelOpen: 0
