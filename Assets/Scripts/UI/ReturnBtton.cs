@@ -9,7 +9,8 @@ public class ReturnBtton : MonoBehaviour
 
     public void ReturnTo()
     {
-        if(!StoryManager.instance.isStoryPanelOpen && !PropertyManager.instance.isOpenedPanel && !EventManager.instance.isEventPanelOpen)
+
+        if((StoryManager.instance && !StoryManager.instance.isStoryPanelOpen) && (!PropertyManager.instance  || !PropertyManager.instance.isOpenedPanel && !EventManager.instance.isEventPanelOpen))
             SceneManager.LoadScene(returnSceneId);
     }
 }
