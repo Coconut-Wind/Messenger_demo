@@ -77,6 +77,8 @@ public class Map : MonoBehaviour
         GenerateEdge();
         GeneratePlayer();
         GenerateEnemies();
+
+        LevelTips.instance.OpenTipsPanel(LevelManager.currentLevelId);
         //cellTypeMap = GetCellTypeMap();
         //test();
     }

@@ -43,8 +43,8 @@ public class Property : MonoBehaviour
 
     public void OpenPropertyDetailPanel()
     {
-        // 打开事件面板时不可以打开道具
-        if(EventManager.instance.isEventPanelOpen)
+        // 打开事件面板或提示面板时不可以打开道具
+        if(EventManager.instance.isEventPanelOpen || UIManager.instance.isShowingTips)
         {
             return;
         }

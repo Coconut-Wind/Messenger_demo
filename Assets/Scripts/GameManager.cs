@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false; //游戏结束判断 
     //((isGameOver && isFinishedGoal)视为通关， (isGameOver && !isFinishedGoal)视为失败)
 
+
     private int turnCount_ = 1;
     public int turnCount
     {

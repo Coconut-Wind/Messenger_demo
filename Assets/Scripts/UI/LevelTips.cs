@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class LevelTips : MonoBehaviour
 {
+    public static LevelTips instance;
     public GameObject level_1_TipsPanel;
     public GameObject level_2_TipsPanel;
     public GameObject level_4_TipsPanel;
     public GameObject level_6_TipsPanel;
 
-    private void Start()
-    {
-        
-    }
 
-    private void OnEnable()
+    //实现全局单例类
+    private void Awake()
     {
-        OpenTipsPanel(LevelManager.currentLevelId);
+
+        if (instance != this && instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     public void OpenTipsPanel(int _currentLevel)
