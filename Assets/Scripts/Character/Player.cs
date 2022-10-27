@@ -12,7 +12,7 @@ public class Player : Movement
     public float maxSelectDistance = 0.5f; //鼠标与主角的最大选择距离
     public float maxArrowSelectDistance = 1.5f;
 
-    public int moveableTimes = 2; //可移动次数
+    public int moveableTimes = 1; //可移动次数
     public int moveTime = 1; //目前的移动次数
 
     [SerializeField] private GameObject attackArrow; //攻击指示箭头
@@ -316,6 +316,7 @@ public class Player : Movement
         if (moveTime < moveableTimes)
         {
             runOnce = false;
+            
             GameManager.instance.turnState = GameManager.TurnState.WaitngPlayer;
         }
         else
@@ -325,7 +326,7 @@ public class Player : Movement
             if (isUsingEpPotions)
             {
                 isUsingEpPotions = false;
-                moveableTimes -= 1;
+                moveableTimes = 1;
             }
         }
         GameManager.instance.GetCurrentMap().SetHightLightAvailablePoint(false, highLightCellList); //显示点位光圈

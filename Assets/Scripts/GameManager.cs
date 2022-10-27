@@ -260,6 +260,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    
 
 
     public bool IsGameOver()

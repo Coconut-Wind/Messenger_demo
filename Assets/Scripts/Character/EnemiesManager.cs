@@ -37,8 +37,9 @@ public class EnemiesManager : MonoBehaviour
         //如果不是玩家回合，且游戏没有结束，则开始行动
         if (GameManager.instance.IsGameOver())
             return;
-        if (!GameManager.instance.IsPlayersTurn())
+        if (!GameManager.instance.IsPlayersTurn() && !EventManager.instance.isEventPanelOpen)
         {
+
             unreachEnemyCount = transform.childCount;
             
             if (transform.childCount > 0)

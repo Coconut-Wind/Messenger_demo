@@ -28,7 +28,7 @@ public class LevelButton : MonoBehaviour
 
     private void JumpToLevel()
     {
-        LevelManager.currentLevelId = targetLevel;
+        LevelManager.currentLevelId = targetLevel; 
         LevelManager.currentLevelPath = targetLevelPath;
         //SceneManager.LoadScene(1);
         SceneManager.LoadSceneAsync(1);
