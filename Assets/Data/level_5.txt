@@ -14,7 +14,7 @@ NormalCell,6,14
 NullCell
 NullCell
 NullCell
-NormalCell,9,10
+NormalCell,9,10,15
 NormalCell,14
 Character
 15
