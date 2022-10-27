@@ -116,11 +116,12 @@ public class UIManager : MonoBehaviour
     }
     private IEnumerator PopShowPanelIE(GameObject _panel)
     {
-        _panel.transform.localScale = Vector3.zero;
+        // _panel.transform.localScale = Vector3.zero;
         _panel.SetActive(true);
         float timer = 0;
         while(timer <= 1)
         {
+            Debug.Log(_panel + " " + timer);
             _panel.transform.localScale = Vector3.one * popShowCurve.Evaluate(timer);
             timer += Time.deltaTime * popSpeed;
             yield return null;

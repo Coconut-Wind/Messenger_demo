@@ -65,6 +65,7 @@ MonoBehaviour:
   propertyName: "\u5C0F\u9A6C\u73CD\u73E0"
   propertyDescription: "\u8FD9\u662F\u6751\u91CC\u6700\u597D\u7684\u4E00\u5339\u9A6C\uFF1B\u73A9\u5BB6\u56DE\u5408\u79FB\u52A8\u6570+1"
   isPassive: 1
+  isEveryPlayerTurn: 0
   isOneOff: 0
   isPlayerGet: 0
 --- !u!114 &1448829865538147294
@@ -79,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
